@@ -1,0 +1,50 @@
+.sass{
+  width:150px;
+  height:150px;
+  color:#fff;
+  fill:#1D4350;
+  padding:.5em;
+  transition:250ms ease transform;
+}
+
+.sass:hover{
+  transform:scale(1.2);
+}
+
+.sass--color{
+  fill:#A43931;
+}
+.sass--invert{
+  fill:#A4314F;
+  color:black;
+}
+
+body{
+  background:#DADBDF;
+  font-family:sans-serif;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+.wrapper{
+  width: 700px;
+  margin:0 auto;
+}
+
+footer,
+h1{
+  text-align:center;
+}
+
+footer{
+  color:gray;
+  font-size:.7em;
+  margin-top:1em;
+}
+
+a{
+  color:#CD669A;
+  text-decoration:none;
+}
