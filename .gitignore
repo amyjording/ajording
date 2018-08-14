@@ -105,3 +105,4 @@ venv.bak/
 
 config.py
 mongo.pydb/mongo.py
+db/mongo.py
