@@ -3,6 +3,7 @@ import cherrypy
 from view.static import *
 from view.work_view import *
 from view.demo_view import *
+from config.routes import *
 
 class AmyJording(object):
 	@cherrypy.expose
@@ -13,16 +14,6 @@ class AmyJording(object):
 	@cherrypy.expose
 	def about(self):
 		page = aboutme_template()
-		return page
-
-	@cherrypy.expose
-	def work(self):
-		page = work_template()
-		return page
-
-	@cherrypy.expose
-	def demo(self):
-		page = demo_template()
 		return page
 
 	@cherrypy.expose
@@ -44,4 +35,7 @@ if __name__ == '__main__':
 			
 		}
 	}
-	cherrypy.quickstart(AmyJording(), '/', conf)
+	ajording = AmyJording()
+	ajording.work = Work()
+	ajording.demo = Demo()
+	cherrypy.quickstart(ajording, '/', conf)

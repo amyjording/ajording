@@ -103,6 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-config.py
+secrets.py
 mongo.pydb/mongo.py
 db/mongo.py
