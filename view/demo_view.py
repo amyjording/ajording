@@ -1,42 +1,32 @@
 import os, os.path
 import cherrypy
 from view.app_core import *
+from view.user_interface import *
 
 
-def demo_template():
+def demo_template(content):
 	header = header_template()
 	navigation, navigation_row = navigation_template()
 	
-	html = """ <!-- header -->
-				{0}
+	html = f""" <!-- header -->
+				{header}
 
 		<!-- Dynamic svg text content here -->
-				{1}
+				{navigation}
 		<div class="container-fluid">
 		  	<div class="wrapper">
 								
-				{2}
+				{navigation_row}
 
 				<div class="row logorow">
 					<div class="col"><h1>Try It</h1></div>
 				</div>
 				<div class="row">
-					<div class="col"><p>Try out my demo</p></div>
-					<div class="col"></div>
-				</div>
-				<div class="row">
-					<div class="col"><p></p></div>				
-				</div>
-				<div class="row">
-					<div class="col"><p></p></div>
-					<div class="col"><p></p></div>
-				</div>
-				<div class="row">
-					<div class="col"><p></p></div>				
+					{content}
 				</div>
 		  	</div>
 		</div>
 		</body>
-		</html>""".format(header, navigation, navigation_row)
+		</html>"""
 
 	return html

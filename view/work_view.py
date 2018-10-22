@@ -1,7 +1,7 @@
 import os, os.path
 import cherrypy
 from view.app_core import *
-from controllers.portfolios import *
+from controllers.portfolios_controller import *
 
 def work_template():
 	header = header_template()

@@ -18,7 +18,7 @@ def index_template():
 				{0}
 
 		<!-- Dynamic svg text content here -->
-		{1}
+		{1} <a id="shutdown"; href="./shutdown">Shutdown Server</a>
 
 		<div class="container-fluid">
 		  <div class="wrapper">
@@ -102,15 +102,15 @@ def contactme_template():
 	header = header_template()
 	navigation, navigation_row = navigation_template()
 	
-	html = """ <!-- header -->
-				{0}
+	html = f""" <!-- header -->
+				{header}
 
 		<!-- Dynamic svg text content here -->
-				{1}
+				{navigation}
 		<div class="container-fluid">
 		  	<div class="wrapper">
 								
-				{2}
+				{navigation_row}
 
 				<div class="row logorow">
 					<div class="col"><h1>Contact Me</h1></div>
@@ -132,6 +132,6 @@ def contactme_template():
 		  	</div>
 		</div>
 		</body>
-		</html>""".format(header, navigation, navigation_row)
+		</html>"""
 
 	return html
