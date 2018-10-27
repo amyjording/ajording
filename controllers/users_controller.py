@@ -18,53 +18,22 @@ class UsersController(object):
         username = kw['username']
         email = kw['email'].lower()
         password = kw['password']
-        name = kw['name']
 
-        user = User.new(username, email, password, name) 
+        user = User.new(username, email, password) 
         results = user.save()
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
-        if results == True:             
-            return json.dumps({'result_ok': True, 'username': user.username, 'email': user.email, 'success_msg':"Please check your email to verify your account."})
-        else:
-            return json.dumps(results['error_msg'])
+        return json.dumps(results)
 
 
     def update(kw):
         return kw
-
-## -- User login & session -- ##
-
-    def login(kw):
-        submitted_username = kw['username']
-        if submitted_username:
-            user = User()
-            user = user.get(submitted_username)
-
-            if user:
-                password = kw['password']
-                hashpass = encrypt_password(password)
-                if verify_correct_password(password, hashpass) is True:
-                    user_id = user['_id']
-                    email_validated = user['validated']
-                    if email_validated is False:
-                        return {'result_ok': False, 'error_msg':"Please check your email and confirm your account through the activation link!</div>"}
-                    set_cookie(user_id)
-                    session_in_cookie, session_in_db = remember_user(user_id)
-                    user_session(session_in_cookie, session_from_db)
-                    return json.dumps({'result_ok': True, 'user_id': user_id})
-                else:
-                    return json.dumps({'result_ok': False, 'error_msg':"Incorrect password."})
-            else:
-                return json.dumps({'result_ok': False, 'error_msg':"We could not find your username."})
-        else: 
-            return json.dumps({'result_ok': False, 'error_msg':"Please enter a username."})
 
 ## -- Managing User credentials -- #
 
     def identify_user(kw):
         if kw.get('email'):
             email = kw['email'].lower()
-            user = User.get({'email':email})
+            user = User.get_one({'email':email})
 
             if user:
                 if kw.get('senduser') and kw['senduser'] == 'true':
@@ -92,7 +61,7 @@ class UsersController(object):
 
     def resend(email, kw):
         email = email.lower()
-        this_user = User.get({'email':email})
+        this_user = User.get_one({'email':email})
         if this_user.name:
             name = this_user.name
         else:

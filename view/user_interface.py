@@ -4,18 +4,19 @@ import cherrypy
 
 #-- Main User Account Template --#
 def user_account(status, content):
-    html = f"""<section class="col-lg-6 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
-            <a id="main-content"></a>
-            <h1 class="page-header">User account - {status} </h1>
+    html = f"""<section class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h1 class="page-header"> {status} </h1>
             {content}
             </section>
             """
+    return html
 
 #-- Partials - content --#
 
-def user_login_signup(msg=None, alert='', collapse=''):
-    status = f"Come on in." # Login or Sign In
+def user_login_signup(msg=None):
+    status = f"Come on in" # Login or Sign In
     html = f"""
+    <div class="logorow">
         <nav class="main-nav">
             <ul>
                 <li><a class="signin" href="#0">Sign in</a> </li>
@@ -54,26 +55,30 @@ def user_login_signup(msg=None, alert='', collapse=''):
                         <input class="full-width" type="submit" value="Login">
                     </p>
                 </form>
+                <div id="signupMessage" class="alert collapse">
+                    <p>{msg}</p>
+                </div>
                 <!-- <a href="#0" class="close-form">Close</a> -->
             </div>
 
             <div id="signup">
-                <form class="form">
+                <form id="userSignUp" class="form" method="POST" action="get-in">
+                    <input type="hidden" name="signup" value="1">
                     <p class="fieldset">
                         <label class="image-replace username" for="signup-username">Username</label>
-                        <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
+                        <input class="full-width has-padding has-border" id="signup-username" type="text" name="username" placeholder="Username">
                         <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace email" for="signup-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+                        <input class="full-width has-padding has-border" id="signup-email" type="email" name="email" placeholder="E-mail">
                         <span class="error-message">Enter a valid email address!</span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace password" for="signup-password">Password</label>
-                        <input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password">
+                        <input class="full-width has-padding has-border" id="signup-password" type="password" name="password" placeholder="Password">
                         <a href="#0" class="hide-password">Show</a>
                         <span class="error-message">Your password has to be at least 6 characters long!</span>
                     </p>
@@ -87,8 +92,10 @@ def user_login_signup(msg=None, alert='', collapse=''):
                         <input class="full-width has-padding" type="submit" value="Create account">
                     </p>
                 </form>
-
-                <!-- <a href="#0" class="cd-close-form">Close</a> -->
+                <div id="signupMessage" class="alert collapse">
+                    <p>{msg}</p>
+                </div>
+                <a href="#0" class="cd-close-form">Close</a>
             </div>
 
             <div id="reset-password">
@@ -105,12 +112,9 @@ def user_login_signup(msg=None, alert='', collapse=''):
                         <input class="full-width has-padding" type="submit" value="Reset password">
                     </p>
                 </form>
-
-                <p class="form-bottom-message"><div class="alert alert-{alert} collapse collapse {collapse}">
-                <p>{msg}</p>
-                </div><a href="#0">Back to log-in</a></p>
-            </div>
-            <a href="#0" class="close-form">Close</a>
+                </div>
+                </div><a href="#0" class="close-form">Close</a></p>
+            </div>       
         </div>
     </div>
 """

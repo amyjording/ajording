@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 
 $(document).ready(function() { 
-        $("#signup-tab-content").submit(function(event) {
+        $("#userSignUp").submit(function(event) {
         event.preventDefault();
             $.ajax({
                 type: "POST",
@@ -30,13 +30,29 @@ $(document).ready(function() {
                 dataType: 'json',
                 success : function(data) {
                     if (data['result_ok'] == true){
-                        $( "#signup_msg" ).addClass( "alert-success collapse in" ).html(data['success_msg']);
-                        console.log(data['success_msg']);
+                        window.location.href = '/work';
                     } 
                     else {
-                        $( "#signup_msg" ).addClass( "alert-danger collapse in" ).html(data['error_msg']);
+                        $( "#signupMessage" ).addClass( "alert-danger collapse in" ).html(data['error_msg']);
                         console.log(data['error_msg']);
-                    } 
+                    }
+                },
+                error : function(xhr, status) {
+                    // check if xhr.status is defined in $.ajax.statusCode
+                    // if true, return false to stop this function
+                    if (typeof this.statusCode[xhr.status] != 'undefined') {
+                        return false;
+                    }
+                    // else continue
+                    console.log('ajax.error');
+                },
+                statusCode: {
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
                 }
             });
         });

@@ -18,10 +18,7 @@ def demo_template(content):
 								
 				{navigation_row}
 
-				<div class="row logorow">
-					<div class="col"><h1>Try It</h1></div>
-				</div>
-				<div class="row">
+				<div class="row content">
 					{content}
 				</div>
 		  	</div>

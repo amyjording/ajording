@@ -1,15 +1,20 @@
+import cherrypy, json
 import os, os.path
-import cherrypy
+import sys
+sys.path.append('../')
+
 from model.user import *
 from controllers.users_controller import *
+from controllers.sessions_controller import *
 from view.demo_view import *
+from view.work_view import *
 from view.user_interface import *
 
 
 class Work(object):
 
 	@cherrypy.expose
-	def work(self):
+	def index(self):
 		page = work_template()
 		return page
 
@@ -17,19 +22,18 @@ class Work(object):
 class Demo(object):
 
 ##--- USER SECTION -- ##
-	status, html = '',''
-	content = user_account(status, html)
-	page = demo_template(content)
 
 	@cherrypy.expose
-	def demo(self):
-		msg = "Result of login"
-		status, html = user_login_signup()
-		page
+	def index(self):
+		msg = "Signin or Signup"
+		status, html = user_login_signup(msg=msg)
+		content = user_account(status, html)
+		page = demo_template(content)
 
 		if cherrypy.request.method == "POST":
 			# need to handle the post
-			return page
+			msg = "Result of loggin in or signing up"
+			
 		return page
 
 	#@cherrypy.expose
@@ -38,30 +42,33 @@ class Demo(object):
 	#	return page
 	@cherrypy.expose
 	def get_in(self, method='GET', **kw):
-		if cherrypy.request.method == "POST":
-			if kw.get('signin'):
-				result = login(kw)
-			elif kw.get('signup'):
-				result = create(kw)
-			if result['result_ok'] is True:
-				# redirect to dashboard
-				# temporary return
-				return """SUCCESS"""
-			elif result['result_ok'] is False:
-				msg = login_result['msg'] # return a page with danger div showing error message.
-				status, html = user_login_signup(msg, alert='danger', collapse='')
-				page = demo_template(content)
-				return page
-			else:
-				msg = "Something went wrong."
-				status, html = user_login_signup(msg, alert='danger', collapse='')
-				page = demo_template(content)
-				return page
+		msg = 'Signin or Signup'
+		status, html = user_login_signup(msg=msg)
+		content = user_account(status, html)
+		page = demo_template(content)
+		return page
+
+	@cherrypy.expose
+	def signup(self, method='GET', **kw):
+		if cherrypy.request.method == 'POST':
+			result = UsersController.create(kw)
+			return result
 		else:
-			msg = ''
-			status, html = user_login_signup(msg)
-			page = demo_template(content)
-			return page
+			return 'Something weird happened.'
+
+	@cherrypy.expose
+	def login(self, method='GET', **kw):
+		if cherrypy.request.method == 'POST':
+			result = SessionsController.login(kw)
+
+			if result['result_ok'] == True:
+				raise cherrypy.HTTPRedirect('/work')
+			else:
+				return result
+		else:
+			return json.dumps({'error_msg':'Something weird happened.'})
+
+
 	
 	@cherrypy.expose    
 	def signout(self):
