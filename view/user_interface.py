@@ -32,16 +32,16 @@ def user_login_signup(msg=None):
             </ul>
 
             <div id="login">
-                <form class="form">
+                <form id="userLogin" class="form">
                     <p class="fieldset">
                         <label class="image-replace email" for="signin-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+                        <input class="full-width has-padding has-border" id="signin-email" type="email" name="email" placeholder="E-mail">
                         <span class="error-message">An account with this email address does not exist!</span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace password" for="signin-password">Password</label>
-                        <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password">
+                        <input class="full-width has-padding has-border toggle-pass" id="signin-password" type="password" name="password" placeholder="Password">
                         <a href="#0" class="hide-password">Show</a>
                         <span class="error-message">Wrong password! Try again.</span>
                     </p>
@@ -66,21 +66,21 @@ def user_login_signup(msg=None):
                     <input type="hidden" name="signup" value="1">
                     <p class="fieldset">
                         <label class="image-replace username" for="signup-username">Username</label>
-                        <input class="full-width has-padding has-border" id="signup-username" type="text" name="username" placeholder="Username">
-                        <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
+                        <input class="full-width has-padding has-border" type="text" name="username" placeholder="Username">
+                        <span class="error-message"></span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace email" for="signup-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="signup-email" type="email" name="email" placeholder="E-mail">
-                        <span class="error-message">Enter a valid email address!</span>
+                        <input class="full-width has-padding has-border" type="email" name="email" placeholder="E-mail">
+                        <span class="error-message" id="emailMsg">Enter a valid email address!</span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace password" for="signup-password">Password</label>
-                        <input class="full-width has-padding has-border" id="signup-password" type="password" name="password" placeholder="Password">
-                        <a href="#0" class="hide-password">Show</a>
-                        <span class="error-message">Your password has to be at least 6 characters long!</span>
+                        <input class="full-width has-padding has-border toggle-pass" type="password" name="password" placeholder="Password">                       
+                        <span class="error-message" id="passMsg">Your password has to be at least 6 characters long!</span>
+                        <a href="#0" class="hide-password">Show</a> 
                     </p>
 
                     <p class="fieldset">

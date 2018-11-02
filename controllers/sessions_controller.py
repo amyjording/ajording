@@ -12,27 +12,15 @@ class SessionsController(object):
 
 ## -- User login & session -- ##
 
-    def login(kw):
-        if kw.get('username'):
-            submitted = kw['username']
-            user = User.get_one({'username':submitted})
-
-            if user:
-                password = kw['password'] if kw.get('password') else None
-                hashpass = user.encrypt_password(password)
-                if user.verify_correct_password(hashpass) is True:
-                    user_id = user['_id']
-                    user_activated = user['activated']
-                    user.set_cookie(user_id)
-                    session_in_cookie, session_in_db = remember_user(user_id)
-                    user_session(session_in_cookie, session_from_db)
-                    return json.dumps({'result_ok': True, 'user_id': user_id, 'activated':user_activated})
-                else:
-                    return json.dumps({'result_ok': False, 'error_msg':"Incorrect password."})
-            else:
-                return json.dumps({'result_ok': False, 'error_msg':"We could not find your username."})
+    def create(kw):
+        submitted = kw['email'].lower()
+        password = kw['password']
+        user = User.get_one({'email':submitted})
+        if user:
+            results = user.login_user(password)
         else: 
-            return json.dumps({'result_ok': False, 'error_msg':"Please enter a username."})
+            results = json.dumps({'result_ok': False, 'entry': 'email', 'error_msg': 'This email is not registered. Please sign-up.'})
+        return results
 
     def validate():
         cherrypy.request.user = -1

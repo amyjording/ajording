@@ -59,12 +59,8 @@ class Demo(object):
 	@cherrypy.expose
 	def login(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
-			result = SessionsController.login(kw)
-
-			if result['result_ok'] == True:
-				raise cherrypy.HTTPRedirect('/work')
-			else:
-				return result
+			result = SessionsController.create(kw)
+			return result
 		else:
 			return json.dumps({'error_msg':'Something weird happened.'})
 

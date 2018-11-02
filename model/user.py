@@ -4,9 +4,13 @@ import datetime
 import pymongo
 import bcrypt
 from cherrypy import request
+from random import getrandbits
+from base64 import urlsafe_b64encode
+from hashlib import sha256
 from itsdangerous import URLSafeTimedSerializer
 import sys
 sys.path.append('../')
+
 from db.mongo import get_db
 from config.secrets import secrets
 
@@ -107,53 +111,42 @@ class User(object):
     def valid_password(self):
         import re
         password = self.password
-        if len(password) < 8:
-            return "Password must be at least 8 characters."
 
         has_upper_case = re.search(r'[A-Z]+', password, flags=0)
         has_lower_case = re.search(r'[a-z]+', password, flags=0)
         has_numbers = re.search(r'\w[0-9]', password, flags=0)
         has_non_alphas = re.search(r'\W', password, flags=0)
 
-        if has_upper_case and has_lower_case and has_numbers and has_non_alphas:
+        if has_upper_case and has_lower_case and has_numbers and has_non_alphas and len(password) >= 8:
             return True
         else:
             return False
 
-    def encrypt_password(self):
-        import bcrypt
-        from string import ascii_letters
-        from string import digits
-        from string import ascii_lowercase
-        password = self.password
-        hashpass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        return hashpass
-
     def before_save(self):
         if not self.username:
-            return {'result_ok': False, 'error_msg':'Username cannot be blank.'}
+            return {'result_ok': False, 'entry': 'username', 'error_msg':'Username cannot be blank.'}
 
         if not self.password:
-            return {'result_ok': False, 'error_msg':'Password cannot be blank.'}
+            return {'result_ok': False, 'entry': 'password', 'error_msg':'Password cannot be blank.'}
 
         if not self.email: # bare minimum
-            return {'result_ok': False, 'error_msg':'Email cannot be blank.'}
+            return {'result_ok': False, 'entry': 'email', 'error_msg':'Email cannot be blank.'}
         
         existing_email, existing_username = self.check_unique_credentials()
 
         if existing_email:
-            return {'result_ok': False, 'error_msg': 'This email already has an account, please Sign in.'}
+            return {'result_ok': False, 'entry': 'email', 'error_msg': 'This email already has an account, please Sign in.'}
         elif existing_username:
-            return {'result_ok': False, 'error_msg': 'This username has already been taken. Please choose another username.'}
+            return {'result_ok': False, 'entry': 'username', 'error_msg': 'This username has already been taken. Please choose another username.'}
 
         if self.valid_email() is False:
-            return {'result_ok': False, 'error_msg':'Please enter a valid email.'}
+            return {'result_ok': False, 'entry': 'email', 'error_msg':'Please enter a valid email.'}
 
         if self.valid_username() is False:
-            return {'result_ok': False, 'error_msg':'Please enter a valid username.'}
+            return {'result_ok': False, 'entry': 'username', 'error_msg':'Please enter a valid username.'}
         
         if self.valid_password() is False:
-            return {'result_ok': False, 'error_msg':'Invalid Password. Please choose at least one uppercase letter, one lowercase letter, a number, and a symbol.'}
+            return {'result_ok': False, 'entry': 'password', 'error_msg':'Please choose a password that is at least 8 characters long, at least one uppercase letter, one lowercase letter, a number, and a symbol.'}
         else:
             return True    
 
@@ -162,7 +155,7 @@ class User(object):
         try_save = self.before_save() 
         if try_save == True: 
         
-            hashpass = self.encrypt_password()    
+            hashpass = encrypt_password(self.password)    
             
             if self.name:
                 if check_length(self.name, max=255):
@@ -185,26 +178,27 @@ class User(object):
 
             add_new_user = user_db.insert_one(imported_user_data)
             
-            return {'result_ok': True, 'email': self.email, 'name': self.username, 'success_msg':"Please check your email to verify your account."}
+            return {'result_ok': True, 'email': self.email, 'name': self.username, 'password':self.password, 'hashed': hashpass, 'success_msg':"Please check your email to verify your account."}
         else:
-            return {'result_ok': False, 'error_msg': try_save['error_msg']}
+            return {'result_ok': False, 'entry': try_save['entry'], 'error_msg': try_save['error_msg']}
 
 ## ------------ END CREATE USER -------------##
 
 
 ## ---------- User Login, Session and Logout -------- ##
 
-    def verify_correct_password(self, password):
-        if self.password == password:
+    def validate_password(self, submitted_password):
+        hashedpass = self.password
+        if bcrypt.hashpw(submitted_password.encode('utf-8'), hashedpass) == hashedpass:
             return True
         else:
             return False
 
     def set_cookie(self):
-        _id = self.id
+        _id = self._id
         expiration = datetime.datetime.now() + datetime.timedelta(days=90)
-        session_token = base64.urlsafe_b64encode(os.urandom(16))
-        update_user_session = update({'session_id': session_token})  
+        session_token = gen_key()
+        update_user_session = self.update({'session_id': session_token})  
         set_cookies = cherrypy.response.cookie
         set_cookies['session_token'] = session_token
         set_cookies['session_token']['path'] = "/"
@@ -232,17 +226,24 @@ class User(object):
         session_in_cookie = cookie['session_token'].value
         return session_in_cookie, session_from_db
 
-    def user_session(cookie_session_id, mongo_session_id):
-        """ fills in the session with user_data #user = cherrypy.session.get('user', None)    """
-        user_data = user_db.find_one({'session_id': {'$in': [cookie_session_id, mongo_session_id]} })
-        if not user_data:
-            return False # improvise - decide how this error will display itself
-        cherrypy.session['session_id'] = user_data['session_id']    
-        cherrypy.session['_id'] = user_data['_id']
-        cherrypy.session['email'] = user_data['email']
-        cherrypy.session['username'] = user_data['username']
-        return True # determine how to notify of success here.
+    def user_session(self):
+        cherrypy.session['session_id'] = self.session_id   
+        cherrypy.session['_id'] = self._id
+        cherrypy.session['email'] = self.email
+        cherrypy.session['username'] =self.username
+        return True
 
+    def login_user(self, submitted_password):
+        password = submitted_password
+        if self.validate_password(password) is True:
+            user_activated = self.activated
+            self.set_cookie()
+            session_in_cookie, session_in_db = self.remember_user()
+            self.user_session()
+            return json.dumps({'result_ok': True, 'activated':user_activated})
+        else:
+            return json.dumps({'result_ok': False, 'type': 'password', 'error_msg':"Incorrect password."})
+            
     def forget_user(self):
         user_cookie = get_cookie['session_token'].value
         cookies = cherrypy.response.cookie
@@ -255,6 +256,7 @@ class User(object):
         else:
             forget = self.update({'session_id': ''})         
         cherrypy.session.clear()
+
 
 ## -- ACTIVATION EMAIL & PASSWORD TOKEN GENERATE SECTION -- ##
 
@@ -327,3 +329,15 @@ def get_all_users():
     all_users = user_db.find({'activated':True})
     return all_users
 
+## -- Encryption and Random key generators -- ##
+
+def encrypt_password(password):
+    import bcrypt
+    hashpass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashpass
+
+def gen_key():
+   keyLenBits = 64
+   a = str(getrandbits(keyLenBits)).encode('utf-8')
+   b = urlsafe_b64encode(sha256(a).digest())
+   return b

@@ -49,7 +49,7 @@ jQuery(document).ready(function($){
   //hide or show password
   $('.hide-password').on('click', function(){
     var $this= $(this),
-      $password_field = $this.prev('input');
+      $password_field = $('.toggle-pass');
     
     ( 'password' == $password_field.attr('type') ) ? $password_field.attr('type', 'text') : $password_field.attr('type', 'password');
     ( 'Show' == $this.text() ) ? $this.text('Hide') : $this.text('Show');
@@ -90,6 +90,19 @@ jQuery(document).ready(function($){
     $form_signup.removeClass('is-selected');
     $form_forgot_password.addClass('is-selected');
   }
+
+
+    $form_signup.find('input[type="email"]').keyup(function(event){
+      $form_signup.find('input[type="email"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
+
+    $form_signup.find('input[type="text"]').keyup(function(event){
+      $form_signup.find('input[type="text"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
+
+    $form_signup.find('input[type="password"]').keyup(function(event){
+      $form_signup.find('input[type="password"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
 
   //REMOVE THIS - it's just to show error messages 
   //$form_login.find('input[type="submit"]').on('click', function(event){
