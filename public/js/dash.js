@@ -1,4 +1,4 @@
-var StringGeneratorBox = React.createClass({
+var DashManage = React.createClass({
   handleGenerate: function() {
     var length = this.state.length;
     this.setState(function() {
