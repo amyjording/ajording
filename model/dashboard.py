@@ -13,25 +13,32 @@ from controllers.api_controller import *
 secret = secrets()
 dash_db = get_db(collection_name=secret['collection3'])
 
+
 class Dashboard(object):
 
 	def __init__(self, owner):
 		self.owner = owner #User instance pass through at login
+		this_dash = dash_db.find_one({'owner':self.owner})
+		if not this_dash:
+			msg = self.initialize()
+		self._id = msg.get('_id', None)
 		self.taco = tacofancy()
 		self.bored = bored()
 		self.lovecraft = lovecraft()
+		self.pinned_tacos = this_dash['taco']
+		self.pinned_bored = this_dash['bored']
+		self.pinned_lovecraft = this_dash['lovecraft']
 
 
 # to re-run the dashboard to fetch new data from APIs, once a day-ish, use python module schedule
 # https://schedule.readthedocs.io/en/stable/ -- use example, place in it's own python file to run.
 # refer to this for help: https://stackoverflow.com/questions/15088037/python-script-to-do-something-at-the-same-time-every-day
 	
-	def refresh(self):
+#	def refresh(self):
 		#this will call all apis that do not have any other interaction but GET
-		return
+#		return
 
 	def initialize(self):
-
         pin_data = {
                 u'owner': self.owner,
                 u'taco': [],
@@ -42,9 +49,9 @@ class Dashboard(object):
 
         try:
         	save_pin = dash_db.insert_one(pin_data)
-            return {'result_ok': True}
+            return True
         except:
-            return {'result_ok': False, 'error_msg': 'Something went wrong with initializing dashboard record.'}
+            return False
 
     def pin(self, pin_this=None):
     	if pin_this == 'taco':
@@ -77,3 +84,7 @@ class Dashboard(object):
                 return True
         except pymongo.errors.PyMongoError as e:
             return False
+
+    def delete(self):
+    	this_dash = dash_db.update_one({'_id': self._id}, {'$set':{'deleted':True}})
+    	return True
