@@ -188,6 +188,27 @@ a{
   border: 2px solid #b13131;
 }
 
+
+/* Dashboard section */
+
+.taco {
+  background: #A43931;
+}
+
+.bored {
+  background: #1D4350;
+}
+
+.lovecraft {
+  background: #451e3e;
+}
+
+.stickynote {
+  background: #A4314F;
+}
+
+
+/* User section */
 .user-modal {
   position: fixed;
   top: 120px;

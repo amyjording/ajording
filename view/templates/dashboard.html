@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+refer to this: https://codepen.io/amyjording/pen/WLoogy  for moving blocks around
+  <h3> This is the start of my child template</h3>
+  <br>
+
+  <p>Today's Dashboard goodies:</p>
+  <ul> 
+    <li><div class="taco">{{dash.taco}}</div></li> <!-- This is going to come out with data that might need to get stylized. --->
+    <li><div class="bored">{{dash.bored}}</div></li> 
+    <li><div class="lovecraft">{{dash.lovecraft}}</div></li>
+  </ul>
+  <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
+  <p>Your pinned favorites:</p>
+  <ul> 
+    {% for taco in dash.pinned_tacos %}
+    <li><div class="taco">{{taco}}</div></li>
+    {% endfor %}
+  </ul>
+  <ul>
+    {% for activity in dash.pinned_bored %}
+    <li><div class="bored">{{activity}}</div></li>
+    {% endfor %}
+  </ul>
+  <ul>
+    {% for oldone in dash.lovecraft %}
+    <li><div class="lovecraft">{{oldone}}</div></li>
+    {% endfor %}
+  </ul>
+  <h3> This is the end of my child template</h3>
+{% endblock %}
