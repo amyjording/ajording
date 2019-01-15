@@ -9,7 +9,6 @@ from model.user import *
 
 class SessionsController(object):
 
-
 ## -- User login & session -- ##
 
     def create(kw):
@@ -22,18 +21,16 @@ class SessionsController(object):
             results = json.dumps({'result_ok': False, 'entry': 'email', 'error_msg': 'This email is not registered. Please sign-up.'})
         return results
 
-    def validate():
-        cherrypy.request.user = -1
-        cookie = cherrypy.request.cookie
-        session = 'session_token'
-        if session in cookie.keys():
-            session_id = cookie[session].value        
-            user_data = user.get_one({'session_id': session_id})        
-            if user_data:
-                cherrypy.request.user = user_data['user_id']
-                return cherrypy.request.user
+def validate(fetch=None):
+    cookie = cherrypy.request.cookie
+    session = 'session_token'
+    if session in cookie.keys():
+        session_id = cookie[session].value        
+        user_data = user.get_one({'session_id': session_id})        
+        if not user_data:
+            pass #raise cherrypy.HTTPRedirect("") #might need to add an error message to pass along to the signin.
         else:
-            return False
-
-
-        
+            pass
+    else:
+        pass
+        #raise cherrypy.HTTPRedirect("") - commenting out until i figure out why this doesn't work

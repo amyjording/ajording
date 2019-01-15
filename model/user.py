@@ -206,17 +206,6 @@ class User(object):
         set_cookies['session_token']['expires'] = \
             expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")    
 
-    def authenticated():
-        cookie = cherrypy.request.cookie
-        check_for_token = cookie.get('session_token', None)
-        if check_for_token:
-            session_token = cookie['session_token'].value
-            # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
-            uid_by_session = user.find_one({'session_id': session_token})
-            if uid_by_session != None: # bcrypt.hashpw(session_token.encode('utf-8'), kw['fc_session_id'].encode('utf-8')) == kw['fc_session_id'].encode('utf-8'):
-                return True
-        return False
-
     def remember_user(self):
         this_ip = cherrypy.request.headers.get("X-Forwarded-For",'0.0.0.0')
         update_user_session_data = self.update({'last_login': datetime.datetime.utcnow(),'ip': this_ip})
@@ -341,3 +330,15 @@ def gen_key():
    a = str(getrandbits(keyLenBits)).encode('utf-8')
    b = urlsafe_b64encode(sha256(a).digest())
    return b
+
+## -- Authentication
+def authenticated():
+    cookie = cherrypy.request.cookie
+    check_for_token = cookie.get('session_token', None)
+    if check_for_token:
+        session_token = cookie['session_token'].value
+        # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
+        uid_by_session = user.find_one({'session_id': session_token})
+        if uid_by_session != None: # bcrypt.hashpw(session_token.encode('utf-8'), kw['fc_session_id'].encode('utf-8')) == kw['fc_session_id'].encode('utf-8'):
+            return True
+    return False

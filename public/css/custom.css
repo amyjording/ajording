@@ -189,22 +189,64 @@ a{
 }
 
 
-/* Dashboard section */
+/* Dashboard section ---- check for duplicate / unecessary stylings! */ 
 
-.taco {
-  background: #A43931;
+h1, h2, h3, h4, p {
+  font-family: 'Gruppo', cursive;
+}
+
+
+.pins {
+  background-color: #fffdf9;
+  border: 2px solid #000000;
+  border-radius: 3px;
+  text-align: center;
+  max-width: 250px;
+  margin: 10px auto;
+}
+
+.pinhead {
+  padding: 10px;
+  cursor: move;
+  color: #fff;
+}
+
+.advice {
+  background-color: #A4314F;
 }
 
 .bored {
-  background: #1D4350;
+  background-color: #1D4350;
 }
 
-.lovecraft {
-  background: #451e3e;
+.oldone {
+  background-color: #451e3e;
 }
 
-.stickynote {
-  background: #A4314F;
+#containment-wrapper {
+      width: 800px;
+      min-height: 800px;
+      border:2px solid #ccc;
+      padding: 10px;
+  }
+#saved, #unassigned {
+  float: left;
+  width: 302px;
+  height: 800px;
+  padding: 5px 10px;
+  margin-right: 3px;
+  background: #eee;
+  text-align: center;
+}
+
+.clear {
+  clear: both;
+}
+
+p {
+  font-size: 17px;
+  font-weight: 800;
+  padding: 10px;
 }
 
 

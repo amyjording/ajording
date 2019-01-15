@@ -6,6 +6,7 @@ sys.path.append('../')
 from model.user import *
 from controllers.users_controller import *
 from controllers.sessions_controller import *
+from controllers.dashboards_controller import *
 from view.demo_view import *
 from view.work_view import *
 from view.user_interface import *
@@ -114,9 +115,18 @@ class Demo(object):
 			status, html = invalid_token()
 			page = demo_template(content)	
 
-@cherrypy.expose
 class Dashboard(object):
-	# This setup follows more closely to examples of Cherrypy + React integration.
-    @cherrypy.expose
-    def index(self):
-        return open('index.html') #here, we'll try using a templating system
+
+	@cherrypy.expose
+	#@cherrypy.tools.validate(fetch=None)
+	def index(self):
+		from jinja2 import Environment, PackageLoader, select_autoescape
+		env = Environment(
+		loader=PackageLoader('ajording', 'view/templates'),
+		autoescape=select_autoescape(['html', 'xml'])
+		)
+
+		dash = DashboardController.GET(self)
+		template = env.get_template('dashboard.html')
+
+		return template.render(dash=dash)

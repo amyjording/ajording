@@ -1,23 +1,52 @@
 $(document).ready(function() { 
-        var $form_modal = $('.user-modal'),
-        $form_login = $form_modal.find('#login'),
-        $form_signup = $form_modal.find('#signup');
-        $("#loginHelp").submit(function(event) {
-        event.preventDefault();
-            $.ajax({
-                type: "PUT",
-                url: '/dash/PUT',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success : function(data) {
-                    if (data['result_ok'] == false){
-                        $( "#pinStatus" ).addClass( "alert-danger collapse in" ).html(data['error_msg']);
-                        console.log(data['error_msg']);
+
+var elements = [];
+
+function dragUser(element, event) {
+    var index = elements.indexOf(element);
+    var thisID = element.id
+    console.log(index)
+    if (index == -1) {
+        // not already existing in the array, add it now
+        elements.push(element);
+        index = elements.length - 1;
+    }
+
+    event.dataTransfer.setData('index', index);
+} 
+
+function dropUser(target, event) {
+    var element = elements[event.dataTransfer.getData('index')];
+    target.appendChild(element);
+    if (target.id == "saved") {
+      console.log(element.id);
+      ajaxPin(element);      
+    }
+}
+
+function ajaxPin(element) {
+      var this_id = element.id
+      console.log("I'm working")
+      $.ajax({
+            type: "PUT",
+            url: '/dash/PUT',
+            data: {'pin_or_unpin':'pin', 'id':this_id}
+            dataType: 'json',
+            success : function(data) {
+                         console.log(data);
                     } 
-                    else {
-                        $( "#dynamicIDhere" ).addClass( "pinned" );
+                });
+    }
+
+function ajaxUnPin(element) {
+      var this_id = element.id
+      console.log("I'm working")
+      $.ajax({
+            type: "PUT",
+            url: '/dash/PUT',
+            dataType: 'json',
+            success : function(data) {
+                         console.log(data);
                     } 
-                }
-            });
-        });
-    });
+                });
+    }
