@@ -40,7 +40,7 @@ if __name__ == '__main__':
 			'tools.sessions.on': True,
 	        'tools.sessions.storage_type': "File",
 	        'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
-	        'tools.sessions.storage_path': "/Users/ADMIN/Python/ajording/sessions", #"/Users/amyre/Dev/Python/ajording/sessions",
+	        'tools.sessions.storage_path': "sessions", #"/Users/ADMIN/Python/ajording/sessions",
 	        'tools.sessions.timeout' : 129600, # 90 days in minutes
 			'tools.staticdir.root': os.path.abspath(os.getcwd())
 		},
