@@ -102,7 +102,7 @@ def contactme_template():
 	header = header_template()
 	navigation, navigation_row = navigation_template()
 	
-	html = f""" <!-- header -->
+	html = f"""<!-- header -->
 				{header}
 
 		<!-- Dynamic svg text content here -->
@@ -131,7 +131,5 @@ def contactme_template():
 				</div>
 		  	</div>
 		</div>
-		</body>
-		</html>"""
-
+		</body></html>"""
 	return html

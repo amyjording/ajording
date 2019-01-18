@@ -223,6 +223,10 @@ h1, h2, h3, h4, p {
   background-color: #451e3e;
 }
 
+.dash-image {
+  max-width: 230px;
+}
+
 #containment-wrapper {
       width: 800px;
       min-height: 800px;
@@ -230,8 +234,7 @@ h1, h2, h3, h4, p {
       padding: 10px;
   }
 #saved, #unassigned {
-  float: left;
-  width: 302px;
+  width: 350px;
   height: 800px;
   padding: 5px 10px;
   margin-right: 3px;

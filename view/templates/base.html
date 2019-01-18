@@ -12,13 +12,14 @@
     <script src="/static/js/join.js"></script>
     
     <title>{% block title %}{% endblock %} - Amy Jording</title>
+    {% endblock %}
 </head>
 <body>
     <nav>
       {% for page in page_list %}
           <svg style="display:none;">
             <symbol id="{{ page }}" viewBox="0 0 100 100">
-                {% if page in cherrypy.url() %}
+                {% if page in urls %}
                   <circle cx="50" cy="50" r="50" fill-opacity="0.5" />
                 {% else %}
                   <a id="{{ page }}-link" href="/{{ page }}"><circle cx="50" cy="50" r="50" /></a>
@@ -51,9 +52,14 @@
         </div>
       </div>
     </div>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-        {% block footer %}{% endblock %} &copy; Copyright 2019 by <a href="http://amyjording.com/">Amy Jording</a>. 
+    <div class="container-fluid">
+      <div class="wrapper">
+        <div class="row content" id="content">{% block content %}{% endblock %}</div>
+
+        <div id="footer">
+            {% block footer %}{% endblock %} 
+        </div>
+      </div>
     </div>
 </body>
 </html>

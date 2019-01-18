@@ -1,37 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-  <h3> Your Dashboard </h3><!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
+  
+  <div class="row logorow">
+    <div class="col"><h1>Your Dashboard</h1></div>
+  </div>
+  <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
   <br>
-  <div id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+  <div class="row">
+    <script src="/static/js/dash.js"></script>
+  <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
     <h2>Today's Goodies:</h2>
      <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
         <div class="pinhead advice"><h2>Advice</h2></div>
         <p>{{dash.advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
-        <p><img src="{{dash.advice['image']}}"></p><!-- <img src="https://media2.giphy.com/media/l41YpZerdLWFRKkJa/200w.webp?cid=3640f6095c33ce8b5735726f779db88f"> -->
+        <p><img class="dash-image" src="{{dash.advice['image']}}"></p><!-- <img src="https://media2.giphy.com/media/l41YpZerdLWFRKkJa/200w.webp?cid=3640f6095c33ce8b5735726f779db88f"> -->
      </div>        
      <div draggable="true" id="bored-{{dash.bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
        <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
           <h2>{{dash.bored['activity']}}</h2>
           <p>Activity Type: {{dash.bored['type']}}</p>
-          <p><img src="{{dash.bored['image']}}"></p>
+          <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
           <p>Participants: {{dash.bored['participants']}}</p>
       </div>
      <div draggable="true" id="love-{{dash.lovecraft['id']}}" class="pins" ondragstart="dragUser(this, event)">
       <div class="pinhead oldone"><h2>Old One</h2></div>
         <h2>{{dash.lovecraft['title']}}</h2>
-        <p><img src="{{dash.lovecraft['image']}}"></p>
+        <p><img class="dash-image" src="{{dash.lovecraft['image']}}"></p>
         <p><strong>{{dash.lovecraft['summary']}} <a href="{{dash.lovecraft['url']}}">Discover more</a></strong></p>
       </div>
   </div>
 
   <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
-  <div id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+  <div class="col" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
     <p>Your pinned favorites:</p>
       {% for advice in dash.pinned_advice %}
         <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
           <div class="pinhead advice"><h2>Advice</h2></div>
           <p>{{dash.advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
-          <p><img src="{{dash.advice['image']}}"></p>
+          <p><img class="dash-image" src="{{dash.advice['image']}}"></p>
        </div> 
       {% endfor %}
       {% for bored in dash.pinned_bored %}
@@ -39,21 +45,19 @@
          <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
             <h2>{{dash.bored['activity']}}</h2>
             <p>Activity Type: {{dash.bored['type']}}</p>
-            <p><img src="{{dash.bored['image']}}"></p>
+            <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
             <p>Participants: {{dash.bored['participants']}}</p>
         </div>
       {% endfor %}
-      {% for oldone in dash.lovecraft %}
+      {% for oldone in dash.pinned_lovecraft %}
        <div draggable="true" id="love-{{dash.lovecraft['id']}}" class="pins" ondragstart="dragUser(this, event)">
         <div class="pinhead oldone"><h2>Old One</h2></div>
           <h2>{{dash.lovecraft['title']}}</h2>
-          <p><img src="{{dash.lovecraft['image']}}"></p>
+          <p><img class="dash-image" src="{{dash.lovecraft['image']}}"></p>
           <p><strong>{{dash.lovecraft['summary']}} (<a href="{{dash.lovecraft['url']}}">Discover more</a>)</strong></p>
         </div>
+
       {% endfor %}
   </div>
-  <div id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
-    <h2> Keepers </h2>
   </div>
-    <h3> This is the end of my child template</h3>
 {% endblock %}

@@ -126,7 +126,9 @@ class Dashboard(object):
 		autoescape=select_autoescape(['html', 'xml'])
 		)
 
+		page_list = ['about', 'work', 'demo', 'contact']
+		urls = cherrypy.url()
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
 
-		return template.render(dash=dash)
+		return template.render(page_list=page_list, urls=urls, dash=dash)

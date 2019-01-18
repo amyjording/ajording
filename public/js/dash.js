@@ -21,7 +21,10 @@ function dropUser(target, event) {
     if (target.id == "saved") {
       console.log(element.id);
       ajaxPin(element);      
-    }
+    } else if (target.id == "unnassigned") {
+      console.log(element.id);
+      ajaxUnPin(element);
+    } 
 }
 
 function ajaxPin(element) {
@@ -30,7 +33,7 @@ function ajaxPin(element) {
       $.ajax({
             type: "PUT",
             url: '/dash/PUT',
-            data: {'pin_or_unpin':'pin', 'id':this_id}
+            data: {'pin_or_unpin':'pin', 'id':this_id},
             dataType: 'json',
             success : function(data) {
                          console.log(data);
@@ -44,9 +47,11 @@ function ajaxUnPin(element) {
       $.ajax({
             type: "PUT",
             url: '/dash/PUT',
+            data: {'pin_or_unpin':'unpin', 'id':this_id},
             dataType: 'json',
             success : function(data) {
                          console.log(data);
                     } 
                 });
     }
+});

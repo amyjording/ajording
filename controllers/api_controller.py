@@ -56,8 +56,12 @@ def lovecraft(this_id=None):
 	else:
 		this_old_one = random.choice(categories)
 	chosen = wikia.page("Lovecraft", this_old_one)
+	try:
+		image = chosen.images[0]
+	except:
+		image = " No Image "
 	snippet = (chosen.summary[:100] + '..') if len(chosen.summary) > 100 else chosen.summary
-	old_one = {'id': chosen.title, 'title':chosen.title, 'url': chosen.url, 'image': chosen.images[0], 'snippet': snippet}
+	old_one = {'id': chosen.title, 'title':chosen.title, 'url': chosen.url, 'image': image, 'snippet': snippet}
 	# Returns a wiki page, with various specific options to use later.
 	# chosen.title will be the title of the Old One page. 
 	# chosen.url will be the link to the wiki page
