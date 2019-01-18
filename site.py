@@ -4,6 +4,7 @@ from view.static import *
 from view.work_view import *
 from view.demo_view import *
 from config.routes import *
+from controllers.dashboards_controller import *
 
 class Root(object):
 	@cherrypy.expose
@@ -53,6 +54,7 @@ if __name__ == '__main__':
 	ajording = Root()
 	ajording.work = Work()
 	ajording.demo = Demo()
-	ajording.dash = Dashboard()
+	ajording.dash = Dashboards()
+	ajording.update = DashboardController()
 
 cherrypy.quickstart(ajording, "/", conf)

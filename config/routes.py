@@ -115,7 +115,7 @@ class Demo(object):
 			status, html = invalid_token()
 			page = demo_template(content)	
 
-class Dashboard(object):
+class Dashboards(object):
 
 	@cherrypy.expose
 	#@cherrypy.tools.validate(fetch=None)
@@ -131,4 +131,4 @@ class Dashboard(object):
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
 
-		return template.render(page_list=page_list, urls=urls, dash=dash)
+		return template.render(page_list=page_list, urls=urls, dash=dash)	

@@ -18,16 +18,16 @@ class Dashboard(object):
 
 	def __init__(self, owner):
 		self.owner = owner #User instance pass through at login
-		this_dash = dash_db.find_one({'owner':self.owner})
-		if not this_dash:
+		self.this_dash = dash_db.find_one({'owner':self.owner})
+		if not self.this_dash:
 			msg = self.initialize()
-		self._id = this_dash.get('_id', None)
+		self._id = self.this_dash.get('_id', None)
 		self.advice = advice()
 		self.bored = bored()
 		self.lovecraft = lovecraft()
-		self.pinned_advice = [pin_advice(advice) for advice in this_dash['advice']]
-		self.pinned_bored = [pin_activity(activity) for activity in this_dash['bored']]
-		self.pinned_lovecraft = [lovecraft(this_one) for this_one in this_dash['lovecraft']]
+		self.pinned_advice = [pin_advice(advice) for advice in self.this_dash['advice']]
+		self.pinned_bored = [pin_activity(activity) for activity in self.this_dash['bored']]
+		self.pinned_lovecraft = [lovecraft(this_one) for this_one in self.this_dash['lovecraft']]
 		# self.taco = tacofancy() - taco response is quite detailed and involved. Maybe later.
 
 # to re-run the dashboard to fetch new data from APIs, once a day-ish, use python module schedule
@@ -57,13 +57,22 @@ class Dashboard(object):
 	def pin(self, pin_this):
 		if pin_this.startswith('advice'):
 			slip_id = pin_this.lstrip('advice-')
-			push_this = {u'advice': slip_id}
+			if slip_id not in self.this_dash['advice']:
+				push_this = {u'advice': slip_id}
+			else:
+				return False
 		elif pin_this.startswith('bored'):
 			key = pin_this.lstrip('bored-')
-			push_this = {u'bored': key}
+			if key not in self.this_dash['bored']:
+				push_this = {u'bored': key}
+			else:
+				return False
 		elif pin_this.startswith('love'):
 			this_one = pin_this.lstrip('love-')
-			push_this = {u'lovecraft': this_one}
+			if this_one not in self.this_dash['lovecraft']:
+				push_this = {u'lovecraft': this_one}
+			else:
+				return False
 		else:
 			return False
 		try:

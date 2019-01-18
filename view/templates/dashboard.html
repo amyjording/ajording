@@ -7,7 +7,7 @@
   <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
   <br>
   <div class="row">
-    <script src="/static/js/dash.js"></script>
+    
   <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
     <h2>Today's Goodies:</h2>
      <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
@@ -33,28 +33,28 @@
   <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
   <div class="col" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
     <p>Your pinned favorites:</p>
-      {% for advice in dash.pinned_advice %}
-        <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
+      {% for pin_advice in dash.pinned_advice %}
+        <div draggable="true" id="advice-{{pin_advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
           <div class="pinhead advice"><h2>Advice</h2></div>
-          <p>{{dash.advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
-          <p><img class="dash-image" src="{{dash.advice['image']}}"></p>
+          <p>{{pin_advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
+          <p><img class="dash-image" src="{{pin_advice['image']}}"></p>
        </div> 
       {% endfor %}
-      {% for bored in dash.pinned_bored %}
-       <div draggable="true" id="bored-{{dash.bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
+      {% for pin_bored in dash.pinned_bored %}
+       <div draggable="true" id="bored-{{pin_bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
          <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
-            <h2>{{dash.bored['activity']}}</h2>
-            <p>Activity Type: {{dash.bored['type']}}</p>
+            <h2>{{pin_bored['activity']}}</h2>
+            <p>Activity Type: {{pin_bored['type']}}</p>
             <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
-            <p>Participants: {{dash.bored['participants']}}</p>
+            <p>Participants: {{pin_bored['participants']}}</p>
         </div>
       {% endfor %}
-      {% for oldone in dash.pinned_lovecraft %}
-       <div draggable="true" id="love-{{dash.lovecraft['id']}}" class="pins" ondragstart="dragUser(this, event)">
+      {% for pin_oldone in dash.pinned_lovecraft %}
+       <div draggable="true" id="love-{{pin_oldone['id']}}" class="pins" ondragstart="dragUser(this, event)">
         <div class="pinhead oldone"><h2>Old One</h2></div>
-          <h2>{{dash.lovecraft['title']}}</h2>
-          <p><img class="dash-image" src="{{dash.lovecraft['image']}}"></p>
-          <p><strong>{{dash.lovecraft['summary']}} (<a href="{{dash.lovecraft['url']}}">Discover more</a>)</strong></p>
+          <h2>{{pin_oldone['title']}}</h2>
+          <p><img class="dash-image" src="{{pin_oldone['image']}}"></p>
+          <p><strong>{{pin_oldone['summary']}} (<a href="{{pin_oldone['url']}}">Discover more</a>)</strong></p>
         </div>
 
       {% endfor %}

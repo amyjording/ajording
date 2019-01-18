@@ -4,8 +4,9 @@ from controllers.sessions_controller import validate
 
 cherrypy.tools.validate = cherrypy.Tool('before_handler', validate(fetch=None))
 
-@cherrypy.expose
-@cherrypy.tools.validate(fetch=None)
+
+#@cherrypy.tools.validate(fetch=None)
+
 class DashboardController(object):
 
     @cherrypy.tools.accept(media='text/plain')
@@ -13,18 +14,27 @@ class DashboardController(object):
         dash = verify_dash()
         return dash
 
-    def PUT(self, pin_or_unpin=None, item_id=None):
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='text/plain')
+    def PUT(self, pinit=None, item=None):
         dash = verify_dash()
-        if dash.get('result_ok'):
-            return dash
-        if pin_or_unpin == 'pin':
-            msg = dash.pin(item_id)
-        elif pin_or_unpin == 'unpin':
-            msg = dash.unpin(item_id)
+        if dash:
+            if pinit == 'pin':
+                msg = dash.pin(item)
+                if msg:
+                    msg = {'result_ok':True, 'success_message':'Pinned!'}
+            elif pinit == 'unpin':
+                msg = dash.unpin(item)
+                if msg:
+                    msg = {'result_ok':True, 'success_message':'Unpinned!'}
+            else:
+                msg = {'result_ok': False, 'error_msg': 'Something went wrong with your pin.'}
+            return msg
         else:
-            msg = {'result_ok': False, 'error_msg': 'Something went wrong with your pin.'}
-        return msg
+            return {'result_ok': False, 'error_msg': 'Something went wrong with your dashboard.'}
 
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='text/plain')
     def DELETE(self):
         dash = verify_dash()
         if dash.get('result_ok'):
@@ -41,6 +51,6 @@ def verify_dash():
     dash = Dashboard(owner)
     if not dash:
         msg = {'result_ok': False, 'error_msg': 'This dashboard does not exist.'}
+        return msg
     else:
-        msg = dash
-    return msg
+        return dash
