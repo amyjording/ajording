@@ -18,6 +18,8 @@ secret = secrets()
 user_db = get_db(collection_name=secret['collection2'])
 #later project - mongo schema validation could reduce several lines of code
 #https://stackoverflow.com/questions/46569262/does-pymongo-have-validation-rules-built-in
+#refer to this for reminder emails: https://app.sendgrid.com/guide/integrate/langs/python
+
 class User(object):
 
     #reference this!! -- https://codereview.stackexchange.com/questions/161340/models-in-a-simple-pymongo-based-blogging-web-app-without-orm-odm
@@ -250,12 +252,10 @@ class User(object):
 ## -- ACTIVATION EMAIL & PASSWORD TOKEN GENERATE SECTION -- ##
 
     def generate_confirmation_token(self):
-
         email = self.email
-        SECRET_KEY = secret.key
-        SECURITY_PASSWORD_SALT = secret.salt
+        SECRET_KEY = secret['key']
+        SECURITY_PASSWORD_SALT = secret['salt']
         serializer = URLSafeTimedSerializer(SECRET_KEY)
-
         return serializer.dumps(email, salt=SECURITY_PASSWORD_SALT)
 
     def confirm_token(token, expiration=8500):

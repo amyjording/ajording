@@ -4,6 +4,7 @@ from db.mongo import get_db
 from model.user import *
 from view.demo_view import *
 from view.user_interface import *
+from controllers.email_controller import *
 
 # this is going to function as both the router and controller 
 # controller deals with requests to the database - post put get delete - and confirms permissions.
@@ -61,27 +62,37 @@ class UsersController(object):
 
     def resend(email, kw):
         email = email.lower()
-        this_user = User.get_one({'email':email})
-        if this_user.name:
-            name = this_user.name
-        else:
-            name = "Portfolio Fan!"
-        url = 'https://amyjording.com'
-        sendgrid_content = 'Temporary content. Email content should live somewhere. Maybe in a collection.'
-        
-        if kw.get('username'):
-            username = this_user.username
-            return email_token(name, email, username, sendgrid_content)
-        elif kw.get('password'):
-            token = kw['token']
-            confirm_url = url + '/demo/identify?resettoken={0}'.format(token)
-            return email_token(name, email, confirm_url, sendgrid_content)
-        elif kw.get('activation'):
-            token = kw['token']
-            activation_url = url + '/demo/activation?activatetoken={0}'.format(token)
-            return email_token(name, email, activation_url, sendgrid_content) 
-        else:
-            return "Error, there was nothing to send."
+        try:
+            this_user = User.get_one({'email':email})
+            if this_user.name:
+                name = this_user.name
+            else:
+                name = "Portfolio Fan!"
+            email = this_user.email
+            url = 'https://www.amyjording.com'
+            token = this_user.get_confirmation_token()
+                
+            if kw.get('username'):
+                username = this_user.username
+                subject = "Username reminder for AmyJording.com"
+                sendgrid_content = f"Hi {name}, your username is {username}. Visit https://www.amyjording.com/demo to login."
+                return EmailsController.send_email(email, subject, sendgrid_content)
+            
+            elif kw.get('password'):
+                subject = "Password Reset for AmyJording.com"
+                confirm_url = url + '/demo/identify?resettoken={0}'.format(token)
+                sendgrid_content = f"Hi {name}, click this link {confirm_url} to confirm this is you and reset your password. If it's not you, simply do nothing."
+
+                return EmailsController.send_email(email, subject, sendgrid_content)
+            elif kw.get('activation'):
+                subject = "Activate your account at AmyJording.com"
+                activation_url = url + '/demo/activation?activatetoken={0}'.format(token)
+                sendgrid_content = f"Hi {name}, welcome to Amy's portfolio! Simply click this activation link {activation_url} to complete the sign-up. Thanks!"
+                return EmailsController.send_email(email, subject, sendgrid_content) 
+            else:
+                return "Error, there was nothing to send."
+        except pymongo.errors.PyMongoError as e:
+            return False
 
 
         

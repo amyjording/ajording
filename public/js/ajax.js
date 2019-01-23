@@ -35,7 +35,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success : function(data) {
                     if (data['result_ok'] == true){
-                        window.location.href = '/work';
+                        window.location.href = '/dash';
                     } else if (data['result_ok'] == false && data['entry'] == 'email') {
                         $form_login.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
@@ -81,7 +81,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success : function(data) {
                     if (data['result_ok'] == true){
-                        window.location.href = '/work';
+                        window.location.href = '/dash';
                     } else if (data['result_ok'] == false && data['entry'] == 'username') {
                         $form_signup.find('input[type="text"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
@@ -89,7 +89,7 @@ $(document).ready(function() {
                         $form_signup.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
                     } else if (data['result_ok'] == false && data['entry'] == 'password') {
-                        $form_signup.find('input[type="password"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
+                        $form_signup.find('input[name="password"]').toggleClass('has-error').next('span').toggleClass('is-visible');
                         console.log(data['error_msg']);
                     } else {
                         console.log(data['entry']);

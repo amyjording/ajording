@@ -101,7 +101,7 @@ jQuery(document).ready(function($){
     });
 
     $form_signup.find('input[type="password"]').keyup(function(event){
-      $form_signup.find('input[type="password"]').removeClass('has-error').next('span').removeClass('is-visible');
+      $form_signup.find('input[name="password"]').removeClass('has-error').next('span').removeClass('is-visible');
     });
 
   //REMOVE THIS - it's just to show error messages 

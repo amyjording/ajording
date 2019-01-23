@@ -93,13 +93,17 @@ class Demo(object):
 					success = 'success'
 					collapse = 'in'
 					status, html = user_login_recover_form(msg, success, collapse)
+					content = user_account(status, html)
 					page = demo_template(content)
 				else:
 					status, html = invalid_token()
+					content = user_account(status, html)
 					page = demo_template(content)
 		else:
 			status, html = user_login_recover_form()
-			page = demo_template(content) 
+			content = user_account(status, html)
+			page = demo_template(content)
+		return page 
 
 	@cherrypy.expose
 	def change_password(self, method='GET', user_token=None):

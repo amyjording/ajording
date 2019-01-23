@@ -11,6 +11,24 @@ h2 {
   font-size: 40px;
 }
 
+.h4centered {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.centered {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.right-margin {
+  margin-right: 30px;
+}
+
+.label-bold{
+  font-weight: 600;
+}
+
 .sasssmall{
   width: 50px;
   height: 50px;
@@ -137,7 +155,7 @@ a{
 
 .main-nav {
   width: 90%;
-  max-width: 240px;
+  max-width: 300px;
   margin: 0 auto;
   height: 100%;
   cursor: pointer;
@@ -145,13 +163,14 @@ a{
 .main-nav ul {
   position: absolute;
   width: 100%;
-  top: 40%;
-  margin: 0;
+  top: 50%;
+  margin: 0 auto;
   padding: 0;
 }
 .main-nav li {
   list-style: none;
   float: left;
+  display: inline;
 }
 .main-nav a {
   display: block;
@@ -160,8 +179,8 @@ a{
   padding: 2px 25px;
   text-decoration: none;
   border-radius: 30px;
-  line-height: 40px;
-  font-size: 20px;
+  line-height: 42px;
+  font-size: 25px;
   font-weight: 500;
   color: #FFF;
   -webkit-transition: all 0.30s ease-in-out;
@@ -171,21 +190,18 @@ a{
 }
 
 .main-nav li:nth-child(1) a {
-  background: #d83d3d;
-  border: 2px solid #451e3e;
+  background: #1D4350;
 }
 .main-nav li:nth-child(1) a:hover {
-  background: #fff;
-  color: #d83d3d;
+  background: #245363;
+  color: #fff;
 }
 
 .main-nav li:nth-child(2) a {
   background: #9e2c2c;
-  border: 2px solid #9e2c2c;
 }
 .main-nav li:nth-child(2) a:hover {
   background: #b13131;
-  border: 2px solid #b13131;
 }
 
 
@@ -346,6 +362,11 @@ p {
   }
 }
 
+.recovery {
+  background: #eae5da;
+  padding: 1em;
+}
+
 .form {
   padding: 1em;
 }
@@ -428,7 +449,7 @@ p {
 .form input[type=submit] {
   padding: 16px 0;
   cursor: pointer;
-  background: #F64747;
+  background: #1D4350;
   color: #FFF;
   font-weight: bold;
   border: none;
@@ -443,10 +464,10 @@ p {
     -o-transition: all 0.30s ease-in-out;
 }
 .form input[type=submit]:hover {
-  background: #d83d3d;
+  background: #451e3e;
 }
 .no-touch .form input[type=submit]:hover, .no-touch .form input[type=submit]:focus {
-  background: #d83d3d;
+  background: #451e3e;
   outline: none;
 }
 .form .hide-password {
@@ -477,8 +498,8 @@ p {
   padding: .8em;
   z-index: 2;
   color: #FFF;
-  font-size: 16px;
-  font-size: 1.2rem;
+  font-size: 17px;
+  font-size: 1.3  rem;
   border-radius: 0.25em;
   /* prevent click and touch events */
   pointer-events: none;
@@ -488,6 +509,11 @@ p {
   -moz-transition: opacity 0.2s 0, visibility 0 0.2s;
   transition: opacity 0.2s 0, visibility 0 0.2s;
 }
+
+.form .pass.error-message {
+  bottom: -35px;
+}
+
 .form .error-message::after {
   /* triangle */
   content: '';
@@ -592,7 +618,6 @@ p {
   height: 40px;
   right: 0;
   top: -40px;
-  background: url("../img/icon-close.svg") no-repeat center center;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -601,6 +626,25 @@ p {
   .close-form {
     display: none;
   }
+}
+
+.closeform {
+  border: 1px solid magenta;
+  display: block;
+}
+
+.close-x {
+  stroke: black;
+  fill: transparent;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+
+button {
+  width: 100px;
+  height: 100px;
+  padding: 0;
 }
 
 .accept-terms {
