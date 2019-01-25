@@ -272,14 +272,7 @@ class User(object):
         except:
             return False
         return email
-    
-    def check_token(self, token=None):
-        if token:
-            email = confirm_token(token)
-            user = email if email == self.email else None
-            return user
-        else:
-            return False
+
 
     def username_reminder(self):
         user_resend = self.email
@@ -332,6 +325,7 @@ def gen_key():
    return b
 
 ## -- Authentication
+
 def authenticated():
     cookie = cherrypy.request.cookie
     check_for_token = cookie.get('session_token', None)

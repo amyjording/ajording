@@ -1,5 +1,6 @@
 import os, os.path
 import cherrypy
+import requests
 
 
 #-- Main User Account Template --#
@@ -45,12 +46,7 @@ def user_login_signup(msg=None):
                             <a href="#0" class="hide-password">Show</a>
                             <span class="error-message">Wrong password! Try again.</span>
                         </p>
-
-                        <p class="fieldset">
-                            <input type="checkbox" id="remember-me" checked>
-                            <label for="remember-me">Remember me</label>
-                        </p>
-                        <p class=""><a style="float:right; margin-top: -15px; margin-bottom: 15px;" href="#0">Forgot your password?</a></p>
+                        <p class=""><a style="float:right; margin-top: -15px; margin-bottom: 15px;" href="/demo/identify">Forgot your password?</a></p>
                         <p class="fieldset">
                             <input class="full-width" type="submit" value="Login">
                         </p>
@@ -89,8 +85,8 @@ def user_login_signup(msg=None):
                         </p>
 
                         <p class="fieldset">
-                            <input type="checkbox" id="accept-terms">
-                            <label for="accept-terms">I agree to the <a class="accept-terms" href="#0">Terms</a></label>
+                            <label for="accept-terms">By signing up, you agree to the <a class="accept-terms" href="https://www.websitepolicies.com/policies/view/vtTIofu1" target="_blank">Terms</a></label><br />
+                            This website uses cookies. Your data is stored securely, wont ever be shared/sold, and is forgotten at your request/deletion.
                         </p>
 
                         <p class="fieldset">
@@ -133,51 +129,56 @@ def user_logout(msg): #msg is either with session -> You have been logged out. o
             </div>"""
     return status, html
 
-def user_login_recover_form(msg=None, alert='', collapse=''):
+def user_login_recover_form():
     status = u"Account Recovery"
     html = f"""                                    
         <h4 class="h4centered">Can't remember your login credentials? No problem.</h4>
-        <form id="loginHelp" class="recovery" method="POST" action="identify">
+        <form id="loginHelp" class="recovery" method="POST">
             <div class="form-group required radio">
                 <div class="centered">
-                <label class="right-margin label-bold"><input type="radio" name="resend" value="true"> Recover Password </label>
-                <label class="label-bold"><input type="radio" name="resend" value="true">  Recover Username </label>
+                <label class="right-margin label-bold"><input type="radio" name="resend" value="resetpass"> Recover Password </label>
+                <label class="label-bold"><input type="radio" name="resend" value="senduser">  Recover Username </label>
                 <h5><strong>Enter the email address associated with your account.</strong></h5>
                 </div>
             </div>
             <div class="form">
-                <input class="full-width has-padding has-border" type="email" placeholder="Email" style="margin-bottom: 10px;"><br />
-                <input type="submit" id="submitregister" class="full-width has-padding" value="Continue">
+                <input class="full-width has-padding has-border" type="email" name="email" placeholder="Email" style="margin-bottom: 10px;"><br />
+                <input type="submit" id="credResend" class="full-width has-padding" value="Continue">
             </div>
-            </form>
-            </div>
+        </form>
         <br>
-        <div id="loginResetStatus" class="alert alert-{alert} collapse collapse {collapse}">
-                <p>{msg}</p>"""
+        <div id="loginResetStatus">
+        <p></p></div>
+        </div>
+   """
     return status, html
 
 
-def user_reset_password(user_id):
+def user_reset_password(user_email):
     status = u"Choose a new password"
     html = f"""                  
-            <form id="loginHelp" method='POST' action="identify">
-            <input type="hidden" name="user_token" value="{user_id}">
+            <form id="loginHelp" method='POST' action="change-password">
+            <input type="hidden" name="user_token" value="{user_email}">
             <div class="form-group required">
                 <label class="control-label" for="userpassword">Password *</label>
                 <input type="password" class="form-control" name="password" placeholder="Password">
             </div>
-            <button type="submit" id="submitregister" class="btn btn-primary btn-block">Continue</button> 
+            <button type="submit" id="newPassword" class="btn btn-primary btn-block">Continue</button> 
         </form>
         <br>
         <div id="loginRecoveryStatus" class="alert collapse"><p> </p></div>     
         </div>"""
     return status, html
 
-def invalid_token():
+def reset_results(alert, msg, link, button):
     status = u"Account Recovery"
-    html = u"""
-            <div class="alert alert-danger collapse collapse in">
-            The Password Reset token is invalid. 
-            <a href="/user/identify" class="btn btn-primary">Recover your username or password here.</a>
+    html = f"""
+            <div class="alert alert-{alert} centered">
+               <strong>{msg}</strong>
+            </div>
+            <div class="centered">
+               <a href="{link}" class="btn btn-primary label-bold">{button}</a>
             </div>
             """
+    return status, html
+

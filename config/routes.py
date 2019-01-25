@@ -1,4 +1,5 @@
 import cherrypy, json
+import requests
 import os, os.path
 import sys
 sys.path.append('../')
@@ -86,19 +87,13 @@ class Demo(object):
 	def identify(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
 
-			result = identify_user(kw)
-			if result['result_ok'] == True:
-				if result.get('success_msg'):
-					msg = result['success_msg']
-					success = 'success'
-					collapse = 'in'
-					status, html = user_login_recover_form(msg, success, collapse)
-					content = user_account(status, html)
-					page = demo_template(content)
-				else:
-					status, html = invalid_token()
-					content = user_account(status, html)
-					page = demo_template(content)
+			result = UsersController.identify_user(self, kw)
+			return json.dumps(result)
+		elif kw.get('resettoken'):
+			result = UsersController.identify_user(self, kw)
+			if result.get('result_ok') == True:
+				status, html = user_reset_password(result['user_id'])
+
 		else:
 			status, html = user_login_recover_form()
 			content = user_account(status, html)
@@ -106,18 +101,33 @@ class Demo(object):
 		return page 
 
 	@cherrypy.expose
-	def change_password(self, method='GET', user_token=None):
-		if kw['user_token']:
-			user = check_token(reset_id=kw['user_token'])
+	def change_password(self, method='GET', **kw):
+		if cherrypy.request.method == 'POST':
+			response = UsersController.update(kw)
+			if response:
+				alert = 'success'
+				msg = "Your password has been reset!"
+				link = "/demo"
+				button = 'Sing in here.'
+				status, html = reset_results(alert, msg, link, button)
+				content = user_account(status, html)
+				page = demo_template(content)
+
+		elif kw.get('resettoken'):
+			user = check_token(reset_id=kw['resettoken'])
 			if user:
 				user_id = user['user_id']
-				password = kw['password']
-				msg = change_password(user_id, password=password)
 				status, html = user_reset_password(kw['user_token'])
 				page = demo_template(content)
 		else:
-			status, html = invalid_token()
+			alert = 'danger'
+			msg = "The Password Reset Link is invalid or has expired."
+			link = '/demo/identify'
+			button = 'Recover your username or password here.'
+			status, html = reset_results(alert, msg, link, button)
+			content = user_account(status, html)
 			page = demo_template(content)	
+		return page
 
 class Dashboards(object):
 
@@ -135,4 +145,25 @@ class Dashboards(object):
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
 
-		return template.render(page_list=page_list, urls=urls, dash=dash)	
+		return template.render(page_list=page_list, urls=urls, dash=dash)
+
+"""			if result['result_ok'] == True:
+				if result.get('success_msg'):
+					msg = result['success_msg']
+					success = 'success'
+					collapse = 'in'
+					status, html = user_login_recover_form(msg, success, collapse)
+					content = user_account(status, html)
+					page = demo_template(content)
+				else:
+					status, html = invalid_token()
+					content = user_account(status, html)
+					page = demo_template(content)
+				return result
+			else:
+				msg = result.get('error_msg', 'Something happened')
+				danger = 'danger'
+				collapse = 'in'
+				status, html = user_login_recover_form(msg, success, collapse)
+				content = user_account(status, html)
+				page = demo_template(content)"""

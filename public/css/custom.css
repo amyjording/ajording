@@ -29,6 +29,23 @@ h2 {
   font-weight: 600;
 }
 
+.btn {
+  font-size: 1em;
+}
+
+.btn-primary {
+  color: #fff;
+  background: #1D4350;
+  border-color: #1D4350;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background: #451e3e;
+  border-color: #451e3e;
+}
+
+
 .sasssmall{
   width: 50px;
   height: 50px;
