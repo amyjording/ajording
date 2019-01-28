@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  
+  <div class="row logorow">
+    <div class="col"><h1>Your Dashboard</h1></div>
+  </div>
+  <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
+  <br>
+  <div class="row"><div class="alert alert-danger centered">{msg}</div></div>
+  <div class="row">
+    
+  <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+    <h2>Today's Goodies:</h2>
+  </div>
+
+  <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
+  <div class="col" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+    <p>Your pinned favorites:</p>
+
+  </div>
+  </div>
+{% endblock %}

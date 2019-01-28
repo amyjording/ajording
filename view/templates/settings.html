@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+  
+  <div class="row logorow">
+    <div class="col"><h1>{user.username}'s Account Settings</h1></div>
+  </div>
+  <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
+  <br>
+  <div class="row"><div id="userSettingsStatus" class="">{msg}</div></div>
+  <div class="row"> 
+    <div class="user-modal is-visible">
+        <div class="user-modal-container">
+          <form id="updateUser" class="form">
+            <p><strong>username:</strong> {user.username}</p>
+            <p class="fieldset">
+              <label class="image-replace password" for="signin-password">Current Password</label>
+              <input class="full-width has-padding has-border toggle-pass" id="signin-password" type="password" name="password" placeholder="Current Password">
+              <a href="#0" class="hide-password">Show</a>
+              <span class="error-message"></span>
+            </p>
+            <p class="fieldset">
+              <label class="image-replace password" for="new-password">New Password</label>
+              <input class="full-width has-padding has-border toggle-pass" id="new-password" type="password" name="password" placeholder="New Password">
+              <a href="#0" class="hide-password">Show</a>
+              <span class="error-message"></span>
+            </p>
+            <p class="fieldset">
+              <input type="hidden" value="{user.email}">
+              <input class="full-width" type="submit" value="Update Account">
+            </p>
+          </form>
+          <div class="centered">
+            <a href="/demo/delete" class="btn btn-primary label-bold">Delete Account</a>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

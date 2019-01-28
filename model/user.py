@@ -27,7 +27,7 @@ class User(object):
     
     def __init__(self, _id=None, username=None, email=None, password=None, 
                 name=None, activated=False, session_id=u'', last_login=None,
-                ip=u'', following=[], followers=[], deleted=False ):
+                ip=u'', following=[], followers=[] ):
              
         self._id = _id #gets generated upon saving to collection
         self.username = username #generated on instance, passed in via param
@@ -40,7 +40,6 @@ class User(object):
         self.ip = ip #captured in a method via cherrypy.request.headers, then stored in collection either at login or register
         self.following = following #generated as an empty list in collection at time of new save/register
         self.followers = followers #generated as an empty list in collection at time of new save/register
-        self.deleted = deleted #generated at time of save/register with default set to False
 
 ## -- User Model functions for Controller to use -- ##
 
@@ -73,6 +72,14 @@ class User(object):
         try:
             update_status = user_db.update_one({'_id': self._id}, {'$set': dictonary_of_records_to_update})
             if update_status.matched_count > 0:
+                return True
+        except pymongo.errors.PyMongoError as e:
+            return False
+    
+    def delete_user(self):
+        try:
+            delete = user_db.delete_one({'_id':self._id})
+            if delete.matched_count > 0:
                 return True
         except pymongo.errors.PyMongoError as e:
             return False
@@ -247,6 +254,7 @@ class User(object):
         else:
             forget = self.update({'session_id': ''})         
         cherrypy.session.clear()
+
 
 
 ## -- ACTIVATION EMAIL & PASSWORD TOKEN GENERATE SECTION -- ##

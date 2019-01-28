@@ -155,3 +155,43 @@ $(document).ready(function() {
             });
         });
     });
+
+$(document).ready(function() { 
+        $("#updateUser").submit(function(event) {
+        event.preventDefault();
+        console.log("This is working");
+            $.ajax({
+                type: "POST",
+                url: '/demo/settings',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success : function(data) {
+                    if (data['result_ok'] == true){
+                        $('#userSettingsStatus').addClass('alert alert-success').html(data['success_msg']);
+                    } else if (data['result_ok'] == false) {
+                        $('#userSettingsStatus').addClass('alert alert-danger').html(data['error_msg']);
+                        console.log(data['error_msg']);
+                    } else {
+                        console.log(data['error_msg']);
+                    }                            
+                },
+                error : function(xhr, status) {
+                    // check if xhr.status is defined in $.ajax.statusCode
+                    // if true, return false to stop this function
+                    if (typeof this.statusCode[xhr.status] != 'undefined') {
+                        return false;
+                    }
+                    // else continue
+                    console.log('ajax.error');
+                },
+                statusCode: {
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }
+            });
+        });
+    });

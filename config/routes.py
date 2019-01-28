@@ -66,7 +66,6 @@ class Demo(object):
 		else:
 			return json.dumps({'error_msg':'Something weird happened.'})
 
-
 	
 	@cherrypy.expose    
 	def signout(self):
@@ -82,6 +81,20 @@ class Demo(object):
 			status, html = user_logout(msg)
 			page = demo_template(content)
 		return page
+
+	@cherrpy.expose
+	def settings(self, method='GET', **kw):
+		if cherrypy.request.method == 'POST':
+			response = UsersController.put(kw)
+			return response
+		else:
+			page_list = ['about', 'work', 'demo', 'contact']
+			urls = cherrypy.url()
+			msg = ''
+			user = UsersController.get()
+			template = env.get_template('settings.html')
+		return template.render(page_list=page_list, urls=urls, msg=msg, user=user)
+			
 
 	@cherrypy.expose
 	def identify(self, method='GET', **kw):
@@ -103,12 +116,12 @@ class Demo(object):
 	@cherrypy.expose
 	def change_password(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
-			response = UsersController.update(kw)
+			response = UsersController.put(kw)
 			if response:
 				alert = 'success'
 				msg = "Your password has been reset!"
 				link = "/demo"
-				button = 'Sing in here.'
+				button = 'Sign in here.'
 				status, html = reset_results(alert, msg, link, button)
 				content = user_account(status, html)
 				page = demo_template(content)
@@ -129,6 +142,19 @@ class Demo(object):
 			page = demo_template(content)	
 		return page
 
+	@cherrypy.expose
+	def delete(self, **kw):
+		deleted_result = UsersController.destroy(kw)
+		if deleted_result == True:
+			raise cherrypy.HTTPRedirect("https://www.amyjording.com")
+		else:
+			msg = deleted_result['error_msg']
+			page_list = ['about', 'work', 'demo', 'contact']
+			urls = cherrypy.url()
+			user = UsersController.get()
+			template = env.get_template('settings.html')
+			return template.render(page_list=page_list, urls=urls, user=user, msg=msg)
+
 class Dashboards(object):
 
 	@cherrypy.expose
@@ -142,8 +168,14 @@ class Dashboards(object):
 
 		page_list = ['about', 'work', 'demo', 'contact']
 		urls = cherrypy.url()
+		owner = UsersController.get({'_id':cherrypy.session.get('_id', None)})
+		if owner.activated == False:
+			msg = "Please check your email to activate your account. If you need a new activation link, please click here."
+			not_activated_template = env.get_template('dash_unactivated.html')
+			return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
+
 
 		return template.render(page_list=page_list, urls=urls, dash=dash)
 

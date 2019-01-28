@@ -26,8 +26,21 @@ class UsersController(object):
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
         return json.dumps(results)
 
+    def get(**kw):
+        user = kw.get('email') or kw.get('_id') or kw.get('username')
+        if user:
+            if kw.get('email'):
+                this_user = User.get_one({'email':kw['email']})
+            elif kw.get('_id'):
+                this_user = User.get_one({'_id':kw['_id']})
+            elif kw.get('username'):
+                this_user = User.get_one({'username': kw['username']})
+        else:
+            user = cherrypy.session.get('_id', None)
+            this_user = User.get_one({'_id':user})
+        return this_user
 
-    def update(kw):
+    def put(kw):
         user = kw.get('user_token')
         new_password = kw.get('password')
         if user and new_password:
@@ -35,10 +48,25 @@ class UsersController(object):
             hashed_new_password = encrypt_password(new_password)
             new_pass = {'password':hashed_new_password}
             results = user.update(new_pass)
+            if results:
+                return json.dumps({'result_ok':True, 'success_msg':"Your account has been updated."})
+            else:
+                return json.dumps({'result_ok':False, 'error_msg':"We couldn't update your account."})
         else:
-            results = False
+            results = json.dumps({'result_ok':False, 'error_msg':"Oops, please enter a new password."})
 
         return results
+
+    def destroy(kw):
+        user = User.get_one({'email':kw.get('email','')})
+        if user:
+            delete_result = user.delete_user()
+            if delete_result == True:
+                cherrypy.session.clear()
+                return True
+            else:
+                return json.dumps({'result_ok':False, 'error_msg':"Something went wrong. Try again or contact Amy for help."})
+
 
 ## -- Managing User credentials -- #
 
