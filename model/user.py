@@ -207,13 +207,15 @@ class User(object):
         _id = self._id
         expiration = datetime.datetime.now() + datetime.timedelta(days=90)
         session_token = gen_key()
-        update_user_session = self.update({'session_id': session_token})  
+        self.session_id = session_token
+        update_user_session = self.update({'session_id': self.session_id})
         set_cookies = cherrypy.response.cookie
         set_cookies['session_token'] = session_token
         set_cookies['session_token']['path'] = "/"
         set_cookies['session_token']['domain'] = "amyjording.com"
         set_cookies['session_token']['expires'] = \
-            expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")    
+            expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")
+        return set_cookies   
 
     def remember_user(self):
         this_ip = cherrypy.request.headers.get("X-Forwarded-For",'0.0.0.0')
@@ -340,7 +342,7 @@ def authenticated():
     if check_for_token:
         session_token = cookie['session_token'].value
         # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
-        uid_by_session = user.find_one({'session_id': session_token})
-        if uid_by_session != None: # bcrypt.hashpw(session_token.encode('utf-8'), kw['fc_session_id'].encode('utf-8')) == kw['fc_session_id'].encode('utf-8'):
+        uid_by_session = user.get_one({'session_id': session_token})
+        if uid_by_session: # bcrypt.hashpw(session_token.encode('utf-8'), kw['fc_session_id'].encode('utf-8')) == kw['fc_session_id'].encode('utf-8'):
             return True
     return False

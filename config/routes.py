@@ -188,7 +188,7 @@ class Demo(object):
 class Dashboards(object):
 
 	@cherrypy.expose
-	#@cherrypy.tools.validate(fetch=None)
+	@cherrypy.tools.authenticate
 	def index(self):
 		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
 		env = Environment(
