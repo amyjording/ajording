@@ -7,7 +7,7 @@
     </div>
     <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
     <div class="row logorow">
-      <div class="col"><h3>{{ msg }}</h3></div>
+      <div class="col"><h3>{{ msg|safe }}</h3></div>
     </div>
     <div class="row">
       <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">

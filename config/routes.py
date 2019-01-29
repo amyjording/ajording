@@ -105,6 +105,21 @@ class Demo(object):
 			result = UsersController.identify_user(self, kw)
 			if result.get('result_ok') == True:
 				status, html = user_reset_password(result['user_id'])
+		elif kw.get('resend') == 'activation':
+			result = UsersController.identify_user(self, kw)
+			if result.get('result_ok') == True:
+				from jinja2 import Environment, PackageLoader, select_autoescape
+				env = Environment(
+				loader=PackageLoader('ajording', 'view/templates'),
+				autoescape=select_autoescape(['html', 'xml'])
+				)
+
+				page_list = ['about', 'work', 'demo', 'contact']
+				urls = cherrypy.url()
+				owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
+				msg = f"A new activation link has been emailed to you! Please check your email to activate your account."
+				not_activated_template = env.get_template('dash_unactivated.html')	
+				return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
 		else:
 			status, html = user_login_recover_form()
 			content = user_account(status, html)
@@ -141,10 +156,10 @@ class Demo(object):
 			page = demo_template(content)	
 		return page
 
-		@cherrypy.expose
+	@cherrypy.expose
 	def activation(self, method='GET', **kw):
-		if kw.get('resettoken'):
-			user = check_token(token=kw['resettoken'])
+		if kw.get('activatetoken'):
+			user = check_token(token=kw['activatetoken'])
 			if user:
 				user_id = user._id
 				kw = {'_id':user_id, 'activated':True}
@@ -175,7 +190,7 @@ class Dashboards(object):
 	@cherrypy.expose
 	#@cherrypy.tools.validate(fetch=None)
 	def index(self):
-		from jinja2 import Environment, PackageLoader, select_autoescape
+		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
 		env = Environment(
 		loader=PackageLoader('ajording', 'view/templates'),
 		autoescape=select_autoescape(['html', 'xml'])
@@ -185,8 +200,8 @@ class Dashboards(object):
 		urls = cherrypy.url()
 		owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
 		if owner.activated == False:
-
-			msg = f"Please check your email to activate your account. If you need a new activation link, please <a href='{link}' class='btn btn-primary label-bold'>click here</a>."
+			link = Markup(f'<a href="/demo/identify?resend=activation&email={owner.email}" class="btn btn-primary label-bold">click here</a>')
+			msg = f"Please check your email to activate your account. If you need a new activation link, please {link}."
 			not_activated_template = env.get_template('dash_unactivated.html')
 			return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
 		dash = DashboardController.GET(self)

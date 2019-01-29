@@ -26,13 +26,18 @@ class Root(object):
 	def shutdown(self):
 		cherrypy.engine.exit()
 
+	@cherrypy.expose
+	def error_page_404(status, message, traceback, version):
+	    return "404 Error!"
+
 
 if __name__ == '__main__':
 	cherrypy.config.update({
 		'global': {
 			'server.socket_host': '127.0.0.1',
 			'server.socket_port': 8080,
-			'server.thread_pool': 10
+			'server.thread_pool': 10,
+			'error_page.404': Root.error_page_404
 		}
 	})
 
