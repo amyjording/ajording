@@ -64,7 +64,7 @@ class User(object):
             return cls(_id=this_user['_id'], username=this_user['username'], email=this_user['email'], 
                         password=this_user['password'], name=this_user['name'], activated=this_user['activated'], 
                         session_id=this_user['session_id'], ip=this_user['ip'], following=this_user['following'], 
-                        followers=this_user['followers'], deleted=this_user['deleted'])
+                        followers=this_user['followers'])
         else:
             return False
 
@@ -266,22 +266,6 @@ class User(object):
         serializer = URLSafeTimedSerializer(SECRET_KEY)
         return serializer.dumps(email, salt=SECURITY_PASSWORD_SALT)
 
-    def confirm_token(token, expiration=8500):
-        SECRET_KEY = secret.key
-        SECURITY_PASSWORD_SALT = secret.salt
-        serializer = URLSafeTimedSerializer(SECRET_KEY)
-
-        try:
-            email = serializer.loads(
-                token,
-                salt = SECURITY_PASSWORD_SALT,
-                max_age = expiration
-            )
-        except:
-            return False
-        return email
-
-
     def username_reminder(self):
         user_resend = self.email
         if user_resend.get('fullname'):
@@ -331,6 +315,22 @@ def gen_key():
    a = str(getrandbits(keyLenBits)).encode('utf-8')
    b = urlsafe_b64encode(sha256(a).digest())
    return b
+
+def confirm_token(token, expiration=8500):
+    SECRET_KEY = secret['key']
+    SECURITY_PASSWORD_SALT = secret['salt']
+    serializer = URLSafeTimedSerializer(SECRET_KEY)
+
+    try:
+        email = serializer.loads(
+            token,
+            salt = SECURITY_PASSWORD_SALT,
+            max_age = expiration
+        )
+    except:
+        return False
+    return email
+
 
 ## -- Authentication
 

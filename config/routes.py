@@ -82,7 +82,7 @@ class Demo(object):
 			page = demo_template(content)
 		return page
 
-	@cherrpy.expose
+	@cherrypy.expose
 	def settings(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
@@ -91,7 +91,7 @@ class Demo(object):
 			page_list = ['about', 'work', 'demo', 'contact']
 			urls = cherrypy.url()
 			msg = ''
-			user = UsersController.get()
+			user = UsersController.GET()
 			template = env.get_template('settings.html')
 		return template.render(page_list=page_list, urls=urls, msg=msg, user=user)
 			
@@ -99,14 +99,12 @@ class Demo(object):
 	@cherrypy.expose
 	def identify(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
-
 			result = UsersController.identify_user(self, kw)
 			return json.dumps(result)
 		elif kw.get('resettoken'):
 			result = UsersController.identify_user(self, kw)
 			if result.get('result_ok') == True:
 				status, html = user_reset_password(result['user_id'])
-
 		else:
 			status, html = user_login_recover_form()
 			content = user_account(status, html)
@@ -127,10 +125,11 @@ class Demo(object):
 				page = demo_template(content)
 
 		elif kw.get('resettoken'):
-			user = check_token(reset_id=kw['resettoken'])
+			user = check_token(token=kw['resettoken'])
 			if user:
-				user_id = user['user_id']
-				status, html = user_reset_password(kw['user_token'])
+				user_id = user._id
+				status, html = user_reset_password(user.email)
+				content = user_account(status, html)
 				page = demo_template(content)
 		else:
 			alert = 'danger'
@@ -140,6 +139,22 @@ class Demo(object):
 			status, html = reset_results(alert, msg, link, button)
 			content = user_account(status, html)
 			page = demo_template(content)	
+		return page
+
+		@cherrypy.expose
+	def activation(self, method='GET', **kw):
+		if kw.get('resettoken'):
+			user = check_token(token=kw['resettoken'])
+			if user:
+				user_id = user._id
+				kw = {'_id':user_id, 'activated':True}
+				activate = UsersController.put(kw)
+				if activate == True:
+					raise cherrypy.HTTPRedirect("/dash")
+				else:
+					return json.dumps(activate)
+		else:
+			raise cherrypy.HTTPError(404)
 		return page
 
 	@cherrypy.expose
@@ -168,15 +183,14 @@ class Dashboards(object):
 
 		page_list = ['about', 'work', 'demo', 'contact']
 		urls = cherrypy.url()
-		owner = UsersController.get({'_id':cherrypy.session.get('_id', None)})
+		owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
 		if owner.activated == False:
-			msg = "Please check your email to activate your account. If you need a new activation link, please click here."
+
+			msg = f"Please check your email to activate your account. If you need a new activation link, please <a href='{link}' class='btn btn-primary label-bold'>click here</a>."
 			not_activated_template = env.get_template('dash_unactivated.html')
 			return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
-
-
 		return template.render(page_list=page_list, urls=urls, dash=dash)
 
 """			if result['result_ok'] == True:

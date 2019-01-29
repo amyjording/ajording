@@ -26,7 +26,7 @@ class UsersController(object):
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
         return json.dumps(results)
 
-    def get(**kw):
+    def GET(*args, **kw):
         user = kw.get('email') or kw.get('_id') or kw.get('username')
         if user:
             if kw.get('email'):
@@ -41,10 +41,10 @@ class UsersController(object):
         return this_user
 
     def put(kw):
-        user = kw.get('user_token')
+        user_email = kw.get('usertoken')
         new_password = kw.get('password')
-        if user and new_password:
-            user = User.get_one({'email':email})
+        if user_email and new_password:
+            user = User.get_one({'email':user_email})
             hashed_new_password = encrypt_password(new_password)
             new_pass = {'password':hashed_new_password}
             results = user.update(new_pass)
@@ -52,9 +52,15 @@ class UsersController(object):
                 return json.dumps({'result_ok':True, 'success_msg':"Your account has been updated."})
             else:
                 return json.dumps({'result_ok':False, 'error_msg':"We couldn't update your account."})
+        elif kw.get('activated'):
+            user = User.get_one({'_id':kw.get('_id','')})
+            if user:
+                activated = user.update({'activated':True})
+                return True
+            else:
+                return json.dumps({'result_ok': False, 'error_msg':"We couldn't update your account."})
         else:
-            results = json.dumps({'result_ok':False, 'error_msg':"Oops, please enter a new password."})
-
+            results = json.dumps({'result_ok':False, 'error_msg':"Oops."})
         return results
 
     def destroy(kw):
@@ -88,10 +94,17 @@ class UsersController(object):
                     info = {'password': True, 'token':token}
                     msg = resend(user, info)
                     if msg == 202:
-                        return {'result_ok':True, 'success_msg': 'A new password token has been sent to your email address.'}
+                        return {'result_ok':True, 'success_msg': 'A new password link has been sent to your email address.'}
                     else:
-                        return {'result_ok': False, 'error_msg': "The token is invalid or has expired."}
-
+                        return {'result_ok': False, 'error_msg': "Something went wrong in resending your link."}
+                elif kw.get('resend') == 'activation':
+                    token = user.generate_confirmation_token()
+                    info = {'activation': True, 'token':token}
+                    msg = resend(user, info)
+                    if msg == 202:
+                        return {'result_ok':True, 'success_msg': 'A new activation link has been sent to your email address.'}
+                    else:
+                        return {'result_ok': False, 'error_msg': "Something went wrong in trying to resend your link."}
                 else:
                     return {'result_ok': False, 'error_msg': "Something went wrong. Please contact Amy for help."}
             else:

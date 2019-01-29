@@ -157,8 +157,8 @@ def user_login_recover_form():
 def user_reset_password(user_email):
     status = u"Choose a new password"
     html = f"""                  
-            <form id="loginHelp" method='POST' action="change-password">
-            <input type="hidden" name="user_token" value="{user_email}">
+            <form id="changePass" method='POST' action="change-password">
+            <input type="hidden" name="usertoken" value="{user_email}">
             <div class="form-group required">
                 <label class="control-label" for="userpassword">Password *</label>
                 <input type="password" class="form-control" name="password" placeholder="Password">
