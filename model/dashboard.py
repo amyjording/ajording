@@ -12,6 +12,7 @@ from controllers.api_controller import *
 
 secret = secrets()
 dash_db = get_db(collection_name=secret['collection3'])
+api_db = get_db(collection_name=secret['collection4'])
 
 
 class Dashboard(object):
@@ -22,12 +23,13 @@ class Dashboard(object):
 		if not self.this_dash:
 			msg = self.initialize()
 		self._id = self.this_dash.get('_id', None)
-		self.advice = advice()
-		self.bored = bored()
-		self.lovecraft = lovecraft()
-		self.pinned_advice = [pin_advice(advice) for advice in self.this_dash['advice']]
-		self.pinned_bored = [pin_activity(activity) for activity in self.this_dash['bored']]
-		self.pinned_lovecraft = [lovecraft(this_one) for this_one in self.this_dash['lovecraft']]
+		daily_apis = api_db.find_one()
+		self.advice = daily_apis['advice']
+		self.bored = daily_apis['activity']
+		self.lovecraft = daily_apis['old_one']
+		self.pinned_advice = [advice for advice in self.this_dash['advice']]
+		self.pinned_bored = [activity for activity in self.this_dash['bored']]
+		self.pinned_lovecraft = [this_one for this_one in self.this_dash['lovecraft']]
 		# self.taco = tacofancy() - taco response is quite detailed and involved. Maybe later.
 
 # to re-run the dashboard to fetch new data from APIs, once a day-ish, use python module schedule
@@ -40,7 +42,7 @@ class Dashboard(object):
 
 	def initialize(self):
 		dash_data = {
-				u'owner': self.owner,
+				u'owner': self.owner._id,
 				u'advice': [],
 				u'bored': [],
 				u'lovecraft': [],
@@ -54,23 +56,24 @@ class Dashboard(object):
 		except:
 			return False
 
+
 	def pin(self, pin_this):
 		if pin_this.startswith('advice'):
 			slip_id = pin_this.lstrip('advice-')
 			if slip_id not in self.this_dash['advice']:
-				push_this = {u'advice': slip_id}
+				push_this = {u'advice': pin_advice(slip_id)}
 			else:
 				return False
 		elif pin_this.startswith('bored'):
 			key = pin_this.lstrip('bored-')
 			if key not in self.this_dash['bored']:
-				push_this = {u'bored': key}
+				push_this = {u'bored': pin_activity(key)}
 			else:
 				return False
 		elif pin_this.startswith('love'):
 			this_one = pin_this.lstrip('love-')
 			if this_one not in self.this_dash['lovecraft']:
-				push_this = {u'lovecraft': this_one}
+				push_this = {u'lovecraft': lovecraft(this_id=this_one)}
 			else:
 				return False
 		else:
@@ -85,15 +88,15 @@ class Dashboard(object):
 	def unpin(self, unpin_this):
 		if unpin_this.startswith('advice'):
 			slip_id = unpin_this.lstrip('advice-')
-			pull_this = {u'advice': slip_id}
+			pull_this = {u'advice': {'slip_id': slip_id}}
 			pin_length = len(self.pinned_advice)
 		elif unpin_this.startswith('bored'):
 			key = unpin_this.lstrip('bored-')
-			pull_this = {u'bored': key}
+			pull_this = {u'bored': {'key':key}}
 			pin_length = len(self.pinned_bored)
 		elif unpin_this.startswith('love'):
 			this_one = unpin_this.lstrip('love-')
-			pull_this = {u'lovecraft': this_one}
+			pull_this = {u'lovecraft':{'id':this_one}}
 			pin_length = len(self.pinned_lovecraft)
 		else:
 			return False

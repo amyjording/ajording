@@ -18,12 +18,16 @@
     <nav>
       {% for page in page_list %}
           <svg style="display:none;">
-            <symbol id="{{ page }}" viewBox="0 0 100 100">
-                {% if page in urls %}
-                  <circle cx="50" cy="50" r="50" fill-opacity="0.5" />
-                {% else %}
-                  <a id="{{ page }}-link" href="/{{ page }}"><circle cx="50" cy="50" r="50" /></a>
-                {% endif %}
+            {% if page == 'dash' %}
+                <symbol id="demo" viewBox="0 0 100 100">
+            {% else %}
+                <symbol id="{{ page }}" viewBox="0 0 100 100">
+            {% endif %}
+            {% if page in urls %}
+                <circle cx="50" cy="50" r="50" fill-opacity="0.5" />
+            {% else %}
+                <a id="{{ page }}-link" href="/{{ page }}"><circle cx="50" cy="50" r="50" /></a>
+            {% endif %}
             <path fill="currentColor"/>
             </symbol>
           </svg>
@@ -38,16 +42,16 @@
       <div class="col-md-12">
         <div class="row colwrapper">
           <div class="col-xs-12 col-sm-3 col-md-3 navcol">
-            <svg class="sasssmall"><use xlink:href="#about" /></svg>
+            <svg class="sasssmall"><use href="#about" /></svg>
           </div>
           <div class="col-xs-12 col-sm-3 col-md-3 navcol">
-            <svg class="sasssmall sass--color"><use xlink:href="#work" /></svg>
+            <svg class="sasssmall sass--color"><use href="#work" /></svg>
           </div>
           <div class="col-xs-12 col-sm-3 col-md-3 navcol">
-            <svg class="sasssmall sass--invert"><use xlink:href="#demo" /></svg>
+            <svg class="sasssmall sass--invert"><use href="#demo" /></svg>
           </div>
           <div class="col-xs-12 col-sm-3 col-md-3 navcol">
-            <svg class="sasssmall sass--purple custom"><use xlink:href="#contact" /></svg>
+            <svg class="sasssmall sass--purple custom"><use href="#contact" /></svg>
           </div>
         </div>
       </div>

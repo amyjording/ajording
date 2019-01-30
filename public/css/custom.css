@@ -139,6 +139,10 @@ a{
   height: 200px;
 }
 
+.dashrow {
+  margin: 0 auto;
+}
+
 .mainpagecol {
   margin: 0 auto;
 }
@@ -266,12 +270,11 @@ h1, h2, h3, h4, p {
       border:2px solid #ccc;
       padding: 10px;
   }
+
 #saved, #unassigned {
   width: 350px;
-  height: 800px;
   padding: 5px 10px;
   margin-right: 3px;
-  background: #eee;
   text-align: center;
 }
 

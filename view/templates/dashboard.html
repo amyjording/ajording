@@ -6,9 +6,9 @@
   </div>
   <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
   <br>
-  <div class="row">
+  <div class="row dashrow">
     
-  <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+  <div class="col folio" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
     <h2>Today's Goodies:</h2>
      <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
         <div class="pinhead advice"><h2>Advice</h2></div>
@@ -26,37 +26,36 @@
       <div class="pinhead oldone"><h2>Old One</h2></div>
         <h2>{{dash.lovecraft['title']}}</h2>
         <p><img class="dash-image" src="{{dash.lovecraft['image']}}"></p>
-        <p><strong>{{dash.lovecraft['summary']}} <a href="{{dash.lovecraft['url']}}">Discover more</a></strong></p>
+        <p><strong>{{dash.lovecraft['snippet']}} <a href="{{dash.lovecraft['url']}}">Discover more</a></strong></p>
       </div>
   </div>
 
   <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
-  <div class="col" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
-    <p>Your pinned favorites:</p>
-      {% for pin_advice in dash.pinned_advice %}
-        <div draggable="true" id="advice-{{pin_advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
-          <div class="pinhead advice"><h2>Advice</h2></div>
-          <p>{{pin_advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
-          <p><img class="dash-image" src="{{pin_advice['image']}}"></p>
-       </div> 
+  <div class="col folio" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+    <h3>Your pinned favorites:</h3>
+      {% for dictionary in dash.pinned_advice %}
+            <div draggable="true" id="advice-{{dictionary['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
+              <div class="pinhead advice"><h2>Advice</h2></div>
+              <p>{{dictionary['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
+              <p><img class="dash-image" src="{{dictionary['image']}}"></p>
+           </div>
       {% endfor %}
-      {% for pin_bored in dash.pinned_bored %}
-       <div draggable="true" id="bored-{{pin_bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
-         <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
-            <h2>{{pin_bored['activity']}}</h2>
-            <p>Activity Type: {{pin_bored['type']}}</p>
-            <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
-            <p>Participants: {{pin_bored['participants']}}</p>
-        </div>
+      {% for bdictionary in dash.pinned_bored %}
+           <div draggable="true" id="bored-{{bdictionary['key']}}" class="pins" ondragstart="dragUser(this, event)">
+             <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
+                <h2>{{bdictionary['activity']}}</h2>
+                <p>Activity Type: {{bdictionary['type']}}</p>
+                <p><img class="dash-image" src="{{bdictionary['image']}}"></p>
+                <p>Participants: {{bdictionary['participants']}}</p>
+            </div>
       {% endfor %}
-      {% for pin_oldone in dash.pinned_lovecraft %}
-       <div draggable="true" id="love-{{pin_oldone['id']}}" class="pins" ondragstart="dragUser(this, event)">
-        <div class="pinhead oldone"><h2>Old One</h2></div>
-          <h2>{{pin_oldone['title']}}</h2>
-          <p><img class="dash-image" src="{{pin_oldone['image']}}"></p>
-          <p><strong>{{pin_oldone['summary']}} (<a href="{{pin_oldone['url']}}">Discover more</a>)</strong></p>
-        </div>
-
+      {% for odictionary in dash.pinned_lovecraft %}
+           <div draggable="true" id="love-{{odictionary['id']}}" class="pins" ondragstart="dragUser(this, event)">
+            <div class="pinhead oldone"><h2>Old One</h2></div>
+              <h2>{{odictionary['title']}}</h2>
+              <p><img class="dash-image" src="{{odictionary['image']}}"></p>
+              <p><strong>{{odictionary['snippet']}} (<a href="{{odictionary['url']}}">Discover more</a>)</strong></p>
+            </div>
       {% endfor %}
   </div>
   </div>

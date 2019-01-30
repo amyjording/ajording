@@ -59,7 +59,7 @@ def lovecraft(this_id=None):
 	try:
 		image = chosen.images[0]
 	except:
-		image = " No Image "
+		image = "http://arabianglimmer.com/images/wikia-lc.jpg"
 	snippet = (chosen.summary[:100] + '..') if len(chosen.summary) > 100 else chosen.summary
 	old_one = {'id': chosen.title, 'title':chosen.title, 'url': chosen.url, 'image': image, 'snippet': snippet}
 	# Returns a wiki page, with various specific options to use later.
@@ -81,7 +81,7 @@ def randomize_image(cat=None):
 	if cat == "advice":
 		random_image = random.choice(advice)
 	elif cat == "bored":
-		random_image = random.choice(advice)
+		random_image = random.choice(bored)
 	else:
 		random_image = None
 	return random_image

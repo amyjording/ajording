@@ -197,7 +197,7 @@ class Dashboards(object):
 		autoescape=select_autoescape(['html', 'xml'])
 		)
 
-		page_list = ['about', 'work', 'demo', 'contact']
+		page_list = ['about', 'work', 'dash', 'contact']
 		urls = cherrypy.url()
 		owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
 		if owner:
