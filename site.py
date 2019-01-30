@@ -35,6 +35,7 @@ class Root(object):
 
 if __name__ == '__main__':
 	cherrypy.tools.authenticate = cherrypy.Tool('before_handler', authenticate)
+	cherrypy.tools.redirect = cherrypy.Tool('before_handler', redirect)
 	cherrypy.config.update({
 		'global': {
 			'server.socket_host': '127.0.0.1',

@@ -26,6 +26,7 @@ class Demo(object):
 ##--- USER SECTION -- ##
 
 	@cherrypy.expose
+	@cherrypy.tools.redirect()
 	def index(self):
 		msg = "Signin or Signup"
 		status, html = user_login_signup(msg=msg)
@@ -35,7 +36,6 @@ class Demo(object):
 		if cherrypy.request.method == "POST":
 			# need to handle the post
 			msg = "Result of loggin in or signing up"
-			
 		return page
 
 	#@cherrypy.expose
@@ -44,12 +44,12 @@ class Demo(object):
 	#	return page
 	@cherrypy.expose
 	def get_in(self, method='GET', **kw):
-		msg = 'Signin or Signup'
-		status, html = user_login_signup(msg=msg)
-		content = user_account(status, html)
-		page = demo_template(content)
-		return page
-
+		cookie = cherrypy.request.cookie['session_token']
+		#msg = 'Signin or Signup'
+		#status, html = user_login_signup(msg=msg)
+		#content = user_account(status, html)
+		#page = demo_template(content)
+		return cookie
 	@cherrypy.expose
 	def signup(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
@@ -60,11 +60,11 @@ class Demo(object):
 
 	@cherrypy.expose
 	def login(self, method='GET', **kw):
-		if cherrypy.request.method == 'POST':
-			result = SessionsController.create(kw)
-			return result
-		else:
-			return json.dumps({'error_msg':'Something weird happened.'})
+		#if cherrypy.request.method == 'POST':
+		result = SessionsController.create(kw)
+		return result
+		#else:
+		#	return json.dumps({'error_msg':'Something weird happened.'})
 
 	
 	@cherrypy.expose    
@@ -200,11 +200,12 @@ class Dashboards(object):
 		page_list = ['about', 'work', 'demo', 'contact']
 		urls = cherrypy.url()
 		owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
-		if owner.activated == False:
-			link = Markup(f'<a href="/demo/identify?resend=activation&email={owner.email}" class="btn btn-primary label-bold">click here</a>')
-			msg = f"Please check your email to activate your account. If you need a new activation link, please {link}."
-			not_activated_template = env.get_template('dash_unactivated.html')
-			return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
+		if owner:
+			if owner.activated == False:
+				link = Markup(f'<a href="/demo/identify?resend=activation&email={owner.email}" class="btn btn-primary label-bold">click here</a>')
+				msg = f"Please check your email to activate your account. If you need a new activation link, please {link}."
+				not_activated_template = env.get_template('dash_unactivated.html')
+				return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
 		return template.render(page_list=page_list, urls=urls, dash=dash)

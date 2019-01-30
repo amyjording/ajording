@@ -43,6 +43,7 @@ $(document).ready(function() {
                         $form_login.find('input[type="password"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
                     } else {
+                        $('#loginMessage').addClass('alert-danger centered').text(data['error_msg'])
                         console.log(data['error_msg']);
                     }                            
                 },

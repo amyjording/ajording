@@ -156,11 +156,24 @@ def check_token(token=None):
 
 @cherrypy.tools.register('before_handler')
 def authenticate():
+    try:
+        cookie = cherrypy.request.cookie
+        check_for_token = cookie.get('session_token', None)
+        if check_for_token:
+            session_token = cookie['session_token'].value
+            user_from_session = User.get_one({'session_id': session_token})
+            if not user_from_session:
+                msg = expire_user_cookies(check_for_token)
+                raise cherrypy.HTTPRedirect("/demo")
+    except:
+        raise cherrypy.HTTPRedirect("/demo")
+
+@cherrypy.tools.register('before_handler')
+def redirect():
     cookie = cherrypy.request.cookie
     check_for_token = cookie.get('session_token', None)
     if check_for_token:
         session_token = cookie['session_token'].value
-        # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
-        user_from_session = user.get_one({'session_id': session_token})
-        if not user_from_session:
-            raise cherrypy.HTTPError(404)
+        user_from_session = User.get_one({'session_id': session_token})
+        if user_from_session:
+            raise cherrypy.HTTPRedirect("/dash")

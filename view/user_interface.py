@@ -51,15 +51,9 @@ def user_login_signup(msg=None):
                             <input class="full-width" type="submit" value="Login">
                         </p>
                     </form>
-                    <div id="signupMessage" class="alert collapse">
+                    <div id="loginMessage" class="alert collapse">
                         <p>{msg}</p>
-                    </div>
-                    <button>
-                      <svg class="closeform" viewbox="0 0 40 40">
-                            <a href="#0" class="close-form"><path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" /></a>
-                      </svg>
-                    </button>
-                    
+                    </div>                    
                 </div>
 
                 <div id="signup">

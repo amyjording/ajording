@@ -204,27 +204,26 @@ class User(object):
             return False
 
     def set_cookie(self):
-        _id = self._id
         expiration = datetime.datetime.now() + datetime.timedelta(days=90)
-        session_token = gen_key()
-        self.session_id = session_token
+        self.session_id = str(gen_key())
         update_user_session = self.update({'session_id': self.session_id})
         set_cookies = cherrypy.response.cookie
-        set_cookies['session_token'] = session_token
+        set_cookies['session_token'] = self.session_id
         set_cookies['session_token']['path'] = "/"
-        set_cookies['session_token']['domain'] = "amyjording.com"
+        #set_cookies['session_token']['domain'] = "amyjording.com"
         set_cookies['session_token']['expires'] = \
             expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")
-        return set_cookies   
+        return str(set_cookies['session_token'].value)
 
-    def remember_user(self):
-        this_ip = cherrypy.request.headers.get("X-Forwarded-For",'0.0.0.0')
-        update_user_session_data = self.update({'last_login': datetime.datetime.utcnow(),'ip': this_ip})
-        session_from_db = self.session_id
-        cookie = cherrypy.response.cookie
-        #cherrypy.incoming_hook({"text": "`request cookie`: {0}\n\n`response cookie` {1}".format( repr(cherrypy.request.cookie), repr(cherrypy.response.cookie) )})
-        session_in_cookie = cookie['session_token'].value
-        return session_in_cookie, session_from_db
+    def remember_user(self, cookie):
+        session_from_db = User.get_one({'session_id':cookie})
+
+        if session_from_db:
+            this_ip = cherrypy.request.headers.get("X-Forwarded-For",'0.0.0.0')
+            update_user_session_data = self.update({'last_login': datetime.datetime.utcnow(),'ip': this_ip})
+            return True
+        else:
+            return session_from_db, cookie
 
     def user_session(self):
         cherrypy.session['session_id'] = self.session_id   
@@ -236,11 +235,13 @@ class User(object):
     def login_user(self, submitted_password):
         password = submitted_password
         if self.validate_password(password) is True:
-            user_activated = self.activated
-            self.set_cookie()
-            session_in_cookie, session_in_db = self.remember_user()
-            self.user_session()
-            return json.dumps({'result_ok': True, 'activated':user_activated})
+            cookie = self.set_cookie()
+            msg = self.remember_user(cookie)
+            if msg:
+                self.user_session()
+                return json.dumps({'result_ok': True})
+            else:
+                return json.dumps({'result_ok': False, 'type':'session', 'error_msg':'We had a session mismatch. Please try again.'})
         else:
             return json.dumps({'result_ok': False, 'type': 'password', 'error_msg':"Incorrect password."})
             
@@ -298,6 +299,13 @@ class User(object):
 def check_length(text, max=60): 
     text = text[:max] 
     return text
+
+def expire_user_cookies(session_cookie):
+    cookies = cherrypy.response.cookie
+    cookies['session_token'] = session_cookie
+    cookies['session_token']['path'] = "/"
+    cookies['session_token']['expires'] = 0
+    cookies['session_token']['max-age'] = 0
 
 ## -- CRUD functions outside model for Controller -- ##
 
