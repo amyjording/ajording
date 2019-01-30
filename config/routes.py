@@ -127,6 +127,7 @@ class Demo(object):
 		return page 
 
 	@cherrypy.expose
+	@cherrypy.tools.authenticate()
 	def change_password(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
@@ -188,7 +189,7 @@ class Demo(object):
 class Dashboards(object):
 
 	@cherrypy.expose
-	@cherrypy.tools.authenticate
+	@cherrypy.tools.authenticate()
 	def index(self):
 		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
 		env = Environment(

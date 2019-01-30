@@ -151,3 +151,16 @@ def check_token(token=None):
         return user
     else:
         return False
+
+## -- Authentication
+
+@cherrypy.tools.register('before_handler')
+def authenticate():
+    cookie = cherrypy.request.cookie
+    check_for_token = cookie.get('session_token', None)
+    if check_for_token:
+        session_token = cookie['session_token'].value
+        # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
+        user_from_session = user.get_one({'session_id': session_token})
+        if not user_from_session:
+            raise cherrypy.HTTPError(404)

@@ -333,16 +333,3 @@ def confirm_token(token, expiration=8500):
         return False
     return email
 
-
-## -- Authentication
-
-def authenticated():
-    cookie = cherrypy.request.cookie
-    check_for_token = cookie.get('session_token', None)
-    if check_for_token:
-        session_token = cookie['session_token'].value
-        # fc_session_id = bcrypt.hashpw(session_token.encode('utf-8'), bcrypt.gensalt()) # session_token 
-        uid_by_session = user.get_one({'session_id': session_token})
-        if uid_by_session: # bcrypt.hashpw(session_token.encode('utf-8'), kw['fc_session_id'].encode('utf-8')) == kw['fc_session_id'].encode('utf-8'):
-            return True
-    return False
