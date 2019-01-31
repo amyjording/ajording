@@ -153,7 +153,11 @@ a{
   height: 100px;  
 }
 
-.navrow{
+.dashoptions{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 50px;
 }
 
 .colwrapper {
@@ -225,6 +229,61 @@ a{
   background: #b13131;
 }
 
+
+.dash-nav {
+  width: 90%;
+  margin: 0 auto;
+  height: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+.dash-nav ul {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+.dash-nav li {
+  list-style: none;
+  float: left;
+  padding-right: 20px;
+  display: inline;
+}
+.dash-nav a {
+  display: inline-block;
+  height: 50px;
+  margin: 0px;
+  padding: 2px 25px;
+  text-decoration: none;
+  border-radius: 30px;
+  line-height: 42px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #FFF;
+  -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
+
+.dash-nav li:nth-child(1) a {
+  background: #1D4350;
+}
+.dash-nav li:nth-child(1) a:hover {
+  background: #245363;
+  color: #fff;
+}
+
+.dash-nav li:nth-child(2) a {
+  background: #451e3e;
+}
+.dash-nav li:nth-child(2) a:hover {
+  background: #451e3e;
+}
+
+.show_hide {
+  display:none;
+}
 
 /* Dashboard section ---- check for duplicate / unecessary stylings! */ 
 

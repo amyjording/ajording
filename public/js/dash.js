@@ -53,3 +53,10 @@ function ajaxUnPin(element) {
                     } 
                 });
     }
+
+
+$('#hideshow').hide();
+
+$('.options').click(function () {
+    $("#hideshow").toggle("slide");
+});
