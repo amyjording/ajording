@@ -73,17 +73,24 @@ class Demo(object):
 		if not cherrypy.session.get('user_id') or not get_cookie.get('session_token'):
 			msg = 'You are not logged in. You may login here:'
 			status, html = user_logout(msg)
+			content = user_account(status, html)
 			page = demo_template(content)
 			return page		
 		else:
 			forget_user(user_id, user_cookie)
 			msg = "You have been logged out. Login again here:"
 			status, html = user_logout(msg)
+			content = user_account(status, html)
 			page = demo_template(content)
 		return page
 
 	@cherrypy.expose
 	def settings(self, method='GET', **kw):
+		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
+		env = Environment(
+		loader=PackageLoader('ajording', 'view/templates'),
+		autoescape=select_autoescape(['html', 'xml'])
+		)
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
 			return response

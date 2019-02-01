@@ -42,7 +42,7 @@ class UsersController(object):
 
     def put(kw):
         user_email = kw.get('usertoken')
-        new_password = kw.get('password')
+        new_password = kw.get('newpassword')
         if user_email and new_password:
             user = User.get_one({'email':user_email})
             hashed_new_password = encrypt_password(new_password)
@@ -60,7 +60,7 @@ class UsersController(object):
             else:
                 return json.dumps({'result_ok': False, 'error_msg':"We couldn't update your account."})
         else:
-            results = json.dumps({'result_ok':False, 'error_msg':"Oops."})
+            results = json.dumps({'result_ok':False, 'error_msg':user_email})
         return results
 
     def destroy(kw):

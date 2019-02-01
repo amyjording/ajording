@@ -45,6 +45,18 @@ h2 {
   border-color: #451e3e;
 }
 
+.btn-secondary {
+  color: #fff;
+  background: #A43931;
+  border-color: #A43931;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background: #A4314F;
+  border-color: #A4314F;
+}
+
 
 .sasssmall{
   width: 50px;
@@ -151,6 +163,18 @@ a{
   margin: 0 auto;
   text-align:center;  
   height: 100px;  
+}
+
+.useraccount {
+  height: 50px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.useraccountmessages {
+  width: 100%;
+  margin: 50px auto;
+  text-align: center;
 }
 
 .dashoptions{
@@ -365,6 +389,15 @@ p {
   -moz-transition: opacity 0.3s 0, visibility 0 0.3s;
   transition: opacity 0.3s 0, visibility 0 0.3s;
 }
+
+.user-modal.always-visible {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s 0, visibility 0 0;
+  -moz-transition: opacity 0.3s 0, visibility 0 0;
+  transition: opacity 0.3s 0, visibility 0 0;
+}
+
 .user-modal.is-visible {
   visibility: visible;
   opacity: 1;
@@ -527,6 +560,7 @@ p {
 }
 .form input[type=submit] {
   padding: 16px 0;
+  font-size: 1.5em;
   cursor: pointer;
   background: #1D4350;
   color: #FFF;
