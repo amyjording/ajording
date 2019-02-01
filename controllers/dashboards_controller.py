@@ -1,9 +1,5 @@
 import cherrypy, json
 from model.dashboard import *
-from controllers.sessions_controller import validate
-
-cherrypy.tools.validate = cherrypy.Tool('before_handler', validate(fetch=None))
-
 
 #@cherrypy.tools.validate(fetch=None)
 

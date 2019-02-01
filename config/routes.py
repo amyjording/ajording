@@ -77,8 +77,7 @@ class Demo(object):
 			page = demo_template(content)
 			return page		
 		else:
-			forget_user(user_id, user_cookie)
-			msg = "You have been logged out. Login again here:"
+			msg = SessionsController.destroy()
 			status, html = user_logout(msg)
 			content = user_account(status, html)
 			page = demo_template(content)
@@ -192,6 +191,13 @@ class Demo(object):
 			user = UsersController.get()
 			template = env.get_template('settings.html')
 			return template.render(page_list=page_list, urls=urls, user=user, msg=msg)
+
+	@cherrypy.expose
+	def get_cookie(self):
+		import json
+		cookie = cherrypy.request.cookie
+		cookie = cookie.get('session_token', None)
+		return cookie
 
 class Dashboards(object):
 

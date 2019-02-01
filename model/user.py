@@ -246,7 +246,7 @@ class User(object):
             return json.dumps({'result_ok': False, 'type': 'password', 'error_msg':"Incorrect password."})
             
     def forget_user(self):
-        user_cookie = get_cookie['session_token'].value
+        user_cookie = self.session_id
         cookies = cherrypy.response.cookie
         cookies['session_token'] = user_cookie
         cookies['session_token']['path'] = "/"

@@ -26,7 +26,7 @@ class UsersController(object):
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
         return json.dumps(results)
 
-    def GET(*args, **kw):
+    def GET(**kw):
         user = kw.get('email') or kw.get('_id') or kw.get('username')
         if user:
             if kw.get('email'):
@@ -36,8 +36,12 @@ class UsersController(object):
             elif kw.get('username'):
                 this_user = User.get_one({'username': kw['username']})
         else:
-            user = cherrypy.session.get('_id', None)
-            this_user = User.get_one({'_id':user})
+            check_for_token = get_cookie()
+            if check_for_token.get('session_token'):
+                session_token = check_for_token['session_token'].value
+                this_user = User.get_one({'session_id': session_token})
+            else:
+                this_user = None
         return this_user
 
     def put(kw):
@@ -143,37 +147,35 @@ def resend(user, info):
     else:
         return "Error, there was nothing to send."
 
+# -- Helper functions -- #
 
 def check_token(token=None):
     if token:
         email = confirm_token(token)
-        user = User.get_one({'email':email})
+        user = UsersController.GET({'email':email})
         return user
     else:
         return False
 
 ## -- Authentication
 
+def get_cookie():
+    cookie = cherrypy.request.cookie
+    check_for_token = cookie.get('session_token', None)
+    return check_for_token
+
 @cherrypy.tools.register('before_handler')
 def authenticate():
     try:
-        cookie = cherrypy.request.cookie
-        check_for_token = cookie.get('session_token', None)
-        if check_for_token:
-            session_token = cookie['session_token'].value
-            user_from_session = User.get_one({'session_id': session_token})
-            if not user_from_session:
-                msg = expire_user_cookies(check_for_token)
-                raise cherrypy.HTTPRedirect("/demo")
+        user = UsersController.GET()
+        if not user:
+            msg = expire_user_cookies(check_for_token)
+            raise cherrypy.HTTPRedirect("/demo")
     except:
         raise cherrypy.HTTPRedirect("/demo")
 
 @cherrypy.tools.register('before_handler')
 def redirect():
-    cookie = cherrypy.request.cookie
-    check_for_token = cookie.get('session_token', None)
-    if check_for_token:
-        session_token = cookie['session_token'].value
-        user_from_session = User.get_one({'session_id': session_token})
-        if user_from_session:
-            raise cherrypy.HTTPRedirect("/dash")
+    user_from_session = UsersController.GET()
+    if user_from_session:
+        raise cherrypy.HTTPRedirect("/dash")
