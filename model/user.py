@@ -210,7 +210,6 @@ class User(object):
         set_cookies = cherrypy.response.cookie
         set_cookies['session_token'] = self.session_id
         set_cookies['session_token']['path'] = "/"
-        #set_cookies['session_token']['domain'] = "amyjording.com"
         set_cookies['session_token']['expires'] = \
             expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")
         return str(set_cookies['session_token'].value)
@@ -229,7 +228,7 @@ class User(object):
         cherrypy.session['session_id'] = self.session_id   
         cherrypy.session['_id'] = self._id
         cherrypy.session['email'] = self.email
-        cherrypy.session['username'] =self.username
+        cherrypy.session['username'] = self.username
         return True
 
     def login_user(self, submitted_password):
@@ -252,11 +251,8 @@ class User(object):
         cookies['session_token']['path'] = "/"
         cookies['session_token']['expires'] = 0
         cookies['session_token']['max-age'] = 0
-        if self._id != cherrypy.session.get('_id'):
-            forget = user_db.update_one({'_id': cherrypy.session.get('_id')}, {'$set': {'session_id': ''}})
-        else:
-            forget = self.update({'session_id': ''})         
-        cherrypy.session.clear()
+        forget = self.update({'session_id': ''})
+        return True
 
 
 
