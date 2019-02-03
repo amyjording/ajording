@@ -1,6 +1,7 @@
 
 h1, h2, h3, h4, p {
   font-family: 'Gruppo', cursive;
+  padding: 10px;
 }
 
 h1 {
@@ -10,6 +11,12 @@ h1 {
 h2 {
   font-size: 40px;
 }
+
+p {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 
 .h4centered {
   text-align: center;
@@ -309,12 +316,13 @@ a{
   display:none;
 }
 
-/* Dashboard section ---- check for duplicate / unecessary stylings! */ 
+/* Static Pages */
 
-h1, h2, h3, h4, p {
-  font-family: 'Gruppo', cursive;
+.about {
+  text-align: justify;
 }
 
+/* Dashboard section ---- check for duplicate / unecessary stylings! */ 
 
 .pins {
   background-color: #fffdf9;
@@ -364,13 +372,6 @@ h1, h2, h3, h4, p {
 .clear {
   clear: both;
 }
-
-p {
-  font-size: 17px;
-  font-weight: 800;
-  padding: 10px;
-}
-
 
 /* User section */
 .user-modal {
