@@ -50,6 +50,7 @@ class Demo(object):
 		#content = user_account(status, html)
 		#page = demo_template(content)
 		return cookie
+		
 	@cherrypy.expose
 	def signup(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
@@ -69,8 +70,8 @@ class Demo(object):
 	
 	@cherrypy.expose    
 	def signout(self):
-		get_cookie = cherrypy.request.cookie
-		if not cherrypy.session.get('user_id') or not get_cookie.get('session_token'):
+		token = get_cookie()
+		if not cherrypy.session.get('_id') or not token:
 			msg = 'You are not logged in. You may login here:'
 			status, html = user_logout(msg)
 			content = user_account(status, html)
@@ -78,7 +79,7 @@ class Demo(object):
 			return page		
 		else:
 			msg = SessionsController.destroy()
-			status, html = user_logout(msg)
+			status, html = user_logout(msg.get('success_msg') or msg.get('error_msg'))
 			content = user_account(status, html)
 			page = demo_template(content)
 		return page
@@ -192,13 +193,6 @@ class Demo(object):
 			template = env.get_template('settings.html')
 			return template.render(page_list=page_list, urls=urls, user=user, msg=msg)
 
-	@cherrypy.expose
-	def get_cookie(self):
-		import json
-		cookie = cherrypy.request.cookie
-		cookie = cookie.get('session_token', None)
-		return cookie
-
 class Dashboards(object):
 
 	@cherrypy.expose
@@ -243,3 +237,32 @@ class Dashboards(object):
 				status, html = user_login_recover_form(msg, success, collapse)
 				content = user_account(status, html)
 				page = demo_template(content)"""
+
+""" helper functions to test cookies and sessions:
+
+	@cherrypy.expose
+	def get_cookie(self):
+		cookie = cherrypy.request.cookie
+		cookie = cookie.get('session_token')
+		cookie = cookie.value
+		return cookie
+
+	@cherrypy.expose
+	def setter(self):
+		email = "email@email.com"
+		cherrypy.session["email"] = email
+		return 'Variable stored in session object. Now check out the <a href="/demo/getter">getter function</a>'
+
+	@cherrypy.expose
+	def getter(self):
+		return "The email you set earlier, was " + cherrypy.session.get("email")
+
+	@cherrypy.expose
+	def delete_cookie(self):
+		cookie = "b'7KIYIvvDiIBgMeYl64AYzpG45k3ihMCmvv9gpGH4rWc='"
+		cookies = cherrypy.response.cookie
+		cookies['session_token'] = cookie
+		cookies['session_token']['path'] = "/"
+		cookies['session_token']['expires'] = 0
+		cookies['session_token']['max-age'] = 0
+		return cookies """

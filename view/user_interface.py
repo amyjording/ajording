@@ -117,9 +117,9 @@ def user_login_signup(msg=None):
 
 def user_logout(msg): #msg is either with session -> You have been logged out. or no session -> #You are not logged in. You may login here:
     status = u"Logged out"
-    html = f"""<div class="alert alert-success collapse collapse in">
+    html = f"""<div class="alert alert-success centered">
             {msg} 
-            <a href="/demo/get-in" class="btn btn-primary">Login</a>
+            <a href="/demo" class="btn btn-primary">Login</a>
             </div>"""
     return status, html
 

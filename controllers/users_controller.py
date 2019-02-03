@@ -26,7 +26,8 @@ class UsersController(object):
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
         return json.dumps(results)
 
-    def GET(**kw):
+    def GET(*args, **kw):
+        this_user = ''
         user = kw.get('email') or kw.get('_id') or kw.get('username')
         if user:
             if kw.get('email'):
@@ -36,12 +37,9 @@ class UsersController(object):
             elif kw.get('username'):
                 this_user = User.get_one({'username': kw['username']})
         else:
-            check_for_token = get_cookie()
-            if check_for_token.get('session_token'):
-                session_token = check_for_token['session_token'].value
-                this_user = User.get_one({'session_id': session_token})
-            else:
-                this_user = None
+            token = get_cookie()
+            if token:
+                this_user = User.get_one({'session_id': token})
         return this_user
 
     def put(kw):
@@ -160,9 +158,13 @@ def check_token(token=None):
 ## -- Authentication
 
 def get_cookie():
-    cookie = cherrypy.request.cookie
-    check_for_token = cookie.get('session_token', None)
-    return check_for_token
+    try:   
+        cookie = cherrypy.request.cookie
+        cookie = cookie.get('session_token')
+        cookie = cookie.value
+        return cookie
+    except:
+        return False
 
 @cherrypy.tools.register('before_handler')
 def authenticate():
