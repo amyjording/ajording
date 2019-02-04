@@ -17,6 +17,10 @@ p {
   font-weight: 600;
 }
 
+h4 {
+  font-size: 25px;
+  font-weight: 690;
+}
 
 .h4centered {
   text-align: center;
@@ -319,6 +323,7 @@ a{
 /* Static Pages */
 
 .about {
+  text-indent: 20px;
   text-align: justify;
 }
 
