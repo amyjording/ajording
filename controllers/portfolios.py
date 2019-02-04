@@ -2,9 +2,10 @@ import cherrypy
 import config
 from db.mongo import *
 
+secret = secrets()
+folio = get_db(collection_name=secret['collection1'])
 
 def get_portfolios():
-	folio = get_db(collection_name=config.collection1)
 	portfolios = folio.find()
 	return portfolios
 
