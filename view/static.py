@@ -61,27 +61,26 @@ def aboutme_template():
 					I learned the magic of HTML, and can't begin to tell you how utterly baffled I was at the concept of 
 					magically getting my picture from my computer out onto this page that was 'somewhere out there'. When I finally
 					grasped the concept of uploading, it opened up a world of possibilities in my mind.</h4><h4>In 2001, I took an internship with a local media company. There,
-					I applied my HTML and CSS knowledge on a few projects, and even became familiar with Adobe Premiere as well as
-					Macromedia Flash Player. I got a taste of understanding layers and got my feet wet with "keys". It was a great
-					learning experience over the course of 6 months.</h4>
-					<h4>In 2004, I discovered Wordpress. It opened my eyes to 
-					the concept of a template, and helped me to comprehend the idea of keeping data stored separately from
-					the visual interface. While at the time, I still mostly used it for blogging, I enjoyed exploring the 
-					nuts and bolts of how it worked. Eventually, I wound up buying my own hosting account in 2007, and consequently
+					I applied my HTML and CSS knowledge on a few projects, and even became familiar with Adobe Premiere, Adobe Photoshop, as well as
+					Macromedia Flash Player. That's where I learned about the magic of layers.</h4>
+					<h4>In 2004, I discovered Wordpress. It opened my eyes to the concept of a template, and helped me to comprehend the idea of keeping data stored separately from
+					the visual interface. While I used it for blogging, I could tell early on that it could be a lot more than just a blog. 
+					I was in the beginning stages of clueing into what dynamic content was.
+					Eventually, I wound up buying my own hosting account in 2007, and 
 					explored the nooks and crannies such as CPanel, phpMyAdmin, ftp, filemanager, etc.</h4></div>
 				</div>
 				<div class="row">
-					<div class="col about"><h4>Throughout the span of the 2000s, I mainly worked in some form of supportive position. 
-					From mastering Espresso (came in 5th at a Barista competition in Seattle back in 2000), to a temporary job at a banking 
-					call center, from an assistant at a Diode Laser manufacturer, to another at an Aerospace parts distributer; from working on storage facility security 
-					software maps with PaintShop Pro (2007), to Assistant Support Person for Kroger HQ (2008-2010), I've encompassed 
-					quite a variety of "on the job" skills.</h4>
+					<div class="col about"><h4>Throughout the span of the 2000s, I mainly worked in some form of a supportive position. 
+					From mastering Espresso (came in 5th at a Barista competition in Seattle back in 2000), to an assistant at a Diode 
+					Laser manufacturer (used Adobe InDesign for the brochures); from a helpful representative at an Aerospace parts
+					 distributer, to working on storage facility security software maps with PaintShop Pro (2007) and AutoCAD 
+					 (with a beginner course certification to boot); and finally to Assistant Support Person for Kroger HQ (2008-2010), 
+					 I've encompassed quite a variety of on-the-job skills.</h4>
 				</div>				
 				</div>
 				<div class="row">
 					<div class="col about"><h4>In 2010, I started a blog called Arabian Glimmer. I have always been a big fan of
-					the Arabian horse breed, and had a knack for remembering hundreds of horses and even memorizing pedigrees. So
-					I decided to take this to a more public forum and follow my heart.</h4>
+					the Arabian horse breed, and had a knack for remembering hundreds of horses and memorizing scores of pedigrees.</h4>
 					<h4> By 2011, I wanted to gain a better understanding
 					of website/user interface styling, and so I decided to basically reverse engineer an existing Wordpress template
 					and make it my own, while learning different styling techniques.</h4>
@@ -91,7 +90,8 @@ def aboutme_template():
 					<div class="col about"><h4>From 2012 through 2017, I was essentially on a bit of a pre mid-life sabbatical. I 
 					immersed myself in sustainable farm-life and the concept of Permaculture while doing an internship with a
 					non-profit called World Steward, in the Columbia Gorge. I hauled hay, learned how to be a steward of the forest (Scotch broom is 
-		            awful!), and grew a wide variety of crops. <br /><br />
+		            awful and invasive - with a seed life of 80 years!), and grew a wide variety of crops.</h4>
+		            <h4>
 		            Eventually, I came back to the regular working world for a short time and worked as seasonal Quality Assurance inspector
 		            for a print production company, and not long after that, enjoyed three years in Ensenada, BC, Mexico.</h4>
 		            </div>
@@ -108,7 +108,7 @@ def aboutme_template():
 					<h4> After about three months of dead silence, I 
 					was completely surprised with a response from a great Non-profit company, Keystone Accountability. 
 					I started as a "Tech Fellow" (what I affectionately dub, a "Pre-Junior Developer"), and felt the sting of hot coals 
-					on my digital feet as I faced my trial by fire, first into Python, Cherrypy, Drupal, Bootstraps, Ajax, and JavaScript. </h4>
+					on my digital feet as I faced my trial by fire into Python, Cherrypy, Drupal, Bootstraps, Ajax, and JavaScript. </h4>
 					<h4>
 					I learned a great deal about the Linux system through SSH (though I began most of my learning with Windows, so I had extra 
 					hills to climb), learned the importance of staging and development, wrestled with version control with Github, and grew to
