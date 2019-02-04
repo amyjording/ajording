@@ -3,7 +3,7 @@
   
   <div class="row logorow">
     <div class="col"><h1>Your Dashboard</h1>
-      <h4>Drag and drop modules from right to left to pin and left to right to unpin.
+      <p>Drag and drop modules from right to left to pin and left to right to unpin.</p>
     </div>
   </div>
   <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
@@ -29,7 +29,7 @@
         <p><img class="dash-image" src="{{dash.advice['image']}}"></p><!-- <img src="https://media2.giphy.com/media/l41YpZerdLWFRKkJa/200w.webp?cid=3640f6095c33ce8b5735726f779db88f"> -->
      </div>        
      <div draggable="true" id="bored-{{dash.bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
-       <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
+       <div class="pinhead bored"><h2>Activity</h2><p>a cure for boredom</p></div>
           <h2>{{dash.bored['activity']}}</h2>
           <p>Activity Type: {{dash.bored['type']}}</p>
           <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
@@ -37,7 +37,7 @@
       </div>
      <div draggable="true" id="love-{{dash.lovecraft['id']}}" class="pins" ondragstart="dragUser(this, event)">
       <div class="pinhead oldone"><h2>Old One</h2></div>
-        <h2>{{dash.lovecraft['title']}}</h2>
+        <h3  class="label-bold">{{dash.lovecraft['title']}}</h3>
         <p><img class="dash-image" src="{{dash.lovecraft['image']}}"></p>
         <p><strong>{{dash.lovecraft['snippet']}} <a href="{{dash.lovecraft['url']}}">Discover more</a></strong></p>
       </div>
@@ -55,7 +55,7 @@
       {% endfor %}
       {% for bdictionary in dash.pinned_bored %}
            <div draggable="true" id="bored-{{bdictionary['key']}}" class="pins" ondragstart="dragUser(this, event)">
-             <div class="pinhead bored"><h2>Activity</h2><h4>a cure for boredom</h4></div>
+             <div class="pinhead bored"><h2>Activity</h2><p>a cure for boredom</p></div>
                 <h2>{{bdictionary['activity']}}</h2>
                 <p>Activity Type: {{bdictionary['type']}}</p>
                 <p><img class="dash-image" src="{{bdictionary['image']}}"></p>
@@ -65,7 +65,7 @@
       {% for odictionary in dash.pinned_lovecraft %}
            <div draggable="true" id="love-{{odictionary['id']}}" class="pins" ondragstart="dragUser(this, event)">
             <div class="pinhead oldone"><h2>Old One</h2></div>
-              <h2>{{odictionary['title']}}</h2>
+              <h3 class="label-bold">{{odictionary['title']}}</h3>
               <p><img class="dash-image" src="{{odictionary['image']}}"></p>
               <p><strong>{{odictionary['snippet']}} (<a href="{{odictionary['url']}}">Discover more</a>)</strong></p>
             </div>
