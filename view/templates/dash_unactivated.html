@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
   
-  <div class="col">
-    <div class="row">
-      <div class="col"><h1>Your Dashboard</h1></div>
+  <div class="row logorow">
+    <div class="col"><h1>Your Dashboard</h1>
     </div>
-    <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
-    <div class="row logorow">
-      <div class="col"><h3>{{ msg|safe }}</h3></div>
+  </div>
+  <div class="row dashoptions">
+    <div class="col">
+      <nav class="dash-nav">
+        <h3>{{ msg|safe }}</h3>
+            <a href="#" class="options" style="color:black; float: left; margin-left: -10px;">More options</a>
+            <ul id="hideshow">
+                <li><a class="signin" id="userAccount" href="/demo/settings">Account Settings</a> </li>
+                <li><a class="signup" id="Logout" href="/demo/signout">Logout</a></li>
+                <li><a href="#" class="options" style="color:black; float: right;">Close</a></li>
+            </ul>
+        </nav>
     </div>
-    <div class="row">
-      <div class="col" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
-        <h2>Today's Goodies:</h2>
+  </div>
+  <div class="row unactivated">
+    
+  <div class="col folio" id="unassigned" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+        <h3>Today's Goodies:</h3>
       </div>
 
     <!-- Need to figure out how to add possibly id's dynamically as the pins generate from the model -->
-    <div class="col" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
-      <p>Your pinned favorites:</p>
+    <div class="col folio" id="saved" ondrop="dropUser(this, event)" ondragenter="return false" ondragover="return false">
+      <h3>Your pinned favorites:</h3>
 
     </div>
     </div>

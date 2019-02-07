@@ -11,6 +11,11 @@ from controllers.dashboards_controller import *
 from view.demo_view import *
 from view.work_view import *
 from view.user_interface import *
+from jinja2 import Environment, PackageLoader, select_autoescape, Markup
+env = Environment(
+loader=PackageLoader('ajording', 'view/templates'),
+autoescape=select_autoescape(['html', 'xml'])
+)
 
 
 class Work(object):
@@ -53,9 +58,12 @@ class Demo(object):
 		
 	@cherrypy.expose
 	def signup(self, method='GET', **kw):
-		if cherrypy.request.method == 'POST':
+		#if cherrypy.request.method == 'POST':
+		if kw.get('email'):
 			result = UsersController.create(kw)
-			return result
+			if result.get('result_ok') == True:
+				user_login = SessionsController.create({'email':result['email'], 'password':result['password']})
+				return user_login
 		else:
 			return 'Something weird happened.'
 
@@ -86,11 +94,7 @@ class Demo(object):
 
 	@cherrypy.expose
 	def settings(self, method='GET', **kw):
-		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
-		env = Environment(
-		loader=PackageLoader('ajording', 'view/templates'),
-		autoescape=select_autoescape(['html', 'xml'])
-		)
+
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
 			return response
@@ -98,7 +102,8 @@ class Demo(object):
 			page_list = ['about', 'work', 'demo', 'contact']
 			urls = cherrypy.url()
 			msg = ''
-			user = UsersController.GET()
+			kw = {'cookie':True}
+			user = UsersController.GET(kw)
 			template = env.get_template('settings.html')
 		return template.render(page_list=page_list, urls=urls, msg=msg, user=user)
 			
@@ -184,26 +189,23 @@ class Demo(object):
 	def delete(self, **kw):
 		deleted_result = UsersController.destroy(kw)
 		if deleted_result == True:
-			raise cherrypy.HTTPRedirect("https://www.amyjording.com")
+			msg = SessionsController.destroy()
+			raise cherrypy.HTTPRedirect("/")
 		else:
 			msg = deleted_result['error_msg']
 			page_list = ['about', 'work', 'demo', 'contact']
 			urls = cherrypy.url()
-			user = UsersController.get()
+			kw = {'cookie':True}
+			user = UsersController.GET(kw)
 			template = env.get_template('settings.html')
 			return template.render(page_list=page_list, urls=urls, user=user, msg=msg)
+
 
 class Dashboards(object):
 
 	@cherrypy.expose
 	@cherrypy.tools.authenticate()
 	def index(self):
-		from jinja2 import Environment, PackageLoader, select_autoescape, Markup
-		env = Environment(
-		loader=PackageLoader('ajording', 'view/templates'),
-		autoescape=select_autoescape(['html', 'xml'])
-		)
-
 		page_list = ['about', 'work', 'dash', 'contact']
 		urls = cherrypy.url()
 		owner = UsersController.GET({'_id':cherrypy.session.get('_id', None)})
@@ -213,30 +215,12 @@ class Dashboards(object):
 				msg = f"Please check your email to activate your account. If you need a new activation link, please {link}."
 				not_activated_template = env.get_template('dash_unactivated.html')
 				return not_activated_template.render(page_list=page_list, urls=urls, msg=msg)
+		else:
+			return cherrypy.session.get('_id', None)
 		dash = DashboardController.GET(self)
 		template = env.get_template('dashboard.html')
 		return template.render(page_list=page_list, urls=urls, dash=dash)
 
-"""			if result['result_ok'] == True:
-				if result.get('success_msg'):
-					msg = result['success_msg']
-					success = 'success'
-					collapse = 'in'
-					status, html = user_login_recover_form(msg, success, collapse)
-					content = user_account(status, html)
-					page = demo_template(content)
-				else:
-					status, html = invalid_token()
-					content = user_account(status, html)
-					page = demo_template(content)
-				return result
-			else:
-				msg = result.get('error_msg', 'Something happened')
-				danger = 'danger'
-				collapse = 'in'
-				status, html = user_login_recover_form(msg, success, collapse)
-				content = user_account(status, html)
-				page = demo_template(content)"""
 
 """ helper functions to test cookies and sessions:
 
@@ -265,4 +249,16 @@ class Dashboards(object):
 		cookies['session_token']['path'] = "/"
 		cookies['session_token']['expires'] = 0
 		cookies['session_token']['max-age'] = 0
-		return cookies """
+		return cookies 
+
+		@cherrypy.expose
+	def check_pass(self, **kw):
+		user = UsersController.GET(kw)
+		if user:
+			password = kw['password']
+			msg = user.validate_password(password)
+			if msg:
+				return "Victory!"
+		else:
+			msg = "No go"
+		return msg """

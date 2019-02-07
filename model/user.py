@@ -79,8 +79,7 @@ class User(object):
     def delete_user(self):
         try:
             delete = user_db.delete_one({'_id':self._id})
-            if delete.matched_count > 0:
-                return True
+            return True
         except pymongo.errors.PyMongoError as e:
             return False
 
@@ -178,7 +177,7 @@ class User(object):
                     u'password': hashpass,
                     u'name': name,
                     u'activated': False,
-                    u'session_id': u'',
+                    u'session_id': '',
                     u'ip': '',
                     u'following':[],
                     u'followers':[],
@@ -187,7 +186,7 @@ class User(object):
 
             add_new_user = user_db.insert_one(imported_user_data)
             
-            return {'result_ok': True, 'email': self.email, 'name': self.username, 'password':self.password, 'hashed': hashpass, 'success_msg':"Please check your email to verify your account."}
+            return {'result_ok': True, 'email': self.email, 'name': self.username, 'password': self.password, 'success_msg':"Please check your email to verify your account."} #'email': self.email, 'name': self.username,
         else:
             return {'result_ok': False, 'entry': try_save['entry'], 'error_msg': try_save['error_msg']}
 
@@ -198,7 +197,7 @@ class User(object):
 
     def validate_password(self, submitted_password):
         hashedpass = self.password
-        if bcrypt.hashpw(submitted_password.encode('utf-8'), hashedpass) == hashedpass:
+        if bcrypt.checkpw(submitted_password.encode('utf-8'), hashedpass) == True:
             return True
         else:
             return False
@@ -206,13 +205,17 @@ class User(object):
     def set_cookie(self):
         expiration = datetime.datetime.now() + datetime.timedelta(days=90)
         self.session_id = str(gen_key())
-        update_user_session = self.update({'session_id': self.session_id})
         set_cookies = cherrypy.response.cookie
         set_cookies['session_token'] = self.session_id
         set_cookies['session_token']['path'] = "/"
         set_cookies['session_token']['expires'] = \
             expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")
-        return str(set_cookies['session_token'].value)
+        return set_cookies['session_token'].value
+
+    def update_cookie(self, cookie):
+        update_user_session = self.update({'session_id': cookie})
+        return True
+
 
     def remember_user(self, cookie):
         session_from_db = User.get_one({'session_id':cookie})
@@ -224,25 +227,35 @@ class User(object):
         else:
             return session_from_db, cookie
 
-    def user_session(self):
-        cherrypy.session['session_id'] = self.session_id   
+    def user_session(self, session_cookie):
+        cherrypy.session['session_id'] = session_cookie  
         cherrypy.session['_id'] = self._id
         cherrypy.session['email'] = self.email
         cherrypy.session['username'] = self.username
         return True
 
     def login_user(self, submitted_password):
-        password = submitted_password
-        if self.validate_password(password) is True:
+        if self.validate_password(submitted_password) is True:
             cookie = self.set_cookie()
+            store_cookie = self.update_cookie(cookie)
             msg = self.remember_user(cookie)
             if msg:
-                self.user_session()
+                self.user_session(cookie)
                 return json.dumps({'result_ok': True})
             else:
                 return json.dumps({'result_ok': False, 'type':'session', 'error_msg':'We had a session mismatch. Please try again.'})
         else:
             return json.dumps({'result_ok': False, 'type': 'password', 'error_msg':"Incorrect password."})
+
+    def after_signup(self):
+        cookie = self.set_cookie()
+        msg = self.remember_user(cookie)
+        if msg:
+            self.user_session()
+            result = True
+        else:
+            result = False
+        return result      
             
     def forget_user(self):
         user_cookie = self.session_id

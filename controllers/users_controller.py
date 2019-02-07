@@ -20,15 +20,14 @@ class UsersController(object):
         username = kw['username']
         email = kw['email'].lower()
         password = kw['password']
-
         user = User.new(username, email, password) 
         results = user.save()
         #params = {'name':kw['name'], 'email': email, 'password': password, 'username': username}
-        return json.dumps(results)
+        return results
 
-    def GET(*args, **kw):
+    def GET(kw):
+        user = kw.get('email') or kw.get('_id') or kw.get('username') or kw.get('cookie')
         this_user = ''
-        user = kw.get('email') or kw.get('_id') or kw.get('username')
         if user:
             if kw.get('email'):
                 this_user = User.get_one({'email':kw['email']})
@@ -36,10 +35,12 @@ class UsersController(object):
                 this_user = User.get_one({'_id':kw['_id']})
             elif kw.get('username'):
                 this_user = User.get_one({'username': kw['username']})
+            elif kw.get('cookie'):
+                token = get_cookie()
+                if token:
+                    this_user = User.get_one({'session_id': token}) 
         else:
-            token = get_cookie()
-            if token:
-                this_user = User.get_one({'session_id': token})
+            this_user = ''
         return this_user
 
     def put(kw):
@@ -66,14 +67,17 @@ class UsersController(object):
         return results
 
     def destroy(kw):
-        user = User.get_one({'email':kw.get('email','')})
-        if user:
-            delete_result = user.delete_user()
-            if delete_result == True:
-                cherrypy.session.clear()
-                return True
-            else:
-                return json.dumps({'result_ok':False, 'error_msg':"Something went wrong. Try again or contact Amy for help."})
+        token = get_cookie()
+        if token:
+            user = User.get_one({'session_id': token}) 
+            if user:
+                delete_result = user.delete_user()
+                if delete_result == True:
+                    return True
+                else:
+                    return {'result_ok':False, 'error_msg':"Something went wrong. Try again or contact Amy for help."}
+        else:
+            return {'result_ok':False, 'error_msg': 'User not found'}
 
 
 ## -- Managing User credentials -- #
@@ -122,7 +126,7 @@ class UsersController(object):
 
 def resend(user, info):
     email = user.email
-    name = user.name or "Portfolio Fan"
+    name = user.username or "Portfolio Fan"
     url = 'https://www.amyjording.com'
         
     if info.get('username'):
@@ -169,7 +173,8 @@ def get_cookie():
 @cherrypy.tools.register('before_handler')
 def authenticate():
     try:
-        user = UsersController.GET()
+        kw = {'cookie':True}
+        user = UsersController.GET(kw)
         if not user:
             msg = expire_user_cookies(check_for_token)
             raise cherrypy.HTTPRedirect("/demo")
@@ -178,6 +183,7 @@ def authenticate():
 
 @cherrypy.tools.register('before_handler')
 def redirect():
-    user_from_session = UsersController.GET()
+    kw = {'cookie':True}
+    user_from_session = UsersController.GET(kw)
     if user_from_session:
         raise cherrypy.HTTPRedirect("/dash")
