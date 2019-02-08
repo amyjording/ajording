@@ -58,12 +58,13 @@ class Demo(object):
 		
 	@cherrypy.expose
 	def signup(self, method='GET', **kw):
-		#if cherrypy.request.method == 'POST':
-		if kw.get('email'):
+		if cherrypy.request.method == 'POST':
 			result = UsersController.create(kw)
 			if result.get('result_ok') == True:
 				user_login = SessionsController.create({'email':result['email'], 'password':result['password']})
 				return user_login
+			else:
+				return json.dumps(result)
 		else:
 			return 'Something weird happened.'
 

@@ -104,6 +104,19 @@ jQuery(document).ready(function($){
       $form_signup.find('input[name="password"]').removeClass('has-error').next('span').removeClass('is-visible');
     });
 
+    $form_login.find('input[type="email"]').keyup(function(event){
+      $form_login.find('input[type="email"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
+
+    $form_login.find('input[type="text"]').keyup(function(event){
+      $form_login.find('input[type="text"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
+
+    $form_login.find('input[type="password"]').keyup(function(event){
+      $form_login.find('input[name="password"]').removeClass('has-error').next('span').removeClass('is-visible');
+    });
+
+
   //REMOVE THIS - it's just to show error messages 
   //$form_login.find('input[type="submit"]').on('click', function(event){
   //  event.preventDefault();

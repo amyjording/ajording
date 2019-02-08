@@ -16,6 +16,7 @@ def header_template():
 					<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 					<script src="/static/js/ajax.js"></script>
 					<script src="/static/js/join.js"></script>
+					<script src="/static/js/deleteaccount.js"></script>
 				</head>
 				<body>"""
 	return template

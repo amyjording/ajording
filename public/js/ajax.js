@@ -36,11 +36,11 @@ $(document).ready(function() {
                 success : function(data) {
                     if (data['result_ok'] == true){
                         window.location.href = '/dash';
-                    } else if (data['result_ok'] == false && data['entry'] == 'email') {
+                    } else if (data['result_ok'] == false && data['type'] || data['entry'] == 'email') {
                         $form_login.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
-                    } else if (data['result_ok'] == false && data['entry'] == 'password') {
-                        $form_login.find('input[type="password"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
+                    } else if (data['result_ok'] == false && data['type'] == 'password') {
+                        $("#signin-password").toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
                     } else {
                         $('#loginMessage').addClass('alert-danger centered').text(data['error_msg'])
@@ -77,8 +77,8 @@ $(document).ready(function() {
         event.preventDefault();
             $.ajax({
                 type: "POST",
-                url: '/demo/signup',
                 data: $(this).serialize(),
+                url: '/demo/signup',
                 dataType: 'json',
                 success : function(data) {
                     if (data['result_ok'] == true){
@@ -103,7 +103,6 @@ $(document).ready(function() {
                         return false;
                     }
                     // else continue
-                    console.log('ajax.error');
                 },
                 statusCode: {
                     404: function(response) {

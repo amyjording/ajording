@@ -43,8 +43,9 @@ def user_login_signup(msg=None):
                         <p class="fieldset">
                             <label class="image-replace password" for="signin-password">Password</label>
                             <input class="full-width has-padding has-border toggle-pass" id="signin-password" type="password" name="password" placeholder="Password">
-                            <a href="#0" class="hide-password">Show</a>
                             <span class="error-message">Wrong password! Try again.</span>
+                            <a href="#0" class="hide-password">Show</a>
+                            
                         </p>
                         <p class=""><a style="float:right; margin-top: -15px; margin-bottom: 15px;" href="/demo/identify">Forgot your password?</a></p>
                         <p class="fieldset">
@@ -128,6 +129,8 @@ def user_login_recover_form():
     html = f"""                                    
         <h4 class="h4centered">Can't remember your login credentials? No problem.</h4>
         <form id="loginHelp" class="recovery" method="POST">
+        <a href="/demo" class="btn btn-primary label-bold" style="float:right; margin-top:-15px; margin-right:-15px;">Go Back</a>
+        <br>
             <div class="form-group required radio">
                 <div class="centered">
                 <label class="right-margin label-bold"><input type="radio" name="resend" value="resetpass"> Recover Password </label>
