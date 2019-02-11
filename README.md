@@ -18,11 +18,11 @@ check that it refreshes properly.
 Python Modules - Pip install the following:
 
 ```
-Cherrypy 	 - v 18.1.0 - Framework
-Pymongo  	 - v 3.7.2  - Database
-Bcrypt   	 - v 3.1.6  - Encryption
+Cherrypy     - v 18.1.0 - Framework
+Pymongo      - v 3.7.2  - Database
+Bcrypt       - v 3.1.6  - Encryption
 itsdangerous - v 1.1.0  - Serializing
-jinja2 		 - v 2.10   - Templates
+jinja2       - v 2.10   - Templates
 bs4          - v 0.0.1  - Webscraping
 wikia        - v 1.4.3  - Wikia wrapper
 SendGrid     - v 5.6.0  - Email Dispatch
@@ -43,5 +43,5 @@ SendGrid     - v 5.6.0  - Email Dispatch
 
 ## Acknowledgments
 
-* Login & Signup credits: Claudia Romano [CodyHouse](https://codyhouse.co/) & [Emil]((https://codepen.io/emilcarlsson/pen/XbZprZ)
+* Login & Signup credits: Claudia Romano [CodyHouse](https://codyhouse.co/) & [Emil](https://codepen.io/emilcarlsson/pen/XbZprZ)
 
