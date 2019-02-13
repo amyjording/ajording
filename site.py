@@ -34,6 +34,8 @@ class Root(object):
 
 
 if __name__ == '__main__':
+	from cherrypy._cpnative_server import CPHTTPServer
+	cherrypy.server.httpserver = CPHTTPServer(cherrypy.server)
 	cherrypy.tools.authenticate = cherrypy.Tool('before_handler', authenticate)
 	cherrypy.tools.redirect = cherrypy.Tool('before_handler', redirect)
 	cherrypy.server.ssl_certificate = "cert.pem"

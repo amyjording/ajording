@@ -108,4 +108,7 @@ mongo.pydb/mongo.py
 db/mongo.py
 /sessions
 /notessendgrid.env
-/sendgrid.env
+/sendgrid.envcert.pem
+privkey.pem
+cert.pem
+sendgrid.env
