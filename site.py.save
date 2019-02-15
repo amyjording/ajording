@@ -34,29 +34,28 @@ class Root(object):
 
 
 if __name__ == '__main__':
-	cherrypy.tools.authenticate = cherrypy.Tool('before_handler', authenticate)
-	cherrypy.tools.redirect = cherrypy.Tool('before_handler', redirect)
-	# cherrypy.server.ssl_certificate = "cert.pem"
-	# cherrypy.server.ssl_private_key = "privkey.pem"
+	from cherrypy._cpnative_server import CPHTTPServer
+	cherrypy.server.httpserver = CPHTTPServer(cherrypy.server)
+	cherrypy.tools.authenticate = cherrypy.Tool('before_handler', authenticate)	cherrypy.tools.redirect = cherrypy.Tool('before_handler', redirect)
+	cherrypy.server.ssl_certificate = "cert.pem"
+	cherrypy.server.ssl_private_key = "privkey.pem"
 	cherrypy.config.update({
 		'global': {
-			'environment':'production',
-			'server.socket_host': '127.0.0.1',
+			'server.socket_host': '0.0.0.0',
 			'server.socket_port': 8080,
 			'server.thread_pool': 30,
-			'error_page.404': Root.error_page_404,
-			'request.show_tracebacks':True
+			'error_page.404': Root.error_page_404
 		}
 	})
 
 	conf = {
 		'/': {
-		'tools.sessions.on': True,
+			'tools.sessions.on': True,
 	        'tools.sessions.storage_type': "File",
 	        'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
 	        'tools.sessions.storage_path': "sessions", #"/Users/ADMIN/Python/ajording/sessions",
 	        'tools.sessions.timeout' : 129600, # 90 days in minutes
-		'tools.staticdir.root': os.path.abspath(os.getcwd())
+			'tools.staticdir.root': os.path.abspath(os.getcwd())
 		},
 		'/static': {
 			'tools.staticdir.on': True,
@@ -70,7 +69,4 @@ if __name__ == '__main__':
 	ajording.dash = Dashboards()
 	ajording.update = DashboardController()
 
-cherrypy.tree.mount(ajording, "/", conf)
-if hasattr(cherrypy.engine, 'block'):
-	cherrypy.engine.start()
-	cherrypy.engine.block()
+cherrypy.quickstart(ajording, "/", conf)
