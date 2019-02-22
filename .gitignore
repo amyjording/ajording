@@ -112,3 +112,4 @@ db/mongo.py
 privkey.pem
 cert.pem
 sendgrid.env
+/public/images
