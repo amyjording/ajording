@@ -1,5 +1,5 @@
 
-h1, h2, h3, h4, p {
+h1, h2, h3, h4, h5 p {
   font-family: 'Gruppo', cursive;
   padding: 10px;
 }
@@ -19,6 +19,10 @@ h3 {
 h4 {
   font-size: 25px;
   font-weight: 600;
+}
+
+h5 {
+  font-size: 22px;
 }
 
 p {
