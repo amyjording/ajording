@@ -202,6 +202,7 @@ class Demo(object):
 			return template.render(page_list=page_list, urls=urls, user=user, msg=msg)
 
 
+
 class Dashboards(object):
 
 	@cherrypy.expose
@@ -231,6 +232,11 @@ class Dashboards(object):
 		cookie = cookie.get('session_token')
 		cookie = cookie.value
 		return cookie
+
+	@cherrypy.expose
+	def get_session(self):
+		user = cherrypy.session.get('username', None)
+		return user
 
 	@cherrypy.expose
 	def setter(self):

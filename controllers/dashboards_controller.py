@@ -1,5 +1,6 @@
 import cherrypy, json
 from model.dashboard import *
+from controllers.users_controller import *
 
 #@cherrypy.tools.validate(fetch=None)
 
@@ -40,7 +41,7 @@ class DashboardController(object):
             msg = {'result_ok': True, 'success_msg':'Dashboard deleted.'}
 
 def verify_dash():
-    owner = cherrypy.session.get('_id', None)
+    owner = UsersController.GET({'cookie':True})
     if not owner:
         msg = {'result_ok': False, 'error_msg': 'You are not authorized to do this.'}
         return msg

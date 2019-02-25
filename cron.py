@@ -12,6 +12,10 @@ advice = advice()
 activity = bored()
 old_one = lovecraft()
 this_record = api_db.find_one()
-this_id = this_record['_id']
-msg = api_db.update_one({'_id':this_id},{'$set':{'advice':advice, 'activity':activity, 'old_one':old_one}})
-print(True)
+if this_record:
+	this_id = this_record['_id']
+	msg = api_db.update_one({'_id':this_id},{'$set':{'advice':advice, 'activity':activity, 'old_one':old_one}})
+	print(True)
+else:
+	msg = api_db.insert_one({'advice':advice, 'activity':activity, 'old_one':old_one})
+	print("New insert")

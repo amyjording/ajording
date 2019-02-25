@@ -19,7 +19,7 @@ class Dashboard(object):
 
 	def __init__(self, owner):
 		self.owner = owner #User instance pass through at login
-		self.this_dash = dash_db.find_one({'owner':self.owner})
+		self.this_dash = dash_db.find_one({'owner':self.owner._id})
 		if not self.this_dash:
 			msg = self.initialize()
 		self._id = self.this_dash.get('_id', None)
