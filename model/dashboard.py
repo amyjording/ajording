@@ -21,7 +21,7 @@ class Dashboard(object):
 		self.owner = owner #User instance pass through at login
 		self.this_dash = dash_db.find_one({'owner':self.owner._id})
 		if not self.this_dash:
-			msg = self.initialize()
+			self.this_dash = self.initialize()
 		self._id = self.this_dash.get('_id', None)
 		daily_apis = api_db.find_one()
 		self.advice = daily_apis['advice']
