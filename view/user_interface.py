@@ -15,16 +15,18 @@ def user_account(status, content):
 #-- Partials - content --#
 
 def user_login_signup(msg=None):
-    status = f"Come on in" # Login or Sign In
+    status = f"Test drive it" # Login or Sign In
     html = f"""
-    <div class="logorow">
+    <div class="demorow">
+        <div>
         <nav class="main-nav">
+            
             <ul>
                 <li><a class="signin" href="#0">Sign in</a> </li>
                 <li><a class="signup" href="#0">Sign up</a></li>
             </ul>
         </nav>
-
+        </div>
         <div class="user-modal">
             <div class="user-modal-container">
                 <ul class="switcher">

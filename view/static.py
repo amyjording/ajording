@@ -26,10 +26,10 @@ def index_template():
 			  <div class="col-sm-12 col-md-12 mainpagecol"><h1>Amy Jording</h1></div>
 			</div>
 			<div class="row mainpagerow">
-			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol"><a id="about-link" href="/about"><svg class="sass"><use xlink:href="#about" /></svg></a></div>
-			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol"><a id="work-link" href="/work"><svg class="sass sass--color"><use xlink:href="#work" /></svg></a></div>
-			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol"><a id="demo-link" href="/demo"><svg class="sass sass--invert"><use xlink:href="#demo" /></svg></a></div>
-			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol"><a id="contact-link" href="/contact"><svg class="sass sass--purple custom"><use xlink:href="#contact" /></svg></a></div>
+			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol label-bold"><a id="about-link" href="/about"><svg class="sass"><use xlink:href="#about" /></svg></a></div>
+			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol label-bold"><a id="work-link" href="/work"><svg class="sass sass--color"><use xlink:href="#work" /></svg></a></div>
+			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol label-bold"><a id="demo-link" href="/demo"><svg class="sass sass--invert"><use xlink:href="#demo" /></svg></a></div>
+			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol label-bold"><a id="contact-link" href="/contact"><svg class="sass sass--purple custom"><use xlink:href="#contact" /></svg></a></div>
 			</div>
 		  </div>
 		</div>
