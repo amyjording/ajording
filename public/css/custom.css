@@ -133,6 +133,15 @@ body{
   margin: 0 auto;
 }
 
+.trading-card {
+  border: 10px solid turquoise;
+  border-radius: 5px; 
+  padding-top: 15px;
+  background-image: linear-gradient(to right top, #0b070a, #40313d, #7b5a74, #bb87af, #ffb7ef);
+  margin: 0 auto;
+  text-align: center;
+}
+
 .folio {
   margin-top: 1em;
   margin-bottom: 1em;
@@ -145,6 +154,53 @@ body{
 
 .folio:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+table.characterTable {
+  width: 100%;
+  text-align: left;
+}
+table.characterTable td, table.characterTable th {
+  padding: 2px 9px;
+}
+table.characterTable tbody td {
+  font-size: 17px;
+  font-weight: 600;
+}
+table.characterTable thead {
+  border-bottom: 2px solid #444444;
+  border-right: 2px solid #444444;
+}
+table.characterTable thead th {
+  font-size: 17px;
+  font-weight: bold;
+  color: #000000;
+  border-left: 0px solid #D0E4F5;
+}
+table.characterTable thead th:first-child {
+  border-left: none;
+}
+
+table.characterTable tfoot {
+  font-size: 14px;
+  height: 90px;
+  font-weight: bold;
+  color: #000;
+  border-top: 2px solid #444444;
+  border-right: 2px solid #444444;
+}
+table.characterTable tfoot td {
+  font-size: 14px;
+}
+table.characterTable tfoot .links {
+  text-align: right;
+}
+table.characterTable tfoot .links a{
+  display: inline-block;
+  background: red;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
 }
 
 footer,

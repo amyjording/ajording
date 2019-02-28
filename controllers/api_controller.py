@@ -19,7 +19,7 @@ def advice():
 	a = requests.get('http://api.adviceslip.com/advice')
 	advice = json.loads(a.text)
 	advice = advice['slip']
-	image = "http://i67.tinypic.com/xcsqk0.jpg"
+	image = "/images/awesome.jpg"
 	advice['image'] = image
 	return advice
 
@@ -42,7 +42,7 @@ def bored():
 def pin_activity(key):
 	r = requests.get('http://www.boredapi.com/api/activity?key={0}'.format(key))
 	activity = json.loads(r.text)
-	image = "http://i65.tinypic.com/21l32pv.png"
+	image = "/images/adventure.jpg"
 	activity['image'] = image
 	return activity
 
@@ -59,7 +59,7 @@ def lovecraft(this_id=None):
 	try:
 		image = chosen.images[0]
 	except:
-		image = "http://arabianglimmer.com/images/wikia-lc.jpg"
+		image = "/images/wikia-lc.jpg"
 	snippet = (chosen.summary[:100] + '..') if len(chosen.summary) > 100 else chosen.summary
 	old_one = {'id': chosen.title, 'title':chosen.title, 'url': chosen.url, 'image': image, 'snippet': snippet}
 	# Returns a wiki page, with various specific options to use later.

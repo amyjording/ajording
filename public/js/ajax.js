@@ -37,7 +37,7 @@ $(document).ready(function() {
                     if (data['result_ok'] == true){
                         window.location.href = '/dash';
                     } else if (data['result_ok'] == false && data['type'] || data['entry'] == 'email') {
-                        $form_login.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
+                        $('#signin-email').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
                     } else if (data['result_ok'] == false && data['type'] == 'password') {
                         $("#signin-password").toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
