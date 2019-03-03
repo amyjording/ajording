@@ -196,15 +196,9 @@ $(document).ready(function() {
         });
     });
 
-$(document).ready(function() { 
-    // change this to fire off when reCaptcha succeeds
-    var v = grecaptcha.getResponse();
-    console.log(v)
 
-    if(v.length == 0) {
-    
-    } else {
-        console.log("This is working");
+    // change this to fire off when reCaptcha succeeds
+    function recaptchaCallback(){
             $.ajax({
                 type: "GET",
                 url: '/contact',
@@ -232,4 +226,3 @@ $(document).ready(function() {
                 }
             });
         };
-    });

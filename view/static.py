@@ -232,11 +232,8 @@ def contactme_template():
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 centered" id="verify" style="display: none;">  
-					<form id="captcha" action="?" method="POST">
-						<div class="g-recaptcha" data-sitekey={my_site_key}></div>
+						<div class="g-recaptcha" data-sitekey={my_site_key} data-callback="recaptchaCallback"></div>
       					<br/>
-      					<input type="submit" value="Submit">
-    					</form>
 					</div>
 				</div>
 				<div class="row">
