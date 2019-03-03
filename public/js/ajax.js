@@ -198,7 +198,11 @@ $(document).ready(function() {
 
 $(document).ready(function() { 
     // change this to fire off when reCaptcha succeeds
-        $(".g-captcha").click(function(event) {
+    var response = grecaptcha.getResponse();
+
+    if(response.length == 0) {
+    
+    } else {
         console.log("This is working");
             $.ajax({
                 type: "GET",
@@ -226,5 +230,5 @@ $(document).ready(function() {
                     }
                 }
             });
-        });
+        };
     });
