@@ -18,11 +18,11 @@ api_db = get_db(collection_name=secret['collection4'])
 class Dashboard(object):
 
 	def __init__(self, owner):
-		self.owner = owner #User instance pass through at login
-		self.this_dash = dash_db.find_one({'owner':self.owner._id})
+		self.owner = owner._id #User instance pass through at login
+		self.this_dash = dash_db.find_one({'owner':self.owner})
 		if not self.this_dash:
 			self.this_dash = self.initialize()
-		self._id = self.this_dash.get('_id', None)
+			self.this_dash = self.this_dash.find_one('_id', None)
 		daily_apis = api_db.find_one()
 		self.advice = daily_apis['advice']
 		self.bored = daily_apis['activity']

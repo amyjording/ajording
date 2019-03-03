@@ -15,7 +15,7 @@ def work_template():
 		portfolio_content += u"""<div class="col-lg-8 col-md-8 mx-auto col-sm-12 col-xs-12 folio">
 		<header>
           <h2 class='text-center'>{0}</h2>
-          <blockquote class='text-center'><h4><b><a href="{1}">Visit URL</a></b></h4>
+          <blockquote class='text-center'><h4><b><a href="{1}" target="_blank">Visit URL</a></b></h4>
           </blockquote>
         </header>
         <img class='center-block img-thumbnail' src='{2}' alt='Image for {0}'>
