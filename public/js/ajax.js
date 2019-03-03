@@ -198,7 +198,7 @@ $(document).ready(function() {
 
 $(document).ready(function() { 
     // change this to fire off when reCaptcha succeeds
-        $(".g-captcha").submit(function(event) {
+        $(".g-captcha").click(function(event) {
         console.log("This is working");
             $.ajax({
                 type: "GET",
