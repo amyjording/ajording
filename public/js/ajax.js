@@ -198,9 +198,10 @@ $(document).ready(function() {
 
 $(document).ready(function() { 
     // change this to fire off when reCaptcha succeeds
-    var response = grecaptcha.getResponse();
+    var v = grecaptcha.getResponse();
+    console.log(v)
 
-    if(response.length == 0) {
+    if(v.length == 0) {
     
     } else {
         console.log("This is working");
