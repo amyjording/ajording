@@ -216,13 +216,13 @@ def contactme_template():
 				<div class="row">
 
 					<div class="col-xs-12 col-sm-4 col-md-4 centered">
-						<a href="https://github.com/amyjording"><img class="octo" src="/static/images/Octocat.png"></a>  
+						<a href="https://github.com/amyjording" target="_blank"><img class="octo" src="/static/images/Octocat.png"></a>  
 					</div>
 					<div class="col-xs-12 col-sm-4 col-md-4 centered"><br />
-						<a href="https://www.linkedin.com/in/amy-jording-43697282/"><img class="linked" src="/static/images/linkedin.png"></a>
+						<a href="https://www.linkedin.com/in/amy-jording-43697282/" target="_blank"><img class="linked" src="/static/images/linkedin.png"></a>
 					</div>
 					<div class="col-xs-12 col-sm-4 col-md-4 centered">
-						<a href="https://twitter.com/ArabianGlimmer"><img class="twitter" src="/static/images/twitter.png"></a>
+						<a href="https://twitter.com/ArabianGlimmer" target="_blank"><img class="twitter" src="/static/images/twitter.png"></a>
 					</div>
 				</div>
 				<div class="row">
@@ -232,7 +232,7 @@ def contactme_template():
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 centered" id="verify" style="display: none;">  
-						<div class="g-recaptcha" data-sitekey={my_site_key} data-callback="recaptchaCallback"></div>
+						<div class="g-recaptcha centered" data-sitekey={my_site_key} data-callback="recaptchaCallback"></div>
       					<br/>
 					</div>
 				</div>

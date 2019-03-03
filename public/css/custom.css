@@ -5,7 +5,7 @@ h1, h2, h3, h4, h5 p {
 }
 
 h1 {
-  font-size: 60px;
+  font-size: 62px;
 }
 
 h2 {
@@ -219,7 +219,7 @@ a{
 }
 
 .logorow {
-  margin: 110px auto 50px auto;
+  margin: 40px auto 50px auto;
   text-align: center;
 }
 
@@ -229,7 +229,8 @@ a{
 }
 
 .page-header {
-  margin: 50px auto 50px;
+  margin: 40px auto 20px;
+
 }
 .mainpagerow {
   margin: 0 auto;
