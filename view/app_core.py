@@ -16,7 +16,9 @@ def header_template():
 					<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 					<script src="/static/js/ajax.js"></script>
 					<script src="/static/js/join.js"></script>
+					<script src="/static/js/gen.js"></script>
 					<script src="/static/js/deleteaccount.js"></script>
+					<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 				</head>
 				<body>"""
 	return template

@@ -1,5 +1,7 @@
 import os, os.path
+import json
 import cherrypy
+from config.secrets import secrets
 from view.static import *
 from view.work_view import *
 from view.demo_view import *
@@ -20,7 +22,11 @@ class Root(object):
 		return page
 
 	@cherrypy.expose
-	def contact(self):
+	def contact(self, **kw):
+		if kw.get('email') == 'true':
+			this_email = secrets()
+			my_email = this_email['email']
+			return my_email
 		page = contactme_template()
 		return page
 

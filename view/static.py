@@ -193,8 +193,12 @@ def aboutme_template():
 	return html
 
 def contactme_template():
+	from config.secrets import secrets
+
 	header = header_template()
 	navigation, navigation_row = navigation_template()
+	this_key = secrets()
+	my_site_key = this_key['google_site_key']
 	
 	html = f"""<!-- header -->
 				{header}
@@ -210,15 +214,30 @@ def contactme_template():
 					<div class="col"><h1>Contact Me</h1></div>
 				</div>
 				<div class="row">
-					<div class="col"><h4>Linked In</h4><h4>Twitter</h4><h4>Github</h4></div>
-					<div class="col"></div>
+
+					<div class="col-xs-12 col-sm-4 col-md-4 centered">
+						<a href="https://github.com/amyjording"><img class="octo" src="/static/images/Octocat.png"></a>  
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4 centered"><br />
+						<a href="https://www.linkedin.com/in/amy-jording-43697282/"><img class="linked" src="/static/images/linkedin.png"></a>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4 centered">
+						<a href="https://twitter.com/ArabianGlimmer"><img class="twitter" src="/static/images/twitter.png"></a>
+					</div>
 				</div>
 				<div class="row">
-					<div class="col"><h4>Email Contact Form</h4></div>				
+					<div class="col-xs-12 col-sm-12 col-md-12 centered">
+					<br />
+					<h3 class="label-bold"><a id="emailMe" href="#">My Email</a></h3></div>				
 				</div>
 				<div class="row">
-					<div class="col"><h4></h4></div>
-					<div class="col"><h4></h4></div>
+					<div class="col-xs-12 col-sm-12 col-md-12 centered" id="verify" style="display: none;">  
+					<form id="captcha" action="?" method="POST">
+						<div class="g-recaptcha" data-sitekey={my_site_key}></div>
+      					<br/>
+      					<input type="submit" value="Submit">
+    					</form>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col"><h4></h4></div>				

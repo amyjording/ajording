@@ -115,7 +115,7 @@ jQuery(document).ready(function($){
     $form_login.find('input[type="password"]').keyup(function(event){
       $form_login.find('input[name="password"]').removeClass('has-error').next('span').removeClass('is-visible');
     });
-
+});
 
   //REMOVE THIS - it's just to show error messages 
   //$form_login.find('input[type="submit"]').on('click', function(event){

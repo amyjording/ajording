@@ -80,7 +80,6 @@ p {
   border-color: #A4314F;
 }
 
-
 .sasssmall{
   width: 50px;
   height: 50px;
@@ -875,4 +874,18 @@ button {
 
 #login.is-selected, #signup.is-selected, #reset-password.is-selected {
   display: block;
+}
+
+/* social media logo adjustments */
+
+.octo {
+  width: 75%;
+}
+
+.linked {
+  width: 80%;
+}
+
+.twitter {
+  width: 50%;
 }

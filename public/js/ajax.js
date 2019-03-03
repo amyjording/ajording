@@ -195,3 +195,36 @@ $(document).ready(function() {
             });
         });
     });
+
+$(document).ready(function() { 
+    // change this to fire off when reCaptcha succeeds
+        $(".g-captcha").submit(function(event) {
+        console.log("This is working");
+            $.ajax({
+                type: "GET",
+                url: '/contact',
+                data: {'email':'true'},
+                success : function(response) {
+                    console.log(response);
+                    $('#emailMe').attr("href", "mailto:"+response).text(response);                          
+                },
+                error : function(xhr, status) {
+                    // check if xhr.status is defined in $.ajax.statusCode
+                    // if true, return false to stop this function
+                    if (typeof this.statusCode[xhr.status] != 'undefined') {
+                        return false;
+                    }
+                    // else continue
+                    console.log('ajax.error');
+                },
+                statusCode: {
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }
+            });
+        });
+    });
