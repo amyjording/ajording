@@ -25,6 +25,7 @@
     <h2>Today's Goodies:</h2>
      <div draggable="true" id="advice-{{dash.advice['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
         <div class="pinhead advice"><h2>Advice</h2></div>
+        <br />
         <p>{{dash.advice['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
         <p><img class="dash-image" src="{{dash.advice['image']}}"></p><!-- <img src="https://media2.giphy.com/media/l41YpZerdLWFRKkJa/200w.webp?cid=3640f6095c33ce8b5735726f779db88f"> -->
      </div>        
@@ -49,6 +50,7 @@
       {% for dictionary in dash.pinned_advice %}
             <div draggable="true" id="advice-{{dictionary['slip_id']}}" class="pins" ondragstart="dragUser(this, event)">
               <div class="pinhead advice"><h2>Advice</h2></div>
+              <br />
               <p>{{dictionary['advice']}}</p> <!-- <p>Things are just things. Don't get too attached to them.</p> -->
               <p><img class="dash-image" src="{{dictionary['image']}}"></p>
            </div>

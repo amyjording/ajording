@@ -45,7 +45,7 @@ def verify_dash():
     if not owner:
         msg = {'result_ok': False, 'error_msg': 'You are not authorized to do this.'}
         return msg
-    dash = Dashboard(owner)
+    dash = Dashboard.get_one(owner)
     if not dash:
         msg = {'result_ok': False, 'error_msg': 'This dashboard does not exist.'}
         return msg
