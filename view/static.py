@@ -23,7 +23,7 @@ def index_template():
 		<div class="container-fluid">
 		  <div class="wrapper">
 			<div class="row logorow">
-			  <div class="col-sm-12 col-md-12 mainpagecol"><h1>Amy Jording</h1></div>
+			  <div class="col-sm-12 col-md-12 mainpagecol"><h1 class="nameheader">Amy Jording</h1></div>
 			</div>
 			<div class="row mainpagerow">
 			  <div class="col-xs-12 col-sm-3 col-md-3 mainpagecol label-bold"><a id="about-link" href="/about"><svg class="sass"><use xlink:href="#about" /></svg></a></div>

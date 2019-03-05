@@ -5,9 +5,9 @@
     <div class="col"><h1>{{ user.username }}'s Account</h1></div>
   </div>
   <!-- refer to this: https://codepen.io/amyjording/pen/MZQoxe  for moving blocks around -->
-  <div class="row useraccountmessages"><div class="col" id="userSettingsStatus" class="">{{ msg }}</div></div>
-  <div class="row"> 
-    <div class="col">
+  <div class="row useraccountmessages">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="userSettingsStatus" class="">{{ msg }}</div></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="user-modal always-visible" style="margin-top: 200px;">
           <div class="user-modal-container">
             <a href="/dash" class="btn btn-primary label-bold" style="float:right;">Back to Dashboard</a>
@@ -35,6 +35,5 @@
             </div>
           </div>
       </div>
-    </div>
   </div>
 {% endblock %}

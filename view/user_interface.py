@@ -15,7 +15,7 @@ def user_account(status, content):
 #-- Partials - content --#
 
 def user_login_signup(msg=None):
-    status = f"Test drive it" # Login or Sign In
+    status = f"Test drive it <br /> <h4 class='centered'>Recommended for desktop and notebook display.</h4>" # Login or Sign In
     html = f"""
     <div class="demorow">
         <div>

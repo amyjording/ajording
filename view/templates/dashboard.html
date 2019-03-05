@@ -31,7 +31,7 @@
      </div>        
      <div draggable="true" id="bored-{{dash.bored['key']}}" class="pins" ondragstart="dragUser(this, event)">
        <div class="pinhead bored"><h2>Activity</h2><p>a cure for boredom</p></div>
-          <h2>{{dash.bored['activity']}}</h2>
+          <h3>{{dash.bored['activity']}}</h3>
           <p>Activity Type: {{dash.bored['type']}}</p>
           <p><img class="dash-image" src="{{dash.bored['image']}}"></p>
           <p>Participants: {{dash.bored['participants']}}</p>
@@ -58,7 +58,7 @@
       {% for bdictionary in dash.pinned_bored %}
            <div draggable="true" id="bored-{{bdictionary['key']}}" class="pins" ondragstart="dragUser(this, event)">
              <div class="pinhead bored"><h2>Activity</h2><p>a cure for boredom</p></div>
-                <h2>{{bdictionary['activity']}}</h2>
+                <h3>{{bdictionary['activity']}}</h3>
                 <p>Activity Type: {{bdictionary['type']}}</p>
                 <p><img class="dash-image" src="{{bdictionary['image']}}"></p>
                 <p>Participants: {{bdictionary['participants']}}</p>
