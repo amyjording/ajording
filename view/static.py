@@ -232,7 +232,7 @@ def contactme_template():
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 centered" id="verify" style="display: none;">  
-						<div class="g-recaptcha centered" data-sitekey={my_site_key} data-callback="recaptchaCallback"></div>
+						<div class="g-recaptcha" data-sitekey={my_site_key} data-callback="recaptchaCallback"></div>
       					<br/>
 					</div>
 				</div>

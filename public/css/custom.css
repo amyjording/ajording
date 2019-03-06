@@ -421,6 +421,9 @@ a{
   text-align: justify;
 }
 
+.g-recaptcha{
+  display: inline-block;
+}
 /* Dashboard section ---- check for duplicate / unecessary stylings! */ 
 
 .pins {
