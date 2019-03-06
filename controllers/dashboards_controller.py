@@ -6,7 +6,7 @@ from controllers.users_controller import *
 
 class DashboardController(object):
 
-    def create(self, owner):
+    def create(owner):
         dash = Dashboard.new(owner)
         save_dash = dash.initialize(owner._id)
         return save_dash
