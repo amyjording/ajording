@@ -55,9 +55,9 @@ class Dashboard(object):
             return False
 
     
-    def initialize(self, owner):       
+    def initialize(self, owner_id):       
         dash_data = {
-                u'owner': owner._id,
+                u'owner': owner_id,
                 u'pinned_advice': [], 
                 u'pinned_bored': [],
                 u'pinned_lovecraft': [],

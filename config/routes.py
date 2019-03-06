@@ -62,6 +62,8 @@ class Demo(object):
 			result = UsersController.create(kw)
 			if result.get('result_ok') == True:
 				user_login = SessionsController.create({'email':result['email'], 'password':result['password']})
+				user = UsersController.GET({'email':result['email']})
+				init_user_dash = DashboardController.create(user)
 				return user_login
 			else:
 				return json.dumps(result)

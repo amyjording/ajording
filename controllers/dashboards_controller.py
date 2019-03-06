@@ -6,6 +6,11 @@ from controllers.users_controller import *
 
 class DashboardController(object):
 
+    def create(self, owner):
+        dash = Dashboard.new(owner)
+        save_dash = dash.initialize(owner._id)
+        return save_dash
+
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
         dash = verify_dash()
@@ -51,3 +56,4 @@ def verify_dash():
         return msg
     else:
         return dash
+
