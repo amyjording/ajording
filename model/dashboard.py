@@ -121,7 +121,7 @@ class Dashboard(object):
             return False
 
     def delete(self):
-        this_dash = dash_db.update_one({'_id': self._id}, {'$set':{'deleted':True}})
+        this_dash = dash_db.remove({'_id': self._id})
         return True
 
 def randomize_image(kw):

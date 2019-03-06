@@ -35,15 +35,10 @@ class DashboardController(object):
         else:
             return {'result_ok': False, 'error_msg': 'Something went wrong with your dashboard.'}
 
-    @cherrypy.expose
-    @cherrypy.tools.accept(media='text/plain')
-    def DELETE(self):
+    def DELETE():
         dash = verify_dash()
-        if dash.get('result_ok'):
-            return dash
         msg = dash.delete()
-        if msg == True:
-            msg = {'result_ok': True, 'success_msg':'Dashboard deleted.'}
+        return msg
 
 def verify_dash():
     owner = UsersController.GET({'cookie':True})

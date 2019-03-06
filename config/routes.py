@@ -190,8 +190,11 @@ class Demo(object):
 
 	@cherrypy.expose
 	def delete(self, **kw):
+
 		deleted_result = UsersController.destroy(kw)
+
 		if deleted_result == True:
+			destroy_dashboard = DashboardController.DELETE()
 			msg = SessionsController.destroy()
 			raise cherrypy.HTTPRedirect("/")
 		else:
