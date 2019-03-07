@@ -33,7 +33,7 @@ class Demo(object):
 	@cherrypy.expose
 	@cherrypy.tools.redirect()
 	def index(self):
-		msg = "Signin or Signup"
+		msg = " "
 		status, html = user_login_signup(msg=msg)
 		content = user_account(status, html)
 		page = demo_template(content)
@@ -84,13 +84,13 @@ class Demo(object):
 		token = get_cookie()
 		if not cherrypy.session.get('_id') or not token:
 			msg = 'You are not logged in. You may login here:'
-			status, html = user_logout(msg)
+			status, html = user_login_signup(msg)
 			content = user_account(status, html)
 			page = demo_template(content)
 			return page		
 		else:
 			msg = SessionsController.destroy()
-			status, html = user_logout(msg.get('success_msg') or msg.get('error_msg'))
+			status, html = user_login_signup(msg.get('success_msg') or msg.get('error_msg'))
 			content = user_account(status, html)
 			page = demo_template(content)
 		return page
@@ -100,7 +100,7 @@ class Demo(object):
 
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
-			return response
+			return json.dumps(response)
 		else:
 			page_list = ['about', 'work', 'demo', 'contact']
 			urls = cherrypy.url()
@@ -114,14 +114,14 @@ class Demo(object):
 	@cherrypy.expose
 	def identify(self, method='GET', **kw):
 		if cherrypy.request.method == 'POST':
-			result = UsersController.identify_user(self, kw)
+			result = UsersController.identify_user(kw)
 			return json.dumps(result)
 		elif kw.get('resettoken'):
-			result = UsersController.identify_user(self, kw)
+			result = UsersController.identify_user(kw)
 			if result.get('result_ok') == True:
 				status, html = user_reset_password(result['user_id'])
 		elif kw.get('resend') == 'activation':
-			result = UsersController.identify_user(self, kw)
+			result = UsersController.identify_user(kw)
 			if result.get('result_ok') == True:
 				from jinja2 import Environment, PackageLoader, select_autoescape
 				env = Environment(
@@ -142,19 +142,28 @@ class Demo(object):
 		return page 
 
 	@cherrypy.expose
-	@cherrypy.tools.authenticate()
 	def change_password(self, method='GET', **kw):
+		response = ''
+		alert = ''
+		msg = ''
+		link = ''
+		button = ''
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
-			if response:
+			if response['result_ok'] == True:
 				alert = 'success'
-				msg = "Your password has been reset!"
+				msg = response['success_msg']
 				link = "/demo"
 				button = 'Sign in here.'
-				status, html = reset_results(alert, msg, link, button)
-				content = user_account(status, html)
-				page = demo_template(content)
-
+			else:
+				alert = 'danger'
+				msg = response['error_msg']
+				link = '/demo/identify'
+				button = 'Recover your username or password here.'
+			status, html = reset_results(alert, msg, link, button)
+			content = user_account(status, html)
+			page = demo_template(content)
+			return page
 		elif kw.get('resettoken'):
 			user = check_token(token=kw['resettoken'])
 			if user:
@@ -184,9 +193,10 @@ class Demo(object):
 					raise cherrypy.HTTPRedirect("/dash")
 				else:
 					return json.dumps(activate)
+			else:
+				raise cherrypy.HTTPRedirect("/dash")				
 		else:
 			raise cherrypy.HTTPError(404)
-		return page
 
 	@cherrypy.expose
 	def delete(self, **kw):

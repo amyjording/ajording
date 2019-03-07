@@ -17,10 +17,14 @@ def user_account(status, content):
 def user_login_signup(msg=None):
     status = f"Test drive it <br /> <h4 class='centered'>Recommended for desktop and notebook display.</h4>" # Login or Sign In
     html = f"""
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 centered">
+            <h3>{msg}</h3>
+        </div>
+    </div>
     <div class="demorow">
         <div>
         <nav class="main-nav">
-            
             <ul>
                 <li><a class="signin" href="#0">Sign in</a> </li>
                 <li><a class="signup" href="#0">Sign up</a></li>
@@ -55,7 +59,7 @@ def user_login_signup(msg=None):
                         </p>
                     </form>
                     <div id="loginMessage" class="alert collapse">
-                        <p>{msg}</p>
+                        <p></p>
                     </div>                    
                 </div>
 
@@ -91,7 +95,7 @@ def user_login_signup(msg=None):
                         </p>
                     </form>
                     <div id="signupMessage" class="alert collapse">
-                        <p>{msg}</p>
+                        <p></p>
                     </div>
                     <a href="#0" class="close-form">Close</a>
                 </div>
@@ -130,7 +134,7 @@ def user_login_recover_form():
     status = u"Account Recovery"
     html = f"""                                    
         <h4 class="h4centered">Can't remember your login credentials? No problem.</h4>
-        <form id="loginHelp" class="recovery" method="POST">
+        <form id="loginHelp" class="recovery">
         <a href="/demo" class="btn btn-primary label-bold" style="float:right; margin-top:-15px; margin-right:-15px;">Go Back</a>
         <br>
             <div class="form-group required radio">
@@ -142,7 +146,7 @@ def user_login_recover_form():
             </div>
             <div class="form">
                 <input class="full-width has-padding has-border" type="email" name="email" placeholder="Email" style="margin-bottom: 10px;"><br />
-                <input type="submit" id="credResend" class="full-width has-padding" value="Continue">
+                <input type="submit" class="full-width has-padding" value="Continue">
             </div>
         </form>
         <br>
@@ -160,7 +164,7 @@ def user_reset_password(user_email):
             <input type="hidden" name="usertoken" value="{user_email}">
             <div class="form-group required">
                 <label class="control-label" for="userpassword">Password *</label>
-                <input type="password" class="form-control" name="password" placeholder="Password">
+                <input type="password" class="form-control" name="newpassword" placeholder="Password">
             </div>
             <button type="submit" id="newPassword" class="btn btn-primary btn-block">Continue</button> 
         </form>

@@ -1,27 +1,3 @@
-$(document).ready(function() { 
-        var $form_modal = $('.user-modal'),
-        $form_login = $form_modal.find('#login'),
-        $form_signup = $form_modal.find('#signup');
-        $("#loginHelp").submit(function(event) {
-        event.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: '/demo/identify',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success : function(data) {
-                    if (data['result_ok'] == true){
-                        $( "#loginRecoveryStatus" ).addClass( "alert-success collapse in" ).html(data['success_msg']);
-                        console.log(data['success_msg']);
-                    } 
-                    else {
-                        $( "#loginRecoveryStatus" ).addClass( "alert-danger collapse in" ).html(data['error_msg']);
-                        console.log(data['error_msg']);
-                    } 
-                }
-            });
-        });
-    });
 
 $(document).ready(function() { 
         $("#userLogin").submit(function(event) {
@@ -36,7 +12,7 @@ $(document).ready(function() {
                 success : function(data) {
                     if (data['result_ok'] == true){
                         window.location.href = '/dash';
-                    } else if (data['result_ok'] == false && data['type'] || data['entry'] == 'email') {
+                    } else if (data['result_ok'] == false && data['type'] == 'email' || data['entry'] == 'email') {
                         $('#signin-email').toggleClass('has-error').next('span').toggleClass('is-visible').text(data['error_msg']);
                         console.log(data['error_msg']);
                     } else if (data['result_ok'] == false && data['type'] == 'password') {
@@ -118,21 +94,20 @@ $(document).ready(function() {
 
 $(document).ready(function() { 
         $("#loginHelp").submit(function(event) {
-        event.preventDefault();
-        console.log("This is working");
+            event.preventDefault();
             $.ajax({
                 type: "POST",
                 url: '/demo/identify',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success : function(data) {
-                    if (data['result_ok'] == true){
-                        $('#loginResetStatus').addClass('alert alert-success').html(data['success_msg']);
-                    } else if (data['result_ok'] == false) {
-                        $('#loginResetStatus').addClass('alert alert-danger').html(data['error_msg']);
-                        console.log(data['error_msg']);
+                success : function(response) {
+                    if (response['result_ok'] == true){
+                        $('#loginResetStatus').addClass('alert alert-success').html(response['success_msg']);
+                    } else if (response['result_ok'] == false) {
+                        $('#loginResetStatus').addClass('alert alert-danger').html(response['error_msg']);
+                        console.log(response['error_msg']);
                     } else {
-                        console.log(data['error_msg']);
+                        console.log(response['error_msg']);
                     }                            
                 },
                 error : function(xhr, status) {
