@@ -61,8 +61,10 @@ class Demo(object):
 		if cherrypy.request.method == 'POST':
 			result = UsersController.create(kw)
 			if result.get('result_ok') == True:
-				user_login = SessionsController.create({'email':result['email'], 'password':result['password']})
 				user = UsersController.GET({'email':result['email']})
+				keys = {'email': result['email'], 'resend':'activation'}
+				send_activation = UsersController.identify_user(keys)
+				user_login = SessionsController.create({'email':result['email'], 'password':result['password']})
 				init_user_dash = DashboardController.create(user)
 				return user_login
 			else:
@@ -143,11 +145,8 @@ class Demo(object):
 
 	@cherrypy.expose
 	def change_password(self, method='GET', **kw):
-		response = ''
-		alert = ''
-		msg = ''
-		link = ''
-		button = ''
+		response = alert = msg = link = button = page = ''
+
 		if cherrypy.request.method == 'POST':
 			response = UsersController.put(kw)
 			if response['result_ok'] == True:
@@ -171,6 +170,15 @@ class Demo(object):
 				status, html = user_reset_password(user.email)
 				content = user_account(status, html)
 				page = demo_template(content)
+			else:
+				alert = 'danger'
+				msg = "The Password Reset Link is invalid or has expired."
+				link = '/demo/identify'
+				button = 'Recover your username or password here.'
+				status, html = reset_results(alert, msg, link, button)
+				content = user_account(status, html)
+				page = demo_template(content)
+			return page
 		else:
 			alert = 'danger'
 			msg = "The Password Reset Link is invalid or has expired."
@@ -200,11 +208,10 @@ class Demo(object):
 
 	@cherrypy.expose
 	def delete(self, **kw):
-
+		destroy_dashboard = DashboardController.DELETE()
 		deleted_result = UsersController.destroy(kw)
 
 		if deleted_result == True:
-			destroy_dashboard = DashboardController.DELETE()
 			msg = SessionsController.destroy()
 			raise cherrypy.HTTPRedirect("/")
 		else:

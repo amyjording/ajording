@@ -68,7 +68,7 @@ def user_login_signup(msg=None):
                         <input type="hidden" name="signup" value="1">
                         <p class="fieldset">
                             <label class="image-replace username" for="signup-username">Username</label>
-                            <input class="full-width has-padding has-border" type="text" name="username" placeholder="Username">
+                            <input class="full-width has-padding has-border" id="signup-username" type="text" name="username" placeholder="Username">
                             <span class="error-message"></span>
                         </p>
 
