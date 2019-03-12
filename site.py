@@ -31,8 +31,12 @@ class Root(object):
 		return page
 
 	@cherrypy.expose
-	def shutdown(self):
-		cherrypy.engine.exit()
+	def shutdown(self, **kw):
+		if kw.get('wassail') == 'fullsail':
+			msg = cherrypy.engine.exit()
+		else:
+			msg = "Error. Do not pass go."
+		return msg
 
 	@cherrypy.expose
 	def error_page_404(status, message, traceback, version):
