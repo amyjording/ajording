@@ -153,7 +153,7 @@ class Demo(object):
 				alert = 'success'
 				msg = response['success_msg']
 				link = "/demo"
-				button = 'Sign in here.'
+				button = 'Sign in here'
 			else:
 				alert = 'danger'
 				msg = response['error_msg']
