@@ -55,9 +55,9 @@ class Dashboard(object):
             return False
 
     
-    def initialize(self, owner):       
+    def initialize(self, owner_id):       
         dash_data = {
-                u'owner': owner._id,
+                u'owner': owner_id,
                 u'pinned_advice': [], 
                 u'pinned_bored': [],
                 u'pinned_lovecraft': [],
@@ -121,7 +121,11 @@ class Dashboard(object):
             return False
 
     def delete(self):
-        this_dash = dash_db.update_one({'_id': self._id}, {'$set':{'deleted':True}})
+        this_dash = dash_db.update_one({'_id': self._id},{'$set':{'deleted':True}})
+        return True
+
+    def restore(self):
+        this_dash = dash_db.update_one({'_id':self._id},{'$set':{'deleted':False}})
         return True
 
 def randomize_image(kw):

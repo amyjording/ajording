@@ -117,8 +117,8 @@ def aboutme_template():
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-6 about">
 						<div class="trading-card">
-							<h4 class="label-bold" style="background-color: #f1f1f1;">Amy G Dala &nbsp;&nbsp;&nbsp; <span style="color: red;">HP 120</span></h4>
-							<img style="width: 100%; max-width: 350px; border: 2px solid black; margin: 0 auto 8px auto; display: block;" src="https://lh3.googleusercontent.com/YBheu72xdgoEFc0yHJoGmVOHAeMcjkoDeXkhZZhe1PtduTKcx98hJb0UQOmimnfeovTBSlXXzhkBPFdoaPrsCmYZp7tygPQ7dX77onVldWyHDHS3WAAIFywOk_ZdWflMjv8WTUqpTgq8VhRKdmpxU2vnhUbD28DasrbyKkVWPTmqxWB-CEapBcyaCSzyK5den1LbMyWD2GwSGvJBcZmn6zbYIh8yU4fAhPQaqQV3Q72y7nkeDKW4dki3jwpyhVG8szzQu7CQlZh_Q_LYqI_gQrGm6-GjJ6tpZOvkNJdHzOx1_RUcgE1Pxu8-0QWuBMrLcE0HimjoNJl5TkL4xvzIKh362vRexc3UFKxZLl27-gyoHcTEM3Z40XN9UlmQzML_mjN6kmt1pAwkwRPoTEXkONRGYNQyFqsqX41iXHGexwEdP0clWbNlg7H9nvojnM2YRYzws6h7yFwvaX-sRPoa7ZBaABC6JquZ-44ix797WuWmdu63ehXcaI-nDwq-ZPrHyZa9P7e2rkkOYtlVg58w9FfLAOH1N-f_H0w2-l4tGqVahSTPm6MoIFw5zeuW4_72UaauAAH1-U7FqFm-djuOG70ZpjP6SG0AHxrr2R4CUfis4z0YWBst11-A7CwyOj7K2V07xCYfmtjfAUTs9I341PQnmNM-l2o=w1080-h1081-no">
+							<h4 class="label-bold" style="background-color: #f1f1f1;">The Amynator &nbsp;&nbsp;&nbsp; <span style="color: red;">HP 120</span></h4>
+							<img style="width: 100%; max-width: 350px; border: 2px solid black; margin: 0 auto 8px auto; display: block;" src="/static/images/wallpaper.jpg">
 							<div style="background-color: #f1f1f1;">
 								<h5 class="label-bold" style="margin-left: -15px;"> Weapon: Laser cats </h5>
 								<h5 class="label-bold" style="margin-left: -15px;"> Specialty: W A S D </h5>
@@ -162,14 +162,14 @@ def aboutme_template():
 					organization called World Steward, in the Columbia Gorge (Oregon/Washington). 
 
 					I hauled hay, learned how to be a steward of the forest 
-					(I hate Scotch broom), and grew a wide variety of crops. I also fell in love with <a href="https://en.wikipedia.org/wiki/Permaculture">
+					(I hate Scotch broom), and grew a wide variety of crops. I also fell in love with <a href="https://en.wikipedia.org/wiki/Permaculture" target="_blank">
 					Permaculture</a>.</h4>
 		            </div>
 		        </div>
 				<div class="row">
 					<div class="col about">        
 					<h4>In 2016, I finally embraced the path of a Full Stack Web Developer. I rolled up my sleeves and began my self-taught
-					 journey with <a href="https://www.theodinproject.com/">The Odin Project</a>. Through the course, I was setting the foundation 
+					 journey with <a href="https://www.theodinproject.com/" target="_blank">The Odin Project</a>. Through the course, I was setting the foundation 
 					 for what it takes to develop: Try, Fail, Research, Try again, Fail again (with great enthusiasm because the failure is new!), rinse and repeat until I 
 					 would reach the finish line.</h4>
 

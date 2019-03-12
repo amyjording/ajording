@@ -52,18 +52,18 @@ class UsersController(object):
             new_pass = {'password':hashed_new_password}
             results = user.update(new_pass)
             if results:
-                return json.dumps({'result_ok':True, 'success_msg':"Your account has been updated."})
+                return {'result_ok':True, 'success_msg':"Your account has been updated."}
             else:
-                return json.dumps({'result_ok':False, 'error_msg':"We couldn't update your account."})
+                return {'result_ok':False, 'error_msg':"We couldn't update your account."}
         elif kw.get('activated'):
             user = User.get_one({'_id':kw.get('_id','')})
             if user:
                 activated = user.update({'activated':True})
                 return True
             else:
-                return json.dumps({'result_ok': False, 'error_msg':"We couldn't update your account."})
+                return {'result_ok': False, 'error_msg':"We couldn't update your account."}
         else:
-            results = json.dumps({'result_ok':False, 'error_msg':user_email})
+            results = {'result_ok':False, 'error_msg':user_email}
         return results
 
     def destroy(kw):
@@ -82,7 +82,7 @@ class UsersController(object):
 
 ## -- Managing User credentials -- #
 
-    def identify_user(self, kw):
+    def identify_user(kw):
         if kw.get('email'):
             email = kw['email'].lower()
             user = User.get_one({'email':email})

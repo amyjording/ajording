@@ -6,6 +6,11 @@ from controllers.users_controller import *
 
 class DashboardController(object):
 
+    def create(owner):
+        dash = Dashboard.new(owner)
+        save_dash = dash.initialize(owner._id)
+        return save_dash
+
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
         dash = verify_dash()
@@ -30,15 +35,10 @@ class DashboardController(object):
         else:
             return {'result_ok': False, 'error_msg': 'Something went wrong with your dashboard.'}
 
-    @cherrypy.expose
-    @cherrypy.tools.accept(media='text/plain')
-    def DELETE(self):
+    def DELETE():
         dash = verify_dash()
-        if dash.get('result_ok'):
-            return dash
         msg = dash.delete()
-        if msg == True:
-            msg = {'result_ok': True, 'success_msg':'Dashboard deleted.'}
+        return msg
 
 def verify_dash():
     owner = UsersController.GET({'cookie':True})
@@ -51,3 +51,4 @@ def verify_dash():
         return msg
     else:
         return dash
+
