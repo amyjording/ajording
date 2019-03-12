@@ -19,7 +19,7 @@ def advice():
 	a = requests.get('http://api.adviceslip.com/advice')
 	advice = json.loads(a.text)
 	advice = advice['slip']
-	image = "/static/images/awesome.jpg"
+	image = randomize_image(cat="advice")
 	advice['image'] = image
 	return advice
 
@@ -28,7 +28,7 @@ def pin_advice(slip_id):
 	advice = json.loads(a.text)
 	advice = advice['slip']
 	advice['slip_id'] = slip_id
-	image = randomize_image(cat="advice")
+	image = "/static/images/awesome.jpg"
 	advice['image'] = image
 	return advice
 
@@ -76,8 +76,8 @@ def make_id():
 	return this_id
 
 def randomize_image(cat=None):
-	advice = ["https://media.giphy.com/media/mfv1eIC0HAyPe/giphy.gif", "https://media.giphy.com/media/26BRtI7Yk5PJWIfwA/giphy.gif"]
-	bored = ["https://media.giphy.com/media/hHCePYCLDqTok/giphy.gif", "https://media.giphy.com/media/3gMbt5JW8JZcbhRzAw/giphy.gif"]
+	advice = ["https://media.giphy.com/media/mfv1eIC0HAyPe/giphy.gif", "https://media.giphy.com/media/26BRtI7Yk5PJWIfwA/giphy.gif", "https://media.giphy.com/media/M7V92Jj4jGfK0/giphy.gif", "https://media.giphy.com/media/2fSpWg1dOvH6WFrBjL/giphy.gif"]
+	bored = ["https://media.giphy.com/media/hHCePYCLDqTok/giphy.gif", "https://media.giphy.com/media/3gMbt5JW8JZcbhRzAw/giphy.gif", "https://media.giphy.com/media/75umMroYliKDm/giphy.gif", "https://media.giphy.com/media/Bu8ADbj7NuRry/giphy.gif"]
 	if cat == "advice":
 		random_image = random.choice(advice)
 	elif cat == "bored":
