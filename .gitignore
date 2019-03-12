@@ -113,3 +113,4 @@ privkey.pem
 cert.pem
 sendgrid.env
 /public/images
+/bootstrap-4.1.1-dist
