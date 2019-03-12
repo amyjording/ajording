@@ -42,8 +42,11 @@ class Root(object):
 if __name__ == '__main__':
 	cherrypy.tools.authenticate = cherrypy.Tool('before_handler', authenticate)
 	cherrypy.tools.redirect = cherrypy.Tool('before_handler', redirect)
-	# cherrypy.server.ssl_certificate = "cert.pem"
-	# cherrypy.server.ssl_private_key = "privkey.pem"
+	
+	from cherrypy.process.plugins import Daemonizer
+	d = Daemonizer(cherrypy.engine)
+	d.subscribe()
+	
 	cherrypy.config.update({
 		'global': {
 			'environment':'production',
