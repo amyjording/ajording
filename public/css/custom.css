@@ -107,6 +107,7 @@ p {
 .sass--color{
   fill:#A43931;
 }
+
 .sass--invert{
   fill:#A4314F;
   color:black;
@@ -114,6 +115,10 @@ p {
 
 .sass--purple{
   fill:#451e3e; 
+}
+
+xlink:a:visited {
+    fill: inherit;
 }
 
 body{
