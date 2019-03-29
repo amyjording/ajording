@@ -145,6 +145,7 @@ def resend(user, info):
         subject = "Activate your account at AmyJording.com"
         activation_url = url + '/demo/activation?activatetoken={0}'.format(info['token'])
         sendgrid_content = f"Hi {name}, welcome to Amy's portfolio! Simply click this activation link {activation_url} to complete the sign-up. Thanks!"
+        msg = send_mail('amy@amyjording.com', 'New user registered', f'New user, {email} just registered on the site.')
         return send_mail(email, subject, sendgrid_content) 
     else:
         return "Error, there was nothing to send."
