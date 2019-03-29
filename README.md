@@ -1,6 +1,6 @@
 # Amy Jording - Portfolio
 
-A simple Portfolio app. 
+Amy's Portfolio App created from scratch with Python and Cherrypy. See the portfolio in action at: [https://www.amyjording.com](https://www.amyjording.com/) 
 
 ## To Test Locally:
 
