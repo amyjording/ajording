@@ -4,7 +4,7 @@ Amy's Portfolio App created from scratch with Python and Cherrypy. See the portf
 
 ## To Test Locally:
 
-Fork and clone. See the requirements for modules in the next section.
+Fork and clone.
 MongoDB 4.0 required for data storage.
 SendGrid for sending Activation and Reminder tokens.
 
@@ -15,7 +15,7 @@ check that it refreshes properly.
 
 ### Modules used
 
-Python Modules - Pip install the following:
+Python Modules used
 
 ```
 Cherrypy     - v 18.1.0 - Framework
